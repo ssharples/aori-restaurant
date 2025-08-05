@@ -1,102 +1,124 @@
-import Image from "next/image";
+import Link from 'next/link';
+import { MapPin, Clock, Phone } from 'lucide-react';
+import { restaurantInfo } from '@/data/menu';
+import CartButton from '@/components/CartButton';
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="min-h-screen bg-accent-cream">
+      {/* Header */}
+      <header className="bg-primary-green text-accent-white shadow-lg">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-logo font-bold">Aori</h1>
+          <CartButton />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      </header>
+
+      {/* Hero Section */}
+      <section className="bg-primary-green text-accent-white py-16 px-4">
+        <div className="container mx-auto text-center">
+          <h1 className="text-4xl md:text-6xl font-logo font-bold mb-4">
+            Aori
+          </h1>
+          <p className="text-xl md:text-2xl mb-8 opacity-90">
+            Authentic Greek Street Food
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link 
+              href="/menu"
+              className="bg-accent-white text-primary-green px-8 py-4 rounded-full font-semibold text-lg hover:bg-opacity-90 transition-all transform hover:scale-105"
+            >
+              Order Now
+            </Link>
+            <Link 
+              href="/menu"
+              className="border-2 border-accent-white text-accent-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-accent-white hover:text-primary-green transition-all"
+            >
+              View Menu
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Restaurant Info */}
+      <section className="py-12 px-4">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 text-center">
+            <div className="flex flex-col items-center">
+              <MapPin className="w-12 h-12 text-primary-green mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Location</h3>
+              <p className="text-primary-dark">{restaurantInfo.address}</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <Clock className="w-12 h-12 text-primary-green mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Hours</h3>
+              <div className="text-primary-dark">
+                <p>Mon-Thu: 11:00-22:00</p>
+                <p>Fri-Sat: 11:00-23:00</p>
+                <p>Sun: 12:00-21:00</p>
+              </div>
+            </div>
+            <div className="flex flex-col items-center">
+              <Phone className="w-12 h-12 text-primary-green mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Call Us</h3>
+              <p className="text-primary-dark">{restaurantInfo.phone}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Items Preview */}
+      <section className="bg-accent-white py-12 px-4">
+        <div className="container mx-auto">
+          <h2 className="text-3xl font-bold text-center mb-8 text-primary-dark">
+            Popular Items
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-accent-cream rounded-lg p-6 text-center">
+              <div className="w-20 h-20 bg-primary-green rounded-full mx-auto mb-4 flex items-center justify-center text-accent-white text-2xl font-bold">
+                🥙
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Chicken Gyros</h3>
+              <p className="text-primary-dark">Classic Greek wrapped goodness</p>
+            </div>
+            <div className="bg-accent-cream rounded-lg p-6 text-center">
+              <div className="w-20 h-20 bg-primary-green rounded-full mx-auto mb-4 flex items-center justify-center text-accent-white text-2xl font-bold">
+                🍢
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Souvlaki</h3>
+              <p className="text-primary-dark">Grilled perfection on skewers</p>
+            </div>
+            <div className="bg-accent-cream rounded-lg p-6 text-center">
+              <div className="w-20 h-20 bg-primary-green rounded-full mx-auto mb-4 flex items-center justify-center text-accent-white text-2xl font-bold">
+                🥗
+              </div>
+              <h3 className="text-xl font-semibold mb-2">Greek Salad</h3>
+              <p className="text-primary-dark">Fresh Mediterranean flavors</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* QR Code Section */}
+      <section className="bg-primary-green text-accent-white py-12 px-4">
+        <div className="container mx-auto text-center">
+          <h2 className="text-2xl font-bold mb-4">Quick Order</h2>
+          <p className="mb-6">Scan to order from your table</p>
+          <div className="w-32 h-32 bg-accent-white rounded-lg mx-auto flex items-center justify-center">
+            <span className="text-primary-green font-bold">QR CODE</span>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-primary-dark text-accent-white py-8 px-4">
+        <div className="container mx-auto text-center">
+          <p className="text-sm opacity-75">
+            Please be aware that our kitchen uses nuts, gluten, and other allergens, 
+            and we cannot guarantee our food is completely allergen-free. 
+            Please inform our team of any allergies before ordering.
+          </p>
+        </div>
       </footer>
     </div>
   );
