@@ -2,6 +2,7 @@
 
 import { MenuCategory } from '@/types/menu';
 import { categoryNames } from '@/data/menu';
+import { Button } from '@/components/ui/button';
 
 interface CategoryTabsProps {
   selectedCategory: MenuCategory;
@@ -21,23 +22,18 @@ const categories: MenuCategory[] = [
 
 export default function CategoryTabs({ selectedCategory, onCategoryChange }: CategoryTabsProps) {
   return (
-    <div className="bg-aori-white border-b border-aori-green/10 sticky top-20 z-30 shadow-sm">
+    <div className="bg-card border-b sticky top-20 z-30 shadow-sm">
       <div className="container mx-auto">
         <div className="flex overflow-x-auto scrollbar-hide py-4 px-4 gap-3">
           {categories.map((category) => (
-            <button
+            <Button
               key={category}
               onClick={() => onCategoryChange(category)}
-              className={`
-                whitespace-nowrap px-6 py-3 rounded-full font-medium transition-all transform hover:scale-105
-                ${selectedCategory === category
-                  ? 'bg-aori-green text-aori-white shadow-md'
-                  : 'bg-aori-cream text-aori-dark hover:bg-aori-green/10 hover:text-aori-green border border-aori-green/20'
-                }
-              `}
+              variant={selectedCategory === category ? "default" : "outline"}
+              className="whitespace-nowrap rounded-full font-medium transition-all transform hover:scale-105 flex-shrink-0"
             >
               {categoryNames[category]}
-            </button>
+            </Button>
           ))}
         </div>
       </div>

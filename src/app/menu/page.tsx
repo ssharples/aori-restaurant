@@ -22,14 +22,14 @@ export default function MenuPage() {
   });
 
   return (
-    <div className="min-h-screen bg-aori-cream">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-aori-green text-aori-white shadow-lg sticky top-0 z-40">
+      <header className="bg-primary text-primary-foreground shadow-lg sticky top-0 z-40">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
             <Link 
               href="/"
-              className="p-2 hover:bg-aori-white/20 rounded-full transition-colors"
+              className="p-2 hover:bg-primary-foreground/20 rounded-full transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
             </Link>
@@ -40,15 +40,15 @@ export default function MenuPage() {
       </header>
 
       {/* Search Bar */}
-      <div className="bg-aori-white border-b border-aori-green/10 p-4">
+      <div className="bg-card border-b p-4">
         <div className="container mx-auto relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-aori-green/60 w-5 h-5" />
+          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
           <input
             type="text"
             placeholder="Search menu items..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-4 border-2 border-aori-green/20 rounded-2xl focus:outline-none focus:ring-2 focus:ring-aori-green focus:border-aori-green bg-aori-cream/50 placeholder:text-aori-green/60 text-aori-dark"
+            className="w-full pl-12 pr-4 py-4 border-2 border-border rounded-2xl focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-input placeholder:text-muted-foreground text-card-foreground"
           />
         </div>
       </div>
@@ -62,14 +62,14 @@ export default function MenuPage() {
       {/* Menu Items */}
       <main className="container mx-auto px-4 py-8 pb-24">
         <div className="mb-6">
-          <h2 className="text-3xl font-bold text-aori-dark">
+          <h2 className="text-3xl font-bold text-foreground">
             {categoryNames[selectedCategory]}
           </h2>
         </div>
 
         {searchQuery && (
           <div className="mb-6">
-            <p className="text-aori-dark/60 bg-aori-white px-4 py-2 rounded-full inline-block">
+            <p className="text-muted-foreground bg-card px-4 py-2 rounded-full inline-block border">
               {filteredItems.length} results for &quot;{searchQuery}&quot;
             </p>
           </div>
@@ -83,11 +83,11 @@ export default function MenuPage() {
 
         {filteredItems.length === 0 && (
           <div className="text-center py-16">
-            <div className="w-20 h-20 bg-aori-green/10 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <Search className="w-8 h-8 text-aori-green/40" />
+            <div className="w-20 h-20 bg-muted rounded-full mx-auto mb-4 flex items-center justify-center">
+              <Search className="w-8 h-8 text-muted-foreground" />
             </div>
-            <h3 className="text-xl font-semibold text-aori-dark mb-2">No items found</h3>
-            <p className="text-aori-dark/60">Try adjusting your search or browse other categories</p>
+            <h3 className="text-xl font-semibold mb-2">No items found</h3>
+            <p className="text-muted-foreground">Try adjusting your search or browse other categories</p>
           </div>
         )}
       </main>
