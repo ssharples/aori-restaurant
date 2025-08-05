@@ -28,83 +28,89 @@ export default function Cart() {
       />
 
       {/* Cart Drawer */}
-      <div className="fixed bottom-0 left-0 right-0 bg-accent-white rounded-t-2xl z-50 max-h-[80vh] flex flex-col animate-slide-up">
+      <div className="fixed bottom-0 left-0 right-0 bg-aori-white rounded-t-3xl z-50 max-h-[85vh] flex flex-col animate-slide-up shadow-2xl border-t-4 border-aori-green">
         {/* Header */}
-        <div className="flex justify-between items-center p-6 border-b">
-          <div className="flex items-center gap-2">
-            <ShoppingBag className="w-5 h-5 text-primary-green" />
-            <h2 className="text-xl font-bold text-primary-dark">
+        <div className="flex justify-between items-center p-6 border-b border-aori-green/10">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-aori-green rounded-full flex items-center justify-center">
+              <ShoppingBag className="w-5 h-5 text-aori-white" />
+            </div>
+            <h2 className="text-xl font-bold text-aori-dark">
               Your Order ({getItemCount()})
             </h2>
           </div>
           <button
             onClick={closeCart}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+            className="p-2 hover:bg-aori-green/10 rounded-full transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="w-6 h-6 text-aori-dark" />
           </button>
         </div>
 
         {/* Cart Items */}
         <div className="flex-1 overflow-y-auto">
           {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-12 text-center">
-              <ShoppingBag className="w-16 h-16 text-gray-300 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-600 mb-2">Your cart is empty</h3>
-              <p className="text-gray-500 mb-4">Add some delicious items to get started!</p>
+            <div className="flex flex-col items-center justify-center py-16 text-center px-6">
+              <div className="w-20 h-20 bg-aori-green/10 rounded-full flex items-center justify-center mb-6">
+                <ShoppingBag className="w-10 h-10 text-aori-green/40" />
+              </div>
+              <h3 className="text-xl font-semibold text-aori-dark mb-3">Your cart is empty</h3>
+              <p className="text-aori-dark/60 mb-6 leading-relaxed">Add some delicious Greek items to get started!</p>
               <button
                 onClick={closeCart}
-                className="bg-primary-green text-accent-white px-6 py-2 rounded-full hover:bg-primary-green/90 transition-colors"
+                className="bg-aori-green text-aori-white px-8 py-3 rounded-full hover:bg-aori-green-dark transition-all hover:scale-105 font-medium"
               >
                 Browse Menu
               </button>
             </div>
           ) : (
-            <div className="p-4 space-y-4">
+            <div className="p-6 space-y-4">
               {items.map((item) => {
                 const price = item.variant?.price || item.menuItem.price;
                 const itemTotal = price * item.quantity;
 
                 return (
-                  <div key={item.id} className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+                  <div key={item.id} className="flex items-center gap-4 p-4 bg-aori-cream rounded-2xl border border-aori-green/10">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-primary-dark">
+                      <h3 className="font-semibold text-aori-dark mb-1">
                         {item.menuItem.name}
                       </h3>
                       {item.variant && (
-                        <p className="text-sm text-gray-600">{item.variant.name}</p>
+                        <p className="text-sm text-aori-dark/60 bg-aori-white px-2 py-1 rounded-full inline-block mb-2">
+                          {item.variant.name}
+                        </p>
                       )}
-                      <p className="text-primary-green font-semibold">
+                      <p className="text-aori-green font-bold text-lg">
                         {formatPrice(price)}
                       </p>
                     </div>
 
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-3">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
+                        className="w-10 h-10 rounded-full bg-aori-white hover:bg-aori-green/10 flex items-center justify-center transition-colors border border-aori-green/20"
                         disabled={item.quantity <= 1}
                       >
-                        <Minus className="w-3 h-3" />
+                        <Minus className="w-4 h-4 text-aori-green" />
                       </button>
-                      <span className="w-8 text-center font-semibold">
+                      <span className="w-10 text-center font-bold text-aori-dark text-lg">
                         {item.quantity}
                       </span>
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 flex items-center justify-center transition-colors"
+                        className="w-10 h-10 rounded-full bg-aori-green hover:bg-aori-green-dark text-aori-white flex items-center justify-center transition-colors"
                       >
-                        <Plus className="w-3 h-3" />
+                        <Plus className="w-4 h-4" />
                       </button>
                     </div>
 
                     <div className="text-right">
-                      <p className="font-semibold text-primary-dark">
+                      <p className="font-bold text-aori-dark text-lg mb-1">
                         {formatPrice(itemTotal)}
                       </p>
                       <button
                         onClick={() => removeItem(item.id)}
-                        className="text-xs text-red-500 hover:text-red-700 transition-colors"
+                        className="text-xs text-red-500 hover:text-red-700 transition-colors bg-red-50 px-2 py-1 rounded-full"
                       >
                         Remove
                       </button>
@@ -118,16 +124,16 @@ export default function Cart() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t p-6">
-            <div className="flex justify-between items-center mb-4">
-              <span className="text-lg font-semibold text-primary-dark">Total:</span>
-              <span className="text-2xl font-bold text-primary-green">
+          <div className="border-t border-aori-green/10 p-6 bg-aori-cream/50">
+            <div className="flex justify-between items-center mb-6">
+              <span className="text-xl font-semibold text-aori-dark">Total:</span>
+              <span className="text-3xl font-bold text-aori-green">
                 {formatPrice(getTotal())}
               </span>
             </div>
             <Link
               href="/checkout"
-              className="w-full bg-primary-green text-accent-white py-4 rounded-full font-semibold hover:bg-primary-green/90 transition-colors flex items-center justify-center gap-2 text-center"
+              className="w-full bg-aori-green text-aori-white py-4 rounded-2xl font-semibold hover:bg-aori-green-dark transition-all flex items-center justify-center gap-2 text-center shadow-lg hover:scale-105 text-lg"
               onClick={closeCart}
             >
               Proceed to Checkout

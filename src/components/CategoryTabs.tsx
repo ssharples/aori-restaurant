@@ -21,18 +21,18 @@ const categories: MenuCategory[] = [
 
 export default function CategoryTabs({ selectedCategory, onCategoryChange }: CategoryTabsProps) {
   return (
-    <div className="bg-accent-white border-b sticky top-16 z-30">
+    <div className="bg-aori-white border-b border-aori-green/10 sticky top-20 z-30 shadow-sm">
       <div className="container mx-auto">
-        <div className="flex overflow-x-auto scrollbar-hide py-3 px-4 gap-2">
+        <div className="flex overflow-x-auto scrollbar-hide py-4 px-4 gap-3">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => onCategoryChange(category)}
               className={`
-                whitespace-nowrap px-4 py-2 rounded-full font-medium transition-all
+                whitespace-nowrap px-6 py-3 rounded-full font-medium transition-all transform hover:scale-105
                 ${selectedCategory === category
-                  ? 'bg-primary-green text-accent-white shadow-md'
-                  : 'bg-gray-100 text-primary-dark hover:bg-gray-200'
+                  ? 'bg-aori-green text-aori-white shadow-md'
+                  : 'bg-aori-cream text-aori-dark hover:bg-aori-green/10 hover:text-aori-green border border-aori-green/20'
                 }
               `}
             >

@@ -10,13 +10,22 @@ const config: Config = {
     extend: {
       colors: {
         // Aori Brand Colors
+        aori: {
+          green: '#6B7C5F',     // Primary sage/olive green
+          dark: '#2C3E2C',      // Dark green for text
+          white: '#FFFFFF',     // White for UI elements
+          cream: '#F5F5F0',     // Light background
+          'green-light': '#8FA384', // Lighter shade of green
+          'green-dark': '#5A6B4F',  // Darker shade of green
+        },
         primary: {
-          green: '#6B7C5F', // Primary sage/olive green
-          dark: '#2C3E2C',  // Dark green for text
+          DEFAULT: '#6B7C5F',
+          green: '#6B7C5F',
+          dark: '#2C3E2C',
         },
         accent: {
-          white: '#FFFFFF',  // White for UI elements
-          cream: '#F5F5F0',  // Light background
+          white: '#FFFFFF',
+          cream: '#F5F5F0',
         },
         background: "var(--background)",
         foreground: "var(--foreground)",
