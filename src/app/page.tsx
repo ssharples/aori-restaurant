@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { MapPin, Clock, Phone, Star, Quote, ChefHat, Flame, Leaf } from 'lucide-react';
+import Image from 'next/image';
+import { MapPin, Clock, Phone, Star, Quote, ChefHat, Flame, Leaf, Facebook, Instagram, Twitter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { restaurantInfo } from '@/data/menu';
 import CartButton from '@/components/CartButton';
@@ -158,13 +159,21 @@ export default function Home() {
                     {/* Rotating food items */}
                     <motion.div
                       animate={{ rotate: 360 }}
-                      transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                      transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
                       className="absolute inset-0"
                     >
-                      <div className="absolute top-8 left-1/2 -translate-x-1/2 text-6xl">🥙</div>
-                      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-6xl">🍢</div>
-                      <div className="absolute left-8 top-1/2 -translate-y-1/2 text-6xl">🥗</div>
-                      <div className="absolute right-8 top-1/2 -translate-y-1/2 text-6xl">🫒</div>
+                      <div className="absolute top-8 left-1/2 -translate-x-1/2 w-16 h-16">
+                        <Image src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=100&h=100&fit=crop" alt="Gyros" fill className="rounded-full object-cover" />
+                      </div>
+                      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-16 h-16">
+                        <Image src="https://images.unsplash.com/photo-1633336219217-df7a3db37f09?w=100&h=100&fit=crop" alt="Souvlaki" fill className="rounded-full object-cover" />
+                      </div>
+                      <div className="absolute left-8 top-1/2 -translate-y-1/2 w-16 h-16">
+                        <Image src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=100&h=100&fit=crop" alt="Salad" fill className="rounded-full object-cover" />
+                      </div>
+                      <div className="absolute right-8 top-1/2 -translate-y-1/2 w-16 h-16">
+                        <Image src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=100&h=100&fit=crop" alt="Greek Food" fill className="rounded-full object-cover" />
+                      </div>
                     </motion.div>
                     
                     {/* Center text */}
@@ -230,7 +239,7 @@ export default function Home() {
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ duration: 0.5 }}
               >
-                <Card className="bg-aori-cream border-0">
+                <Card className="bg-white border-0 shadow-md">
                   <CardContent className="p-8">
                     <Quote className="w-10 h-10 text-aori-green/30 mb-4" />
                     <p className="text-lg text-aori-dark mb-6 italic">
@@ -398,9 +407,24 @@ export default function Home() {
           </motion.h2>
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { emoji: "🥙", name: "Chicken Gyros", desc: "Marinated chicken, tzatziki, fresh vegetables wrapped in warm pita", badge: "Best Seller" },
-              { emoji: "🍢", name: "Pork Souvlaki", desc: "Tender pork skewers grilled over charcoal, served with pita and chips", badge: "Traditional" },
-              { emoji: "🥗", name: "Greek Salad", desc: "Crisp vegetables, creamy feta, Kalamata olives, olive oil dressing", badge: "Vegetarian" }
+              { 
+                image: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&h=300&fit=crop", 
+                name: "Chicken Gyros", 
+                desc: "Marinated chicken, tzatziki, fresh vegetables wrapped in warm pita", 
+                badge: "Best Seller" 
+              },
+              { 
+                image: "https://images.unsplash.com/photo-1633336219217-df7a3db37f09?w=400&h=300&fit=crop", 
+                name: "Pork Souvlaki", 
+                desc: "Tender pork skewers grilled over charcoal, served with pita and chips", 
+                badge: "Traditional" 
+              },
+              { 
+                image: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=400&h=300&fit=crop", 
+                name: "Greek Salad", 
+                desc: "Crisp vegetables, creamy feta, Kalamata olives, olive oil dressing", 
+                badge: "Vegetarian" 
+              }
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -417,10 +441,16 @@ export default function Home() {
                   </Badge>
                 )}
                 <motion.div 
-                  whileHover={{ scale: 1.2, rotate: 10 }}
-                  className="w-24 h-24 bg-aori-green/10 rounded-full mx-auto mb-6 flex items-center justify-center text-5xl"
+                  whileHover={{ scale: 1.05 }}
+                  className="relative w-full h-48 mb-6 -mx-8 -mt-8 overflow-hidden"
                 >
-                  {item.emoji}
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
                 </motion.div>
                 <h3 className="text-2xl font-semibold mb-3 text-aori-dark">{item.name}</h3>
                 <p className="text-aori-dark/70 leading-relaxed">{item.desc}</p>
@@ -443,6 +473,44 @@ export default function Home() {
             <Logo variant="dark-bg" width={120} height={60} className="mx-auto mb-2" />
             <p className="text-aori-cream">Authentic Greek Street Food</p>
           </motion.div>
+          
+          {/* Social Media Links */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="flex justify-center gap-4 my-6"
+          >
+            <a
+              href="https://facebook.com/aori"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 bg-aori-white/10 rounded-full hover:bg-aori-white/20 transition-colors"
+              aria-label="Facebook"
+            >
+              <Facebook className="w-5 h-5 text-aori-white" />
+            </a>
+            <a
+              href="https://instagram.com/aori"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 bg-aori-white/10 rounded-full hover:bg-aori-white/20 transition-colors"
+              aria-label="Instagram"
+            >
+              <Instagram className="w-5 h-5 text-aori-white" />
+            </a>
+            <a
+              href="https://twitter.com/aori"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-3 bg-aori-white/10 rounded-full hover:bg-aori-white/20 transition-colors"
+              aria-label="Twitter"
+            >
+              <Twitter className="w-5 h-5 text-aori-white" />
+            </a>
+          </motion.div>
+          
           <p className="text-sm text-aori-cream/80 max-w-2xl mx-auto leading-relaxed">
             Please be aware that our kitchen uses nuts, gluten, and other allergens, 
             and we cannot guarantee our food is completely allergen-free. 

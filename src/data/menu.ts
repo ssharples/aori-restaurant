@@ -5,29 +5,33 @@ export const menuItems: MenuItem[] = [
   {
     id: 'gyros-chicken',
     name: 'Chicken Gyros',
-    description: 'Served in warm pita with chips, tomatoes, onions & tzatziki',
+    description: 'Tender marinated chicken, grilled to perfection. Served in warm pita with crispy chips, fresh tomatoes, onions & homemade tzatziki',
     price: 9.50,
     category: 'gyros',
     variants: [
       { id: 'wrap', name: 'Wrap', price: 9.50 },
       { id: 'box', name: 'Box Meal', price: 14.50 }
-    ]
+    ],
+    popular: true,
+    image: 'https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=400&h=300&fit=crop'
   },
   {
     id: 'gyros-pork',
     name: 'Pork Gyros',
-    description: 'Served in warm pita with chips, tomatoes, onions & tzatziki',
+    description: 'Succulent pork slices seasoned with aromatic herbs. Wrapped in warm pita with golden chips, ripe tomatoes, onions & creamy tzatziki',
     price: 9.50,
     category: 'gyros',
     variants: [
       { id: 'wrap', name: 'Wrap', price: 9.50 },
       { id: 'box', name: 'Box Meal', price: 14.50 }
-    ]
+    ],
+    image: 'https://images.unsplash.com/photo-1611658885159-cd33c6225fc0?w=400&h=300&fit=crop'
   },
   {
     id: 'gyros-halloumi',
     name: 'Halloumi Gyros',
-    description: 'Served in warm pita with chips, tomatoes, onions & tzatziki',
+    description: 'Grilled Cypriot halloumi cheese with a golden crust. Served in warm pita with chips, fresh vegetables & cooling tzatziki sauce',
+    vegetarian: true,
     price: 9.50,
     category: 'gyros',
     variants: [
@@ -38,7 +42,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'gyros-greek-burger',
     name: 'Greek Burger',
-    description: 'Served in warm pita with chips, tomatoes, onions & tzatziki',
+    description: 'Juicy beef patty infused with Mediterranean spices and feta. Wrapped in warm pita with crispy chips, garden vegetables & tzatziki',
     price: 9.50,
     category: 'gyros',
     variants: [
@@ -49,7 +53,8 @@ export const menuItems: MenuItem[] = [
   {
     id: 'gyros-veggie-burger',
     name: 'Veggie Burger',
-    description: 'Served in warm pita with chips, tomatoes, onions & tzatziki',
+    description: 'House-made chickpea and vegetable patty with herbs. Served in warm pita with golden chips, fresh salad & tangy tzatziki',
+    vegetarian: true,
     price: 9.50,
     category: 'gyros',
     variants: [
@@ -60,7 +65,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'gyros-shish-kebab',
     name: 'Shish Kebab',
-    description: 'Served in warm pita with chips, tomatoes, onions & tzatziki',
+    description: 'Traditional lamb kebab marinated in olive oil and oregano. Wrapped in warm pita with chips, Mediterranean vegetables & tzatziki',
     price: 9.50,
     category: 'gyros',
     variants: [
@@ -73,7 +78,8 @@ export const menuItems: MenuItem[] = [
   {
     id: 'souvlaki-chicken',
     name: 'Chicken Souvlaki',
-    description: 'Box Meal: 2 Skewers, Pita, Chips, Salad & Tzatziki',
+    description: 'Juicy chicken cubes marinated in lemon & herbs, chargrilled on skewers. Box meal includes 2 skewers, warm pita, chips, Greek salad & tzatziki',
+    popular: true,
     price: 3.50,
     category: 'souvlaki',
     variants: [
@@ -84,7 +90,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'souvlaki-pork',
     name: 'Pork Souvlaki',
-    description: 'Box Meal: 2 Skewers, Pita, Chips, Salad & Tzatziki',
+    description: 'Traditional pork cubes marinated in wine & spices, grilled over charcoal. Box meal: 2 skewers, pita bread, golden chips, fresh salad & tzatziki',
     price: 3.50,
     category: 'souvlaki',
     variants: [
@@ -95,7 +101,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'souvlaki-pork-belly',
     name: 'Pork Belly Pancetta',
-    description: 'Box Meal: 2 Skewers, Pita, Chips, Salad & Tzatziki',
+    description: 'Crispy pork belly pieces with a smoky flavor. Box meal features 2 skewers, soft pita, chips, garden salad & creamy tzatziki',
     price: 3.50,
     category: 'souvlaki',
     variants: [
@@ -106,7 +112,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'souvlaki-shish',
     name: 'Shish Kebab Souvlaki',
-    description: 'Box Meal: 2 Skewers, Pita, Chips, Salad & Tzatziki',
+    description: 'Spiced lamb mince kebabs with parsley & onion. Box meal: 2 skewers, fresh pita, crispy chips, Greek salad & house tzatziki',
     price: 3.50,
     category: 'souvlaki',
     variants: [
@@ -117,7 +123,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'souvlaki-cretan-sausage',
     name: 'Cretan Sausage',
-    description: 'Box Meal: 2 Skewers, Pita, Chips, Salad & Tzatziki',
+    description: 'Authentic Cretan sausages with fennel & orange zest. Box meal: 2 skewers, warm pita, golden chips, fresh salad & tzatziki',
     price: 3.50,
     category: 'souvlaki',
     variants: [
@@ -130,6 +136,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'bao-chicken',
     name: 'Chicken Bao Bun',
+    description: 'Crispy fried chicken in fluffy steamed buns with Asian slaw and peanut sauce',
     price: 8.00,
     category: 'bao-bun',
     allergens: ['peanuts']
@@ -137,6 +144,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'bao-teriyaki-pork',
     name: 'Teriyaki Pork Bao Bun',
+    description: 'Slow-cooked pork belly glazed with teriyaki, pickled cucumber & sesame seeds',
     price: 8.00,
     category: 'bao-bun',
     allergens: ['sesame seeds', 'soy sauce']
@@ -144,12 +152,14 @@ export const menuItems: MenuItem[] = [
   {
     id: 'bao-greek-hot-dog',
     name: 'Greek Hot Dog Bao Bun',
+    description: 'Greek-spiced sausage in a soft bao bun with tzatziki and crispy onions',
     price: 7.50,
     category: 'bao-bun'
   },
   {
     id: 'bao-tempura-prawn',
     name: 'Tempura Prawn Bao Bun',
+    description: 'Light tempura prawns with wasabi mayo, shredded lettuce & lime',
     price: 9.00,
     category: 'bao-bun',
     allergens: ['prawn']
@@ -157,6 +167,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'bao-caesars',
     name: 'Caesar\'s Bao Bun',
+    description: 'Grilled chicken with Caesar dressing, parmesan, lettuce & anchovies',
     price: 9.00,
     category: 'bao-bun',
     allergens: ['fish']
@@ -166,14 +177,15 @@ export const menuItems: MenuItem[] = [
   {
     id: 'salad-greek',
     name: 'Greek Salad',
-    description: 'Tomatoes, onion, feta cheese, olives, extra virgin olive oil, oregano',
+    description: 'Crisp cucumbers, ripe tomatoes, red onions, creamy feta, Kalamata olives, drizzled with extra virgin olive oil & oregano',
+    vegetarian: true,
     price: 8.00,
     category: 'salad'
   },
   {
     id: 'salad-caesars',
     name: 'Caesar\'s Salad',
-    description: 'Iceberg lettuce, chicken fillets, bacon, parmesan flakes, croutons, homemade dressing',
+    description: 'Crispy romaine lettuce, grilled chicken breast, smoked bacon, aged parmesan, garlic croutons & our signature Caesar dressing',
     price: 10.00,
     category: 'salad',
     allergens: ['fish']
@@ -181,7 +193,7 @@ export const menuItems: MenuItem[] = [
   {
     id: 'salad-italian',
     name: 'Italian Salad',
-    description: 'Mixed baby greens, rocket, parmesan flakes, prosciutto, homemade dressing',
+    description: 'Fresh baby greens, peppery rocket, shaved parmesan, Italian prosciutto with house-made balsamic dressing',
     price: 9.00,
     category: 'salad'
   },
@@ -190,64 +202,81 @@ export const menuItems: MenuItem[] = [
   {
     id: 'dip-tzatziki',
     name: 'Tzatziki with Pita',
+    description: 'Creamy Greek yogurt dip with cucumber, garlic & dill. Served with warm pita bread',
     price: 5.00,
-    category: 'pita-dips'
+    category: 'pita-dips',
+    vegetarian: true
   },
   {
     id: 'dip-hummus',
     name: 'Hummus with Pita',
+    description: 'Smooth chickpea dip with tahini, lemon & olive oil. Served with warm pita bread',
     price: 5.00,
-    category: 'pita-dips'
+    category: 'pita-dips',
+    vegetarian: true
   },
   {
     id: 'dip-spicy-feta',
     name: 'Spicy Feta Dip (Tirokauteri) with Pita',
+    description: 'Whipped feta cheese with roasted red peppers & chili. Served with warm pita bread',
     price: 5.00,
-    category: 'pita-dips'
+    category: 'pita-dips',
+    vegetarian: true
   },
 
   // SIDES
   {
     id: 'side-chips',
     name: 'Chips',
+    description: 'Golden crispy chips seasoned with oregano and sea salt',
     price: 3.50,
-    category: 'sides'
+    category: 'sides',
+    vegetarian: true
   },
   {
     id: 'side-grilled-halloumi',
     name: 'Grilled Halloumi',
+    description: 'Cypriot cheese grilled until golden, drizzled with lemon and herbs',
     price: 5.90,
-    category: 'sides'
+    category: 'sides',
+    vegetarian: true
   },
   {
     id: 'side-pita-bread',
     name: 'Pita Bread',
+    description: 'Warm, fluffy Greek pita bread',
     price: 1.50,
-    category: 'sides'
+    category: 'sides',
+    vegetarian: true
   },
   {
     id: 'side-olives',
     name: 'Olives',
+    description: 'Marinated Kalamata olives with herbs and olive oil',
     price: 3.00,
-    category: 'sides'
+    category: 'sides',
+    vegetarian: true
   },
 
   // DESSERTS
   {
     id: 'dessert-ferrero',
     name: 'Ferrero',
+    description: 'Rich chocolate mousse with Ferrero Rocher pieces and hazelnut cream',
     price: 5.00,
     category: 'desserts'
   },
   {
     id: 'dessert-profiterole',
     name: 'Profiterole',
+    description: 'Light choux pastry filled with vanilla cream, topped with chocolate sauce',
     price: 5.00,
     category: 'desserts'
   },
   {
     id: 'dessert-tiramisu',
     name: 'Tiramisu',
+    description: 'Classic Italian dessert with coffee-soaked ladyfingers and mascarpone cream',
     price: 5.00,
     category: 'desserts'
   },

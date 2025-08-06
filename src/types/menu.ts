@@ -7,6 +7,10 @@ export interface MenuItem {
   allergens?: string[];
   variants?: MenuItemVariant[];
   image?: string;
+  popular?: boolean;
+  vegetarian?: boolean;
+  vegan?: boolean;
+  spicy?: boolean;
 }
 
 export interface MenuItemVariant {

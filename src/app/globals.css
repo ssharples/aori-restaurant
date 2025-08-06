@@ -179,7 +179,7 @@ body {
     transform: translateX(0);
   }
   50% {
-    transform: translateX(-50px);
+    transform: translateX(-20px);
   }
 }
 
@@ -188,10 +188,10 @@ body {
     transform: translateX(0) scaleY(1);
   }
   33% {
-    transform: translateX(30px) scaleY(1.1);
+    transform: translateX(15px) scaleY(1.05);
   }
   66% {
-    transform: translateX(-30px) scaleY(0.9);
+    transform: translateX(-15px) scaleY(0.95);
   }
 }
 
@@ -200,13 +200,13 @@ body {
     transform: translateX(0) translateY(0);
   }
   25% {
-    transform: translateX(20px) translateY(-10px);
+    transform: translateX(10px) translateY(-5px);
   }
   50% {
-    transform: translateX(-20px) translateY(10px);
+    transform: translateX(-10px) translateY(5px);
   }
   75% {
-    transform: translateX(15px) translateY(-5px);
+    transform: translateX(8px) translateY(-3px);
   }
 }
 
