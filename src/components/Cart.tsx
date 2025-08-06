@@ -150,8 +150,8 @@ export default function Cart() {
                 );
               })}
             </div>
-          </AnimatePresence>
           )}
+          </AnimatePresence>
         </div>
 
         {/* Footer */}
