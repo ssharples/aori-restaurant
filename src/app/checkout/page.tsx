@@ -134,7 +134,7 @@ export default function CheckoutPage() {
             id: extraId,
             name: extra.name,
             price: extra.price,
-            category: extra.category as any,
+            category: extra.category as 'sides' | 'drinks',
             description: '',
             image: '',
             allergens: [],

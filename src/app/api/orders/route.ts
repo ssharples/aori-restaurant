@@ -14,6 +14,7 @@ interface CreateOrderRequestBody {
 function extractProductId(productName: string): number | undefined {
   // This would extract the EPOS product ID from the product name
   // For now, return undefined as we're using product names
+  console.debug('Looking up product ID for:', productName);
   return undefined;
 }
 

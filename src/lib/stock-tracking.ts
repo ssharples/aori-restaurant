@@ -2,7 +2,13 @@
 // Real-time inventory monitoring with EPOS Now integration
 
 import { enhancedEposAPI } from './epos-api-enhanced';
-import type { EposStock, StockCheckResult } from './epos-api-enhanced';
+import type { StockCheckResult } from './epos-api-enhanced';
+
+// Extend global type for stock alerts
+declare global {
+  // eslint-disable-next-line no-var
+  var stockAlerts: Array<Record<string, unknown>> | undefined;
+}
 
 interface StockAlert {
   id: string;
@@ -185,7 +191,7 @@ class StockTrackingService {
       try {
         const product = await enhancedEposAPI.getProduct(productId);
         productName = product.Name;
-      } catch (error) {
+      } catch {
         console.warn(`Failed to get product name for ${productId}`);
       }
 
@@ -239,7 +245,7 @@ class StockTrackingService {
         try {
           const product = await enhancedEposAPI.getProduct(stock.ProductId);
           totalValue += stock.Quantity * product.Price;
-        } catch (error) {
+        } catch {
           // Skip if product not found
         }
       }
@@ -362,14 +368,14 @@ class StockTrackingService {
         const storedMovements = localStorage.getItem('stock_movements');
         
         if (storedAlerts) {
-          this.stockAlerts = JSON.parse(storedAlerts).map((alert: any) => ({
+          this.stockAlerts = JSON.parse(storedAlerts).map((alert: { timestamp: string }) => ({
             ...alert,
             timestamp: new Date(alert.timestamp)
           }));
         }
         
         if (storedMovements) {
-          this.stockMovements = JSON.parse(storedMovements).map((movement: any) => ({
+          this.stockMovements = JSON.parse(storedMovements).map((movement: { timestamp: string }) => ({
             ...movement,
             timestamp: new Date(movement.timestamp)
           }));

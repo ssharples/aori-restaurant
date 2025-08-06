@@ -11,6 +11,9 @@ export interface MenuItem {
   vegetarian?: boolean;
   vegan?: boolean;
   spicy?: boolean;
+  available?: boolean;
+  eposId?: number;
+  lastUpdated?: string;
 }
 
 export interface MenuItemVariant {

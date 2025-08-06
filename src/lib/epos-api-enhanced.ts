@@ -152,7 +152,7 @@ interface EposWebhookEvent {
   EntityType: string;
   Action: 'Create' | 'Update' | 'Delete';
   Timestamp: string;
-  Data: any;
+  Data: Record<string, unknown>;
 }
 
 // Request/Response interfaces
@@ -583,30 +583,35 @@ class EnhancedEposNowAPI {
   // WEBHOOK VALIDATION
   // =============================================================================
 
-  validateWebhookSignature(payload: string, signature: string): boolean {
+  async validateWebhookSignature(payload: string, signature: string): Promise<boolean> {
     if (!this.config.webhookSecret) {
       console.warn('Webhook secret not configured');
       return false;
     }
 
-    // EPOS Now webhook signature validation
-    const crypto = require('crypto');
-    const expectedSignature = crypto
-      .createHmac('sha256', this.config.webhookSecret)
-      .update(payload, 'utf8')
-      .digest('hex');
+    try {
+      // EPOS Now webhook signature validation
+      const crypto = await import('crypto');
+      const expectedSignature = crypto
+        .createHmac('sha256', this.config.webhookSecret)
+        .update(payload, 'utf8')
+        .digest('hex');
 
-    return crypto.timingSafeEqual(
-      Buffer.from(signature, 'hex'),
-      Buffer.from(expectedSignature, 'hex')
-    );
+      return crypto.timingSafeEqual(
+        Buffer.from(signature, 'hex'),
+        Buffer.from(expectedSignature, 'hex')
+      );
+    } catch (error) {
+      console.error('Webhook signature validation failed:', error);
+      return false;
+    }
   }
 
   parseWebhookEvent(payload: string): EposWebhookEvent {
     try {
       return JSON.parse(payload);
     } catch (error) {
-      throw new Error('Invalid webhook payload');
+      throw new Error(`Invalid webhook payload: ${error}`);
     }
   }
 

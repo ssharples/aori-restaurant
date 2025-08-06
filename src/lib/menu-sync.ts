@@ -2,7 +2,7 @@
 // Keeps local menu data in sync with EPOS Now
 
 import { enhancedEposAPI } from './epos-api-enhanced';
-import type { EposProduct, EposCategory, MenuSyncResult } from './epos-api-enhanced';
+import type { EposProduct, EposCategory } from './epos-api-enhanced';
 import type { MenuItem, MenuCategory } from '@/types/menu';
 
 interface MenuSyncOptions {
@@ -57,10 +57,14 @@ class MenuSyncService {
       const eposData = await enhancedEposAPI.syncMenuFromEpos();
       
       // Get stock levels if syncing availability
-      let stockLevels: any[] = [];
+      let stockLevels: Array<{ ProductId: number; Quantity: number }> = [];
       if (options.syncAvailability) {
         try {
-          stockLevels = await enhancedEposAPI.getStockLevels();
+          const eposStockLevels = await enhancedEposAPI.getStockLevels();
+          stockLevels = eposStockLevels.map(stock => ({
+            ProductId: stock.ProductId,
+            Quantity: stock.Quantity
+          }));
         } catch (error) {
           console.warn('Failed to fetch stock levels:', error);
           errors.push('Stock levels unavailable');
@@ -164,7 +168,7 @@ class MenuSyncService {
   private async convertEposProductToMenuItem(
     eposProduct: EposProduct,
     categories: EposCategory[],
-    stockLevels: any[],
+    stockLevels: Array<{ ProductId: number; Quantity: number }>,
     options: MenuSyncOptions
   ): Promise<MenuItem | null> {
     try {
@@ -270,6 +274,7 @@ class MenuSyncService {
       'caesar-salad': 'https://images.unsplash.com/photo-1546793665-c74683f339c1?w=400&h=300&fit=crop'
     };
 
+    console.log(`Generating image for category: ${category}, product: ${product.Name}`);
     const productKey = this.generateLocalId(0, product.Name).replace(/-\d+$/, '');
     return imageMap[productKey] || `https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop`;
   }
@@ -302,20 +307,20 @@ class MenuSyncService {
     return allergens;
   }
 
-  private generateVariants(product: EposProduct, category: MenuCategory): Array<{name: string; price: number}> {
-    const variants: Array<{name: string; price: number}> = [];
+  private generateVariants(product: EposProduct, category: MenuCategory): Array<{id: string; name: string; price: number}> {
+    const variants: Array<{id: string; name: string; price: number}> = [];
 
     // Add category-specific variants
     if (category === 'gyros' || category === 'souvlaki') {
       if (product.Name.toLowerCase().includes('gyros')) {
         variants.push(
-          { name: 'Wrap', price: product.Price },
-          { name: 'Box Meal', price: product.Price + 5 }
+          { id: `${product.Id}-wrap`, name: 'Wrap', price: product.Price },
+          { id: `${product.Id}-box`, name: 'Box Meal', price: product.Price + 5 }
         );
       } else if (product.Name.toLowerCase().includes('souvlaki')) {
         variants.push(
-          { name: 'Per Skewer', price: product.Price },
-          { name: 'Box Meal', price: product.Price + 6.5 }
+          { id: `${product.Id}-skewer`, name: 'Per Skewer', price: product.Price },
+          { id: `${product.Id}-box`, name: 'Box Meal', price: product.Price + 6.5 }
         );
       }
     }

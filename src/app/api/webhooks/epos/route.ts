@@ -3,6 +3,20 @@ import { enhancedEposAPI } from '@/lib/epos-api-enhanced';
 import { menuSyncService } from '@/lib/menu-sync';
 import type { EposWebhookEvent } from '@/lib/epos-api-enhanced';
 
+// Extend global type for webhook data storage
+declare global {
+  // eslint-disable-next-line no-var
+  var lastMenuUpdate: { reason: string; timestamp: string } | undefined;
+  // eslint-disable-next-line no-var
+  var kitchenUpdates: Array<Record<string, unknown>> | undefined;
+  // eslint-disable-next-line no-var
+  var orderUpdates: Array<Record<string, unknown>> | undefined;
+  // eslint-disable-next-line no-var
+  var stockAlerts: Array<Record<string, unknown>> | undefined;
+  // eslint-disable-next-line no-var
+  var discountUpdates: Array<Record<string, unknown>> | undefined;
+}
+
 // EPOS Now Webhook Handler
 // Handles real-time events from EPOS Now system
 
@@ -12,7 +26,7 @@ export async function POST(request: NextRequest) {
     const payload = await request.text();
 
     // Validate webhook signature
-    if (!enhancedEposAPI.validateWebhookSignature(payload, signature)) {
+    if (!(await enhancedEposAPI.validateWebhookSignature(payload, signature))) {
       console.error('Invalid webhook signature');
       return NextResponse.json(
         { error: 'Invalid signature' },
@@ -189,8 +203,10 @@ async function triggerMenuSync(reason: string): Promise<void> {
   }
 }
 
-async function notifyOrderCreated(transactionId: number, data: any): Promise<void> {
+async function notifyOrderCreated(transactionId: number, data: unknown): Promise<void> {
   try {
+    console.log('Processing order creation with data:', data);
+    
     // Get full order details
     const orderStatus = await enhancedEposAPI.getOrderStatus(transactionId);
     
@@ -209,8 +225,10 @@ async function notifyOrderCreated(transactionId: number, data: any): Promise<voi
   }
 }
 
-async function notifyOrderStatusChanged(transactionId: number, data: any): Promise<void> {
+async function notifyOrderStatusChanged(transactionId: number, data: unknown): Promise<void> {
   try {
+    console.log('Processing order status change with data:', data);
+    
     // Get updated order details
     const orderStatus = await enhancedEposAPI.getOrderStatus(transactionId);
     
@@ -229,25 +247,26 @@ async function notifyOrderStatusChanged(transactionId: number, data: any): Promi
   }
 }
 
-async function handleStockUpdate(stockData: any): Promise<void> {
+async function handleStockUpdate(stockData: Record<string, unknown>): Promise<void> {
   try {
     const productId = stockData?.ProductId;
     const newQuantity = stockData?.Quantity;
     
-    if (!productId || newQuantity === undefined) {
+    if (!productId || typeof newQuantity !== 'number') {
       return;
     }
     
     // Check if item is now out of stock or low stock
     const isOutOfStock = newQuantity <= 0;
-    const isLowStock = newQuantity > 0 && newQuantity <= (stockData?.MinStockLevel || 5);
+    const minStockLevel = typeof stockData?.MinStockLevel === 'number' ? stockData.MinStockLevel : 5;
+    const isLowStock = newQuantity > 0 && newQuantity <= minStockLevel;
     
     if (isOutOfStock || isLowStock) {
       await broadcastStockAlert({
         type: isOutOfStock ? 'OUT_OF_STOCK' : 'LOW_STOCK',
         productId,
         currentStock: newQuantity,
-        minStock: stockData?.MinStockLevel || 0,
+        minStock: minStockLevel,
         timestamp: new Date().toISOString()
       });
     }
@@ -276,7 +295,7 @@ async function broadcastMenuUpdate(reason: string): Promise<void> {
   }
 }
 
-async function broadcastToKitchen(data: any): Promise<void> {
+async function broadcastToKitchen(data: Record<string, unknown>): Promise<void> {
   console.log('Broadcasting to kitchen:', data);
   
   // Store for kitchen display polling
@@ -291,7 +310,7 @@ async function broadcastToKitchen(data: any): Promise<void> {
   }
 }
 
-async function broadcastOrderUpdate(data: any): Promise<void> {
+async function broadcastOrderUpdate(data: Record<string, unknown>): Promise<void> {
   console.log('Broadcasting order update:', data);
   
   // Store for client polling
@@ -306,7 +325,7 @@ async function broadcastOrderUpdate(data: any): Promise<void> {
   }
 }
 
-async function broadcastStockAlert(data: any): Promise<void> {
+async function broadcastStockAlert(data: Record<string, unknown>): Promise<void> {
   console.log('Broadcasting stock alert:', data);
   
   // Store for admin dashboard
