@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft, Clock, MapPin, CreditCard } from 'lucide-react';
 import { useCartStore } from '@/stores/cart';
@@ -19,9 +20,10 @@ export default function CheckoutPage() {
   });
   const [collectionType, setCollectionType] = useState<'asap' | 'scheduled'>('asap');
   const [scheduledTime, setScheduledTime] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState<'online' | 'at-restaurant'>('online');
+  // Payment is always at collection - no payment method selection needed
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [estimatedTime, setEstimatedTime] = useState<Date | null>(null);
+  const [selectedExtras, setSelectedExtras] = useState<string[]>([]);
 
   useEffect(() => {
     if (items.length === 0) {
@@ -45,6 +47,34 @@ export default function CheckoutPage() {
   }, [items]);
 
   const formatPrice = (price: number) => `£${price.toFixed(2)}`;
+
+  // Suggested extras based on order
+  const suggestedExtras = [
+    { id: 'chips', name: 'Chips', price: 3.50, category: 'sides' },
+    { id: 'coke', name: 'Coke', price: 1.80, category: 'drinks' },
+    { id: 'coke-zero', name: 'Coke Zero', price: 1.80, category: 'drinks' },
+    { id: 'water', name: 'Water', price: 1.50, category: 'drinks' },
+    { id: 'pita-bread', name: 'Extra Pita Bread', price: 1.50, category: 'sides' },
+    { id: 'tzatziki', name: 'Extra Tzatziki', price: 5.00, category: 'sides' }
+  ];
+
+  const hasDrink = items.some(item => item.menuItem.category === 'drinks');
+  const hasSide = items.some(item => item.menuItem.category === 'sides' || item.menuItem.name.toLowerCase().includes('chips'));
+
+  const getExtrasTotal = () => {
+    return selectedExtras.reduce((total, extraId) => {
+      const extra = suggestedExtras.find(e => e.id === extraId);
+      return total + (extra?.price || 0);
+    }, 0);
+  };
+
+  const toggleExtra = (extraId: string) => {
+    setSelectedExtras(prev => 
+      prev.includes(extraId) 
+        ? prev.filter(id => id !== extraId)
+        : [...prev, extraId]
+    );
+  };
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString('en-GB', { 
@@ -94,12 +124,32 @@ export default function CheckoutPage() {
         ? new Date(scheduledTime)
         : estimatedTime || new Date(Date.now() + 20 * 60000);
 
+      // Add selected extras to items
+      const extrasAsItems = selectedExtras.map(extraId => {
+        const extra = suggestedExtras.find(e => e.id === extraId);
+        if (!extra) return null;
+        return {
+          id: `extra-${extraId}`,
+          menuItem: {
+            id: extraId,
+            name: extra.name,
+            price: extra.price,
+            category: extra.category as any,
+            description: '',
+            image: '',
+            allergens: [],
+            variants: []
+          },
+          quantity: 1,
+          variant: null
+        };
+      }).filter(Boolean);
+
       const orderData = {
-        items,
+        items: [...items, ...extrasAsItems],
         customerDetails,
         collectionTime: collectionDateTime.toISOString(),
-        paymentMethod,
-        notes: `Collection type: ${collectionType}`,
+        notes: `Collection type: ${collectionType}. Payment: Pay on collection.`,
       };
 
       const response = await fetch('/api/orders', {
@@ -121,7 +171,7 @@ export default function CheckoutPage() {
       localStorage.setItem('lastOrder', JSON.stringify({
         orderId: result.orderId,
         estimatedReadyTime: result.estimatedReadyTime,
-        totalAmount: result.totalAmount,
+        totalAmount: getTotal() + getExtrasTotal(),
         customerDetails,
         items,
       }));
@@ -160,8 +210,14 @@ export default function CheckoutPage() {
 
       <div className="container mx-auto px-4 py-6 max-w-2xl">
         <form onSubmit={handleSubmit} className="space-y-6">
+          <AnimatePresence>
           {/* Order Summary */}
-          <div className="bg-accent-white rounded-lg p-6 shadow-sm">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+            className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
+          >
             <h2 className="text-lg font-semibold mb-4 text-primary-dark">Order Summary</h2>
             <div className="space-y-3">
               {items.map((item) => {
@@ -177,15 +233,34 @@ export default function CheckoutPage() {
                   </div>
                 );
               })}
+              {selectedExtras.length > 0 && (
+                <div className="border-t pt-3 space-y-2">
+                  {selectedExtras.map(extraId => {
+                    const extra = suggestedExtras.find(e => e.id === extraId);
+                    if (!extra) return null;
+                    return (
+                      <div key={extraId} className="flex justify-between items-center text-sm">
+                        <span>{extra.name}</span>
+                        <span>{formatPrice(extra.price)}</span>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
               <div className="border-t pt-3 flex justify-between items-center">
                 <span className="text-lg font-semibold">Total:</span>
-                <span className="text-xl font-bold text-primary-green">{formatPrice(getTotal())}</span>
+                <span className="text-xl font-bold text-primary-green">{formatPrice(getTotal() + getExtrasTotal())}</span>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Collection Info */}
-          <div className="bg-accent-white rounded-lg p-6 shadow-sm">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
+            className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
+          >
             <div className="flex items-center gap-2 mb-4">
               <MapPin className="w-5 h-5 text-primary-green" />
               <h2 className="text-lg font-semibold text-primary-dark">Collection Details</h2>
@@ -249,10 +324,102 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
+
+          {/* Optional Extras */}
+          {(!hasDrink || !hasSide) && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
+            >
+              <h2 className="text-lg font-semibold mb-4 text-primary-dark">Add Extras</h2>
+              <p className="text-sm text-gray-600 mb-4">Complete your order with these delicious additions</p>
+              
+              <div className="space-y-3">
+                {!hasDrink && (
+                  <div>
+                    <h3 className="font-medium text-gray-800 mb-2">Add a Drink</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {suggestedExtras.filter(extra => extra.category === 'drinks').map((extra) => (
+                        <motion.label
+                          key={extra.id}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className={`flex items-center justify-between p-3 border rounded-lg cursor-pointer transition-colors ${
+                            selectedExtras.includes(extra.id)
+                              ? 'border-primary-green bg-primary-green/5'
+                              : 'border-gray-200 hover:bg-gray-50'
+                          }`}
+                        >
+                          <div className="flex items-center">
+                            <input
+                              type="checkbox"
+                              checked={selectedExtras.includes(extra.id)}
+                              onChange={() => toggleExtra(extra.id)}
+                              className="mr-3 text-primary-green focus:ring-primary-green"
+                            />
+                            <span className="font-medium">{extra.name}</span>
+                          </div>
+                          <span className="text-primary-green font-semibold">{formatPrice(extra.price)}</span>
+                        </motion.label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {!hasSide && (
+                  <div>
+                    <h3 className="font-medium text-gray-800 mb-2 mt-4">Add a Side</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {suggestedExtras.filter(extra => extra.category === 'sides').map((extra) => (
+                        <motion.label
+                          key={extra.id}
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className={`flex items-center justify-between p-3 border rounded-lg cursor-pointer transition-colors ${
+                            selectedExtras.includes(extra.id)
+                              ? 'border-primary-green bg-primary-green/5'
+                              : 'border-gray-200 hover:bg-gray-50'
+                          }`}
+                        >
+                          <div className="flex items-center">
+                            <input
+                              type="checkbox"
+                              checked={selectedExtras.includes(extra.id)}
+                              onChange={() => toggleExtra(extra.id)}
+                              className="mr-3 text-primary-green focus:ring-primary-green"
+                            />
+                            <span className="font-medium">{extra.name}</span>
+                          </div>
+                          <span className="text-primary-green font-semibold">{formatPrice(extra.price)}</span>
+                        </motion.label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {selectedExtras.length > 0 && (
+                  <div className="border-t pt-3 mt-4">
+                    <div className="flex justify-between items-center text-sm">
+                      <span className="text-gray-600">Extras Total:</span>
+                      <span className="font-semibold text-primary-green">{formatPrice(getExtrasTotal())}</span>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          )}
 
           {/* Customer Details */}
-          <div className="bg-accent-white rounded-lg p-6 shadow-sm">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.4 }}
+            className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
+          >
             <h2 className="text-lg font-semibold mb-4 text-primary-dark">Your Details</h2>
             <div className="space-y-4">
               <div>
@@ -293,55 +460,55 @@ export default function CheckoutPage() {
                 />
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Payment Method */}
-          <div className="bg-accent-white rounded-lg p-6 shadow-sm">
+          {/* Payment Information */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.5 }}
+            className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
+          >
             <div className="flex items-center gap-2 mb-4">
               <CreditCard className="w-5 h-5 text-primary-green" />
-              <h2 className="text-lg font-semibold text-primary-dark">Payment Method</h2>
+              <h2 className="text-lg font-semibold text-primary-dark">Payment</h2>
             </div>
-            <div className="space-y-3">
-              <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                <input
-                  type="radio"
-                  name="paymentMethod"
-                  value="online"
-                  checked={paymentMethod === 'online'}
-                  onChange={(e) => setPaymentMethod(e.target.value as 'online')}
-                  className="mr-3 text-primary-green focus:ring-primary-green"
-                />
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="flex items-center">
                 <div className="flex-1">
-                  <span className="font-medium">Pay Online</span>
-                  <p className="text-sm text-gray-600">Secure payment with Stripe</p>
+                  <span className="font-medium text-green-800">Pay on Collection</span>
+                  <p className="text-sm text-green-600 mt-1">Pay with cash or card when you collect your order</p>
                 </div>
-              </label>
-              
-              <label className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-                <input
-                  type="radio"
-                  name="paymentMethod"
-                  value="at-restaurant"
-                  checked={paymentMethod === 'at-restaurant'}
-                  onChange={(e) => setPaymentMethod(e.target.value as 'at-restaurant')}
-                  className="mr-3 text-primary-green focus:ring-primary-green"
-                />
-                <div className="flex-1">
-                  <span className="font-medium">Pay at Restaurant</span>
-                  <p className="text-sm text-gray-600">Cash or card on collection</p>
+                <div className="text-green-600">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
                 </div>
-              </label>
+              </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Submit Button */}
-          <button
+          </AnimatePresence>
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.6 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isSubmitting}
             className="w-full bg-primary-green text-accent-white py-4 rounded-full font-semibold hover:bg-primary-green/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? 'Placing Order...' : `Place Order • ${formatPrice(getTotal())}`}
-          </button>
+            <motion.span
+              key={isSubmitting ? 'submitting' : 'ready'}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.2 }}
+            >
+              {isSubmitting ? 'Placing Order...' : `Place Order • ${formatPrice(getTotal() + getExtrasTotal())}`}
+            </motion.span>
+          </motion.button>
         </form>
       </div>
     </div>

@@ -1,10 +1,15 @@
 import { NextResponse } from 'next/server';
-import { eposAPI } from '@/lib/epos-api';
+import { enhancedEposAPI } from '@/lib/epos-api-enhanced';
+import { stockTrackingService } from '@/lib/stock-tracking';
 
 export async function GET() {
   try {
-    // Get current orders from EPOS Now
-    const currentOrders = await eposAPI.getCurrentOrders();
+    // Get current orders from enhanced EPOS Now integration
+    const currentOrders = await enhancedEposAPI.getCurrentOrders();
+    
+    // Get stock alerts for kitchen awareness
+    const stockAlerts = stockTrackingService.getActiveAlerts();
+    const criticalAlerts = stockAlerts.filter(alert => alert.severity === 'critical');
     
     // Calculate kitchen metrics
     const activeOrders = currentOrders.length;
@@ -32,6 +37,12 @@ export async function GET() {
         averageWaitTime,
         estimatedCollectionTime: estimatedCollectionTime.toISOString(),
         estimatedMinutes,
+        stockAlerts: {
+          total: stockAlerts.length,
+          critical: criticalAlerts.length,
+          outOfStock: stockAlerts.filter(alert => alert.alertType === 'OUT_OF_STOCK').length
+        },
+        orderQueue: currentOrders.slice(0, 10) // First 10 orders in queue
       }
     });
 

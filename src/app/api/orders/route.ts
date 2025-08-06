@@ -1,13 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { eposAPI } from '@/lib/epos-api';
+import { enhancedEposAPI } from '@/lib/epos-api-enhanced';
+import { stockTrackingService } from '@/lib/stock-tracking';
 import { CartItem, CustomerDetails } from '@/types/menu';
 
 interface CreateOrderRequestBody {
   items: CartItem[];
   customerDetails: CustomerDetails;
   collectionTime: string;
-  paymentMethod: 'online' | 'at-restaurant';
   notes?: string;
+}
+
+// Helper function to extract EPOS product ID from menu item
+function extractProductId(productName: string): number | undefined {
+  // This would extract the EPOS product ID from the product name
+  // For now, return undefined as we're using product names
+  return undefined;
 }
 
 export async function POST(request: NextRequest) {
@@ -43,24 +50,54 @@ export async function POST(request: NextRequest) {
       notes: item.notes,
     }));
 
-    // Create order in EPOS Now
-    const orderResult = await eposAPI.createOrder({
+    // Create order with enhanced EPOS integration
+    const orderResult = await enhancedEposAPI.createOrder({
       customerName: body.customerDetails.name,
       customerPhone: body.customerDetails.phone,
       customerEmail: body.customerDetails.email,
-      items: eposItems,
+      items: eposItems.map(item => ({
+        productId: extractProductId(item.productName),
+        productName: item.productName,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+        notes: item.notes
+      })),
       totalAmount,
       collectionTime: new Date(body.collectionTime),
-      paymentMethod: body.paymentMethod,
       notes: body.notes,
     });
 
-    // Return order confirmation
+    // Record stock movements for sold items
+    for (const item of eposItems) {
+      const productId = extractProductId(item.productName);
+      if (productId) {
+        try {
+          await stockTrackingService.recordStockMovement(
+            productId,
+            'SALE',
+            item.quantity,
+            `Order ${orderResult.transactionId}`,
+            'system'
+          );
+        } catch (error) {
+          console.warn(`Failed to record stock movement for product ${productId}:`, error);
+        }
+      }
+    }
+
+    // Return order confirmation (payment at collection)
     return NextResponse.json({
       success: true,
       orderId: orderResult.transactionId,
       estimatedReadyTime: orderResult.estimatedReadyTime.toISOString(),
-      totalAmount,
+      totalAmount: orderResult.finalTotal,
+      paymentRequired: 'Pay on collection',
+      customer: orderResult.customer ? {
+        id: orderResult.customer.Id,
+        name: `${orderResult.customer.FirstName} ${orderResult.customer.LastName}`,
+        email: orderResult.customer.Email,
+        phone: orderResult.customer.PhoneNumber
+      } : undefined,
     });
 
   } catch (error) {
@@ -88,12 +125,14 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const orderStatus = await eposAPI.getOrderStatus(parseInt(orderId));
+    const orderStatus = await enhancedEposAPI.getOrderStatus(parseInt(orderId));
 
     return NextResponse.json({
       success: true,
       status: orderStatus.status,
       estimatedReadyTime: orderStatus.estimatedReadyTime?.toISOString(),
+      transaction: orderStatus.transaction,
+      items: orderStatus.items,
     });
 
   } catch (error) {
