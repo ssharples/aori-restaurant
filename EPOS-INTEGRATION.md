@@ -46,14 +46,14 @@ This document outlines the comprehensive EPOS Now v4 API integration implemented
 - **GET /api/kitchen-status** - Kitchen dashboard with order queue and stock alerts
 
 #### Sales Tracking
-- **GET /api/admin/dashboard?section=sales** - Sales analytics and order revenue tracking
+- Sales analytics handled via EPOS Now reporting system
 
 #### Webhook Handlers
 - **POST /api/webhooks/epos** - EPOS Now webhook processor for real-time updates
 
-#### Admin Dashboard
-- **GET /api/admin/dashboard** - Comprehensive admin dashboard data
-- **POST /api/admin/dashboard** - Admin actions (sync menu, update orders, stock management)
+#### Management
+- All restaurant management handled via EPOS Now Backoffice interface
+- Orders, inventory, customers, and analytics managed through existing EPOS system
 
 ### ✅ Real-time Features
 
@@ -199,11 +199,11 @@ EPOS Products → Category Mapping → Image Assignment → Local Storage → Fr
 - Average preparation times
 - Customer satisfaction scores
 
-### Dashboards
-- Kitchen Display System
-- Inventory Management Dashboard
-- Sales Analytics Dashboard
-- Customer Management Portal
+### Management Systems
+- Kitchen Display System (via EPOS Now)
+- Inventory Management (via EPOS Now Backoffice)
+- Sales Analytics (via EPOS Now reporting)
+- Customer Management (via EPOS Now CRM)
 
 ### Alerts and Notifications
 - Critical stock levels
@@ -272,10 +272,9 @@ EPOS Products → Category Mapping → Image Assignment → Local Storage → Fr
 
 ### Planned Features
 - Multi-location management
-- Advanced analytics dashboard
 - Customer loyalty program integration
 - Automated reordering system
-- Mobile admin applications
+- Enhanced webhook processing
 
 ### Performance Improvements
 - GraphQL API implementation
@@ -305,7 +304,7 @@ For detailed API documentation, see the individual endpoint files:
 - Order Management: `/src/app/api/orders/route.ts`
 - Payment Processing: `/src/app/api/payments/*/route.ts`
 - Webhook Handlers: `/src/app/api/webhooks/*/route.ts`
-- Admin Dashboard: `/src/app/api/admin/dashboard/route.ts`
+- Management via EPOS Now Backoffice interface
 - Kitchen Status: `/src/app/api/kitchen-status/route.ts`
 
 ## Conclusion
