@@ -9,6 +9,7 @@ import CartButton from '@/components/CartButton';
 import CategoryTabs from '@/components/CategoryTabs';
 import MenuItemCard from '@/components/MenuItemCard';
 import Cart from '@/components/Cart';
+import Logo from '@/components/Logo';
 
 export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState<MenuCategory>('gyros');
@@ -33,7 +34,7 @@ export default function MenuPage() {
             >
               <ArrowLeft className="w-5 h-5" />
             </Link>
-            <h1 className="text-xl font-logo font-bold">Menu</h1>
+            <Logo variant="dark-bg" width={80} height={40} />
           </div>
           <CartButton />
         </div>
@@ -76,8 +77,8 @@ export default function MenuPage() {
         )}
 
         <div className="space-y-6">
-          {filteredItems.map((item) => (
-            <MenuItemCard key={item.id} item={item} />
+          {filteredItems.map((item, index) => (
+            <MenuItemCard key={item.id} item={item} index={index} />
           ))}
         </div>
 

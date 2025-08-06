@@ -7,6 +7,7 @@ import { ArrowLeft, Clock, MapPin, CreditCard } from 'lucide-react';
 import { useCartStore } from '@/stores/cart';
 import { CustomerDetails } from '@/types/menu';
 import { restaurantInfo } from '@/data/menu';
+import Logo from '@/components/Logo';
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -153,7 +154,7 @@ export default function CheckoutPage() {
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <h1 className="text-xl font-logo font-bold">Checkout</h1>
+          <Logo variant="dark-bg" width={80} height={40} />
         </div>
       </header>
 

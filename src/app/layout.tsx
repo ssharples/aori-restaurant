@@ -1,10 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Kalam } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+});
+
+const kalam = Kalam({
+  weight: ['400', '700'],
+  subsets: ["latin"],
+  variable: "--font-kalam",
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -89,7 +96,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="msapplication-starturl" content="/" />
       </head>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${kalam.variable} font-sans antialiased`}>
         {children}
       </body>
     </html>

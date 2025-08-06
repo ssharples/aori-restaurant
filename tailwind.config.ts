@@ -31,8 +31,8 @@ const config: Config = {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        logo: ['Segoe Print', 'cursive'],
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        logo: ['var(--font-kalam)', 'Segoe Print', 'cursive'],
+        sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

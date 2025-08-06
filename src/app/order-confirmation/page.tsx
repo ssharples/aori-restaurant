@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { CheckCircle, Clock, MapPin, Phone } from 'lucide-react';
 import { restaurantInfo } from '@/data/menu';
+import Logo from '@/components/Logo';
 
 interface OrderData {
   orderId: string;
@@ -68,7 +69,7 @@ export default function OrderConfirmationPage() {
       {/* Header */}
       <header className="bg-primary-green text-accent-white shadow-lg">
         <div className="container mx-auto px-4 py-4">
-          <h1 className="text-xl font-logo font-bold text-center">Order Confirmed</h1>
+          <Logo variant="dark-bg" width={100} height={50} className="mx-auto" />
         </div>
       </header>
 
