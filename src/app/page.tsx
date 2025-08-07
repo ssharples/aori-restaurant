@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { MapPin, Clock, Phone, Star, Quote, ChefHat, Flame, Leaf, Facebook, Instagram, Twitter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { restaurantInfo } from '@/data/menu';
-import WaveBackground from '@/components/WaveBackground';
+import GreekPatternBackground from '@/components/GreekPatternBackground';
 import Logo from '@/components/Logo';
 import RestaurantCarousel from '@/components/RestaurantCarousel';
 import { Button } from '@/components/ui/button';
@@ -39,7 +39,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-aori-green relative overflow-hidden">
-      <WaveBackground />
+      <GreekPatternBackground />
       
       {/* Header */}
       <motion.header 
