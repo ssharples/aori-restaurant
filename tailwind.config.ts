@@ -33,6 +33,7 @@ const config: Config = {
       fontFamily: {
         logo: ['var(--font-kalam)', 'Segoe Print', 'cursive'],
         sans: ['var(--font-inter)', 'Inter', 'system-ui', 'sans-serif'],
+        heading: ['Segoe Print', 'var(--font-kalam)', 'cursive'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

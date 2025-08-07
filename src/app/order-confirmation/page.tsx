@@ -94,7 +94,7 @@ export default function OrderConfirmationPage() {
           >
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
           </motion.div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2 font-heading">
             Order Confirmed!
           </h1>
           <p className="text-gray-600">
@@ -110,7 +110,7 @@ export default function OrderConfirmationPage() {
           className="bg-white rounded-lg border border-gray-200 p-6 mb-6"
         >
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">Order #{orderNumber}</h2>
+            <h2 className="text-lg font-semibold text-gray-900 font-heading">Order #{orderNumber}</h2>
             <div className="flex items-center gap-1 text-green-600">
               <Clock className="w-4 h-4" />
               <span className="font-semibold">{formatTime(estimatedTime)}</span>
@@ -135,7 +135,7 @@ export default function OrderConfirmationPage() {
         >
           <div className="flex items-center gap-2 mb-4">
             <MapPin className="w-5 h-5 text-gray-600" />
-            <h2 className="text-lg font-semibold text-gray-900">Collection from Aori</h2>
+            <h2 className="text-lg font-semibold text-gray-900 font-heading">Collection from Aori</h2>
           </div>
           
           {/* Simple Map Placeholder */}
@@ -168,7 +168,7 @@ export default function OrderConfirmationPage() {
           transition={{ delay: 0.3 }}
           className="bg-white rounded-lg border border-gray-200 p-6 mb-6"
         >
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Your Order</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4 font-heading">Your Order</h2>
           <div className="space-y-3">
             {orderData.items.map((item, index) => {
               const price = item.variant?.price || item.menuItem.price;

@@ -56,7 +56,7 @@ export default function ItemDetailModal({ item, open, onClose }: ItemDetailModal
         
         <div className="p-4">
           <DialogHeader className="pb-4">
-            <DialogTitle className="text-xl font-bold text-gray-900">{item.name}</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-gray-900 font-heading">{item.name}</DialogTitle>
           </DialogHeader>
 
           <div className="space-y-4">

@@ -46,7 +46,7 @@ export default function MenuItemCard({ item, index = 0 }: MenuItemCardProps) {
           <div className="flex-1 min-w-0">
             <div className="flex items-start justify-between mb-2">
               <div className="flex-1 min-w-0 pr-4">
-                <h3 className="font-medium text-gray-900 text-lg truncate">
+                <h3 className="font-medium text-gray-900 text-lg truncate font-heading">
                   {item.name}
                 </h3>
                 

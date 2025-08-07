@@ -148,7 +148,7 @@ export default function Home() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl font-bold mb-4 text-aori-dark">What Our Customers Say</h2>
+            <h2 className="text-4xl font-bold mb-4 text-aori-dark font-heading">What Our Customers Say</h2>
             <div className="flex items-center justify-center gap-2 mb-4">
               <div className="flex">
                 {[...Array(5)].map((_, i) => (
@@ -233,7 +233,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-4xl font-bold text-center mb-12 text-aori-white"
+            className="text-4xl font-bold text-center mb-12 text-aori-white font-heading"
           >
             The Aori Experience
           </motion.h2>
@@ -254,7 +254,7 @@ export default function Home() {
                 >
                   <highlight.icon className="w-10 h-10 text-aori-white" />
                 </motion.div>
-                <h3 className="text-2xl font-semibold mb-2 text-aori-white">{highlight.text}</h3>
+                <h3 className="text-2xl font-semibold mb-2 text-aori-white font-heading">{highlight.text}</h3>
                 <p className="text-aori-cream">{highlight.description}</p>
               </motion.div>
             ))}
@@ -279,7 +279,7 @@ export default function Home() {
               >
                 <MapPin className="w-8 h-8 text-aori-green" />
               </motion.div>
-              <h3 className="text-xl font-semibold mb-2 text-aori-dark">Location</h3>
+              <h3 className="text-xl font-semibold mb-2 text-aori-dark font-heading">Location</h3>
               <p className="text-aori-dark/70">{restaurantInfo.address}</p>
             </motion.div>
             
@@ -296,7 +296,7 @@ export default function Home() {
               >
                 <Clock className="w-8 h-8 text-aori-green" />
               </motion.div>
-              <h3 className="text-xl font-semibold mb-2 text-aori-dark">Hours</h3>
+              <h3 className="text-xl font-semibold mb-2 text-aori-dark font-heading">Hours</h3>
               <div className="text-aori-dark/70 space-y-1">
                 <p>Mon-Thu: 11:00-22:00</p>
                 <p>Fri-Sat: 11:00-23:00</p>
@@ -317,7 +317,7 @@ export default function Home() {
               >
                 <Phone className="w-8 h-8 text-aori-green" />
               </motion.div>
-              <h3 className="text-xl font-semibold mb-2 text-aori-dark">Call Us</h3>
+              <h3 className="text-xl font-semibold mb-2 text-aori-dark font-heading">Call Us</h3>
               <p className="text-aori-dark/70">{restaurantInfo.phone}</p>
             </motion.div>
           </div>
@@ -332,7 +332,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="text-4xl font-bold text-center mb-12 text-aori-dark"
+            className="text-4xl font-bold text-center mb-12 text-aori-dark font-heading"
           >
             Street Food Favorites
           </motion.h2>
@@ -383,7 +383,7 @@ export default function Home() {
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </motion.div>
-                <h3 className="text-2xl font-semibold mb-3 text-aori-dark">{item.name}</h3>
+                <h3 className="text-2xl font-semibold mb-3 text-aori-dark font-heading">{item.name}</h3>
                 <p className="text-aori-dark/70 leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}

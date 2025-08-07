@@ -12,21 +12,21 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 
-// Restaurant images data - using high-quality stock images that represent the restaurant atmosphere
+// Restaurant images data - actual Aori restaurant photos
 const restaurantImages = [
   {
-    src: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&h=400&fit=crop&q=80",
-    alt: "Modern Restaurant Exterior",
+    src: "/restaurant-exterior-new.jpg",
+    alt: "Aori Restaurant Exterior with Opening Hours",
     caption: "Welcome to Aori"
   },
   {
-    src: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&h=400&fit=crop&q=80",
-    alt: "Open Kitchen with Professional Equipment",
+    src: "/restaurant-kitchen-new.jpg",
+    alt: "Aori Kitchen with Digital Menu Displays",
     caption: "Fresh & Made to Order"
   },
   {
-    src: "https://images.unsplash.com/photo-1552566292-a2c4a0e40dd1?w=400&h=400&fit=crop&q=80",
-    alt: "Cozy Restaurant Interior",
+    src: "/restaurant-interior-new.jpg",
+    alt: "Aori Modern Interior Dining Area",
     caption: "Comfortable Dining"
   }
 ];

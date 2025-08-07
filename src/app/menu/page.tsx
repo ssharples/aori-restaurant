@@ -72,10 +72,10 @@ export default function MenuPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Floating Back Button */}
-      <div className="fixed bottom-4 left-4 z-50">
+      <div className="fixed bottom-24 left-4 z-40 md:bottom-6">
         <Link 
           href="/"
-          className="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
+          className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
           aria-label="Back to home"
         >
           <ArrowLeft className="w-5 h-5 text-gray-700" />
@@ -83,7 +83,7 @@ export default function MenuPage() {
       </div>
 
       {/* Floating Search Icon */}
-      <div className="fixed bottom-4 right-4 z-50">
+      <div className="fixed bottom-24 right-4 z-40 md:bottom-6">
         <button
           onClick={() => {
             const searchBar = document.getElementById('search-bar');
@@ -96,7 +96,7 @@ export default function MenuPage() {
               }, 300);
             }
           }}
-          className="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
+          className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
           aria-label="Search menu"
         >
           <Search className="w-5 h-5 text-gray-700" />
@@ -143,7 +143,7 @@ export default function MenuPage() {
                 <div className="w-20 h-20 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center">
                   <Search className="w-8 h-8 text-gray-400" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">No items found</h3>
+                <h3 className="text-xl font-semibold mb-2 font-heading">No items found</h3>
                 <p className="text-gray-500">Try adjusting your search or browse other categories</p>
               </div>
             )}
@@ -157,7 +157,7 @@ export default function MenuPage() {
               
               return (
                 <div key={category} id={category} className="scroll-mt-32">
-                  <h2 className="text-2xl font-bold mb-4 text-gray-900">
+                  <h2 className="text-2xl font-bold mb-4 text-gray-900 font-heading">
                     {categoryNames[category]}
                   </h2>
                   <div className="space-y-4">

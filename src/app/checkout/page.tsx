@@ -218,7 +218,7 @@ export default function CheckoutPage() {
             transition={{ duration: 0.4, delay: 0.1 }}
             className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
           >
-            <h2 className="text-lg font-semibold mb-4 text-gray-900">Order Summary</h2>
+            <h2 className="text-lg font-semibold mb-4 text-gray-900 font-heading">Order Summary</h2>
             <div className="space-y-3">
               {items.map((item) => {
                 const price = item.variant?.price || item.menuItem.price;
@@ -263,7 +263,7 @@ export default function CheckoutPage() {
           >
             <div className="flex items-center gap-2 mb-4">
               <MapPin className="w-5 h-5 text-gray-600" />
-              <h2 className="text-lg font-semibold text-gray-900">Collection Details</h2>
+              <h2 className="text-lg font-semibold text-gray-900 font-heading">Collection Details</h2>
             </div>
             
             {/* Interactive Map */}
@@ -355,7 +355,7 @@ export default function CheckoutPage() {
               transition={{ duration: 0.4, delay: 0.2 }}
               className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
             >
-              <h2 className="text-lg font-semibold mb-4 text-gray-900">Add Extras</h2>
+              <h2 className="text-lg font-semibold mb-4 text-gray-900 font-heading">Add Extras</h2>
               <p className="text-sm text-gray-900 mb-4">Complete your order with these delicious additions</p>
               
               <div className="space-y-3">
@@ -440,7 +440,7 @@ export default function CheckoutPage() {
             transition={{ duration: 0.4, delay: 0.4 }}
             className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
           >
-            <h2 className="text-lg font-semibold mb-4 text-gray-900">Your Details</h2>
+            <h2 className="text-lg font-semibold mb-4 text-gray-900 font-heading">Your Details</h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -491,7 +491,7 @@ export default function CheckoutPage() {
           >
             <div className="flex items-center gap-2 mb-4">
               <CreditCard className="w-5 h-5 text-gray-600" />
-              <h2 className="text-lg font-semibold text-gray-900">Payment</h2>
+              <h2 className="text-lg font-semibold text-gray-900 font-heading">Payment</h2>
             </div>
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="flex items-center">

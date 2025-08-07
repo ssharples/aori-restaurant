@@ -27,7 +27,7 @@ export default function Cart() {
 
   return (
     <Sheet open={isOpen} onOpenChange={closeCart}>
-      <SheetContent side="bottom" className="h-[90vh] flex flex-col bg-white">
+      <SheetContent side="bottom" className="h-[75vh] md:h-[90vh] flex flex-col bg-white">
         <SheetHeader className="px-4 pt-6 pb-4 border-b border-gray-100 bg-white">
           <div className="flex items-center justify-between">
             <SheetTitle className="flex items-center gap-3 text-black">
@@ -45,7 +45,7 @@ export default function Cart() {
               <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-6">
                 <ShoppingBag className="w-10 h-10 text-gray-400" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">Your cart is empty</h3>
+              <h3 className="text-xl font-semibold mb-3 font-heading">Your cart is empty</h3>
               <p className="text-gray-500 mb-6 leading-relaxed">Add some delicious Greek items to get started!</p>
               <Button onClick={closeCart} className="rounded-full px-8">
                 Browse Menu
