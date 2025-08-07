@@ -28,19 +28,19 @@ export default function Cart() {
   return (
     <Sheet open={isOpen} onOpenChange={closeCart}>
       <SheetContent side="bottom" className="h-[90vh] flex flex-col bg-white">
-        <SheetHeader className="px-4 pt-6 pb-4 border-b border-gray-100">
+        <SheetHeader className="px-4 pt-6 pb-4 border-b border-gray-100 bg-black">
           <div className="flex items-center justify-between">
-            <SheetTitle className="flex items-center gap-3">
-              <ShoppingBag className="w-6 h-6" />
+            <SheetTitle className="flex items-center gap-3 text-white">
+              <ShoppingBag className="w-6 h-6 text-white" />
               Your Order ({getItemCount()})
             </SheetTitle>
             <Button
               variant="ghost"
               size="icon"
               onClick={closeCart}
-              className="h-8 w-8 hover:bg-gray-100"
+              className="h-8 w-8 hover:bg-gray-800 text-white"
             >
-              <X className="w-5 h-5 text-black" />
+              <X className="w-5 h-5 text-white" />
             </Button>
           </div>
         </SheetHeader>
@@ -110,7 +110,7 @@ export default function Cart() {
                                 disabled={item.quantity <= 1}
                                 className="h-8 w-8 rounded-l-lg hover:bg-gray-50"
                               >
-                                <Minus className="w-3 h-3" />
+                                <Minus className="w-3 h-3 text-black" />
                               </Button>
                               <span className="w-8 text-center font-medium text-sm text-black">
                                 {item.quantity}
@@ -121,7 +121,7 @@ export default function Cart() {
                                 onClick={() => updateQuantity(item.id, item.quantity + 1)}
                                 className="h-8 w-8 rounded-r-lg hover:bg-gray-50"
                               >
-                                <Plus className="w-3 h-3" />
+                                <Plus className="w-3 h-3 text-black" />
                               </Button>
                             </div>
                             

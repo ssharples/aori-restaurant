@@ -265,11 +265,31 @@ export default function CheckoutPage() {
               <MapPin className="w-5 h-5 text-gray-600" />
               <h2 className="text-lg font-semibold text-gray-900">Collection Details</h2>
             </div>
-            <p className="text-gray-600 mb-4">{restaurantInfo.address}</p>
+            
+            {/* Interactive Map */}
+            <div className="mb-4">
+              <div 
+                className="bg-gray-100 rounded-lg h-32 flex items-center justify-center relative overflow-hidden cursor-pointer hover:bg-gray-200 transition-colors"
+                onClick={() => window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(restaurantInfo.address)}`, '_blank')}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-green-100"></div>
+                <div className="relative z-10 text-center">
+                  <MapPin className="w-8 h-8 text-red-500 mx-auto mb-2" />
+                  <p className="text-sm font-medium text-gray-700">Aori Restaurant</p>
+                  <p className="text-xs text-gray-500">Click to open in Maps</p>
+                </div>
+                {/* Decorative elements to simulate map */}
+                <div className="absolute top-2 left-2 w-20 h-1 bg-blue-300 rounded"></div>
+                <div className="absolute bottom-3 right-3 w-16 h-1 bg-blue-300 rounded"></div>
+                <div className="absolute top-1/2 left-1/4 w-1 h-12 bg-blue-300 rounded"></div>
+              </div>
+            </div>
+            
+            <p className="text-gray-900 mb-4 font-medium">{restaurantInfo.address}</p>
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-900 mb-2">
                   Collection Time
                 </label>
                 <div className="space-y-3">
@@ -283,7 +303,7 @@ export default function CheckoutPage() {
                       className="mr-3 text-primary-green focus:ring-primary-green"
                     />
                     <div>
-                      <span className="font-medium">ASAP</span>
+                      <span className="font-medium text-gray-900">ASAP</span>
                       {estimatedTime && (
                         <div className="text-sm text-gray-600 flex items-center gap-1">
                           <Clock className="w-4 h-4" />
@@ -303,12 +323,12 @@ export default function CheckoutPage() {
                       className="mr-3 mt-1 text-primary-green focus:ring-primary-green"
                     />
                     <div className="flex-1">
-                      <span className="font-medium">Schedule for later</span>
+                      <span className="font-medium text-gray-900">Schedule for later</span>
                       {collectionType === 'scheduled' && (
                         <select
                           value={scheduledTime}
                           onChange={(e) => setScheduledTime(e.target.value)}
-                          className="mt-2 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent"
+                          className="mt-2 w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent text-gray-900 bg-white"
                           required
                         >
                           <option value="">Select a time</option>
@@ -335,13 +355,13 @@ export default function CheckoutPage() {
               transition={{ duration: 0.4, delay: 0.2 }}
               className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
             >
-              <h2 className="text-lg font-semibold mb-4 text-primary-dark">Add Extras</h2>
-              <p className="text-sm text-gray-600 mb-4">Complete your order with these delicious additions</p>
+              <h2 className="text-lg font-semibold mb-4 text-gray-900">Add Extras</h2>
+              <p className="text-sm text-gray-900 mb-4">Complete your order with these delicious additions</p>
               
               <div className="space-y-3">
                 {!hasDrink && (
                   <div>
-                    <h3 className="font-medium text-gray-800 mb-2">Add a Drink</h3>
+                    <h3 className="font-medium text-gray-900 mb-2">Add a Drink</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {suggestedExtras.filter(extra => extra.category === 'drinks').map((extra) => (
                         <motion.label
@@ -361,7 +381,7 @@ export default function CheckoutPage() {
                               onChange={() => toggleExtra(extra.id)}
                               className="mr-3 text-primary-green focus:ring-primary-green"
                             />
-                            <span className="font-medium">{extra.name}</span>
+                            <span className="font-medium text-gray-900">{extra.name}</span>
                           </div>
                           <span className="text-primary-green font-semibold">{formatPrice(extra.price)}</span>
                         </motion.label>
@@ -372,7 +392,7 @@ export default function CheckoutPage() {
                 
                 {!hasSide && (
                   <div>
-                    <h3 className="font-medium text-gray-800 mb-2 mt-4">Add a Side</h3>
+                    <h3 className="font-medium text-gray-900 mb-2 mt-4">Add a Side</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {suggestedExtras.filter(extra => extra.category === 'sides').map((extra) => (
                         <motion.label
@@ -392,7 +412,7 @@ export default function CheckoutPage() {
                               onChange={() => toggleExtra(extra.id)}
                               className="mr-3 text-primary-green focus:ring-primary-green"
                             />
-                            <span className="font-medium">{extra.name}</span>
+                            <span className="font-medium text-gray-900">{extra.name}</span>
                           </div>
                           <span className="text-primary-green font-semibold">{formatPrice(extra.price)}</span>
                         </motion.label>

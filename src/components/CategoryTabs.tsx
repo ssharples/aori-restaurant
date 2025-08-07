@@ -61,7 +61,7 @@ export default function CategoryTabs({ selectedCategory, onCategoryChange }: Cat
                       ? 'text-black border-b-2 border-black' 
                       : 'text-gray-600 hover:text-black'
                     }
-                    touch-manipulation focus:outline-none
+                    touch-manipulation focus:outline-none focus:ring-0 focus:border-0
                   `}
                 >
                   {categoryNames[category]}

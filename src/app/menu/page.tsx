@@ -5,11 +5,9 @@ import Link from 'next/link';
 import { ArrowLeft, Search } from 'lucide-react';
 import { menuItems, categoryNames } from '@/data/menu';
 import { MenuCategory } from '@/types/menu';
-import CartButton from '@/components/CartButton';
 import CategoryTabs from '@/components/CategoryTabs';
 import MenuItemCard from '@/components/MenuItemCard';
 import Cart from '@/components/Cart';
-import Logo from '@/components/Logo';
 import FloatingBasketButton from '@/components/FloatingBasketButton';
 
 const categories: MenuCategory[] = [
@@ -91,21 +89,17 @@ export default function MenuPage() {
       <div className="absolute top-4 left-4 z-50">
         <Link 
           href="/"
-          className="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow border border-gray-200"
+          className="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
           aria-label="Back to home"
         >
           <ArrowLeft className="w-5 h-5 text-gray-700" />
         </Link>
       </div>
 
-      {/* Cart Button */}
-      <div className="absolute top-4 right-4 z-50">
-        <CartButton />
-      </div>
 
       {/* Floating Search Icon */}
       {showFloatingSearch && (
-        <div className="fixed top-4 left-16 z-50">
+        <div className="fixed bottom-4 left-4 z-50">
           <button
             onClick={() => {
               const searchBar = document.getElementById('search-bar');
