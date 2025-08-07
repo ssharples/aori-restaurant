@@ -4,18 +4,15 @@ import { menuSyncService } from '@/lib/menu-sync';
 import type { EposWebhookEvent } from '@/lib/epos-api-enhanced';
 
 // Extend global type for webhook data storage
+/* eslint-disable no-var */
 declare global {
-  // eslint-disable-next-line no-var
   var lastMenuUpdate: { reason: string; timestamp: string } | undefined;
-  // eslint-disable-next-line no-var
   var kitchenUpdates: Array<Record<string, unknown>> | undefined;
-  // eslint-disable-next-line no-var
   var orderUpdates: Array<Record<string, unknown>> | undefined;
-  // eslint-disable-next-line no-var
   var stockAlerts: Array<Record<string, unknown>> | undefined;
-  // eslint-disable-next-line no-var
   var discountUpdates: Array<Record<string, unknown>> | undefined;
 }
+/* eslint-enable no-var */
 
 // EPOS Now Webhook Handler
 // Handles real-time events from EPOS Now system

@@ -32,7 +32,7 @@ export default function MenuPage() {
     const observer = new IntersectionObserver(
       (entries) => {
         // Find the entry with the highest intersection ratio
-        let maxEntry = entries.reduce((prev, current) => {
+        const maxEntry = entries.reduce((prev, current) => {
           return (current.intersectionRatio > prev.intersectionRatio) ? current : prev;
         });
         

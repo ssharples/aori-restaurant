@@ -4,11 +4,7 @@
 import { enhancedEposAPI } from './epos-api-enhanced';
 import type { StockCheckResult } from './epos-api-enhanced';
 
-// Extend global type for stock alerts
-declare global {
-  // eslint-disable-next-line no-var
-  var stockAlerts: Array<Record<string, unknown>> | undefined;
-}
+// Note: stockAlerts global is declared in webhooks/epos/route.ts
 
 interface StockAlert {
   id: string;
