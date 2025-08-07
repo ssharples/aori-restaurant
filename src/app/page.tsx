@@ -9,6 +9,7 @@ import { restaurantInfo } from '@/data/menu';
 import CartButton from '@/components/CartButton';
 import WaveBackground from '@/components/WaveBackground';
 import Logo from '@/components/Logo';
+import RestaurantCarousel from '@/components/RestaurantCarousel';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -135,74 +136,8 @@ export default function Home() {
               </motion.div>
             </motion.div>
             
-            {/* Right side - Animated food showcase */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="relative flex justify-center lg:justify-end"
-            >
-              <div className="relative">
-                {/* Main circular showcase */}
-                <motion.div 
-                  animate={{ 
-                    rotate: [0, 5, -5, 0],
-                  }}
-                  transition={{ 
-                    duration: 6,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
-                  className="w-80 h-80 md:w-96 md:h-96 rounded-full bg-gradient-to-br from-aori-white/20 to-aori-white/5 backdrop-blur-sm border-4 border-aori-white/30 flex items-center justify-center shadow-2xl overflow-hidden"
-                >
-                  <div className="relative w-full h-full flex items-center justify-center">
-                    {/* Rotating food items */}
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                      className="absolute inset-0"
-                    >
-                      <div className="absolute top-8 left-1/2 -translate-x-1/2 w-16 h-16">
-                        <Image src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=100&h=100&fit=crop" alt="Gyros" fill className="rounded-full object-cover" />
-                      </div>
-                      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 w-16 h-16">
-                        <Image src="https://images.unsplash.com/photo-1633336219217-df7a3db37f09?w=100&h=100&fit=crop" alt="Souvlaki" fill className="rounded-full object-cover" />
-                      </div>
-                      <div className="absolute left-8 top-1/2 -translate-y-1/2 w-16 h-16">
-                        <Image src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=100&h=100&fit=crop" alt="Salad" fill className="rounded-full object-cover" />
-                      </div>
-                      <div className="absolute right-8 top-1/2 -translate-y-1/2 w-16 h-16">
-                        <Image src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=100&h=100&fit=crop" alt="Greek Food" fill className="rounded-full object-cover" />
-                      </div>
-                    </motion.div>
-                    
-                    {/* Center text */}
-                    <div className="text-center text-aori-white z-10 bg-aori-green/50 backdrop-blur-sm rounded-full p-8">
-                      <p className="text-xl font-bold mb-2">Made Fresh</p>
-                      <p className="text-lg">Every Day</p>
-                    </div>
-                  </div>
-                </motion.div>
-                
-                {/* Animated decorative elements */}
-                <motion.div 
-                  animate={{ 
-                    scale: [1, 1.2, 1],
-                    opacity: [0.5, 1, 0.5]
-                  }}
-                  transition={{ duration: 3, repeat: Infinity }}
-                  className="absolute -top-4 -right-4 w-12 h-12 bg-aori-white/30 rounded-full"
-                />
-                <motion.div 
-                  animate={{ 
-                    scale: [1, 1.3, 1],
-                    opacity: [0.3, 0.8, 0.3]
-                  }}
-                  transition={{ duration: 4, repeat: Infinity, delay: 1 }}
-                  className="absolute -bottom-8 -left-8 w-8 h-8 bg-aori-white/25 rounded-full"
-                />
-              </div>
-            </motion.div>
+            {/* Right side - Restaurant carousel */}
+            <RestaurantCarousel />
           </div>
         </div>
       </section>
