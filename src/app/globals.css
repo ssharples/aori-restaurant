@@ -9,9 +9,21 @@
   src: url('/fonts/segoeprint-bold.woff2') format('woff2'),
        url('/fonts/segoeprint-bold.woff') format('woff'),
        url('/fonts/segoeprint-bold.ttf') format('truetype');
-  font-weight: bold;
+  font-weight: 700;
   font-style: normal;
   font-display: swap;
+}
+
+/* Ensure font-heading class applies the font correctly */
+.font-heading {
+  font-family: 'Segoe Print', 'Kalam', cursive !important;
+  font-weight: 700 !important;
+}
+
+/* Debug: Add a subtle background to verify font-heading is applied */
+.font-heading {
+  /* Uncomment below to debug which elements have the font-heading class */
+  /* background: rgba(255, 0, 0, 0.1) !important; */
 }
 
 :root {
