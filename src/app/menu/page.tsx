@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Search } from 'lucide-react';
 import { menuItems, categoryNames } from '@/data/menu';
@@ -10,10 +10,58 @@ import CategoryTabs from '@/components/CategoryTabs';
 import MenuItemCard from '@/components/MenuItemCard';
 import Cart from '@/components/Cart';
 import Logo from '@/components/Logo';
+import FloatingBasketButton from '@/components/FloatingBasketButton';
+
+const categories: MenuCategory[] = [
+  'gyros',
+  'souvlaki',
+  'bao-bun',
+  'salad',
+  'pita-dips',
+  'sides',
+  'desserts',
+  'drinks'
+];
 
 export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState<MenuCategory>('gyros');
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Intersection Observer to update active category on scroll
+  useEffect(() => {
+    if (searchQuery) return; // Don't update during search
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+            const categoryId = entry.target.id as MenuCategory;
+            if (categoryId && categories.includes(categoryId)) {
+              setSelectedCategory(categoryId);
+            }
+          }
+        });
+      },
+      { 
+        threshold: 0.5,
+        rootMargin: '-100px 0px -50% 0px'
+      }
+    );
+
+    // Observe all category sections
+    categories.forEach((category) => {
+      const element = document.getElementById(category);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, [searchQuery]);
+
+  // Group items by category for all-items view
+  const groupedItems = categories.reduce((acc, category) => {
+    acc[category] = menuItems.filter(item => item.category === category);
+    return acc;
+  }, {} as Record<MenuCategory, typeof menuItems>);
 
   const filteredItems = menuItems.filter(item => {
     const matchesCategory = item.category === selectedCategory;
@@ -23,38 +71,35 @@ export default function MenuPage() {
   });
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-primary text-primary-foreground shadow-lg sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
+        <div className="px-4 py-3 flex justify-between items-center">
+          <div className="flex items-center gap-3">
             <Link 
               href="/"
-              className="p-2.5 -ml-2 hover:bg-primary-foreground/20 rounded-full transition-colors touch-manipulation"
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
               aria-label="Back to home"
             >
               <ArrowLeft className="w-5 h-5" />
             </Link>
-            <Logo variant="dark-bg" width={80} height={40} />
+            <Logo variant="light-bg" width={80} height={40} />
           </div>
           <CartButton />
         </div>
       </header>
 
       {/* Search Bar */}
-      <div className="bg-card border-b px-4 py-3">
-        <div className="container mx-auto">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5 pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Search menu items..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 md:py-3.5 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring bg-input placeholder:text-muted-foreground text-card-foreground text-base"
-              aria-label="Search menu items"
-            />
-          </div>
+      <div className="bg-white border-b border-gray-200 px-4 py-3">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          <input
+            type="text"
+            placeholder="Search menu items..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black focus:border-black bg-white text-gray-900"
+          />
         </div>
       </div>
 
@@ -65,37 +110,56 @@ export default function MenuPage() {
       />
 
       {/* Menu Items */}
-      <main className="container mx-auto px-4 py-6 pb-24">
-        <div className="mb-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground">
-            {categoryNames[selectedCategory]}
-          </h2>
-        </div>
-
-        {searchQuery && (
-          <div className="mb-4">
-            <p className="text-sm md:text-base text-muted-foreground bg-card px-3 py-1.5 rounded-full inline-block border">
-              {filteredItems.length} results for &quot;{searchQuery}&quot;
-            </p>
-          </div>
-        )}
-
-        <div className="space-y-6">
-          {filteredItems.map((item, index) => (
-            <MenuItemCard key={item.id} item={item} index={index} />
-          ))}
-        </div>
-
-        {filteredItems.length === 0 && (
-          <div className="text-center py-16">
-            <div className="w-20 h-20 bg-muted rounded-full mx-auto mb-4 flex items-center justify-center">
-              <Search className="w-8 h-8 text-muted-foreground" />
+      <main className="px-4 pb-32">
+        {searchQuery ? (
+          // Search Results View
+          <div className="py-4">
+            <div className="mb-4">
+              <p className="text-sm text-gray-500">
+                {filteredItems.length} results for "{searchQuery}"
+              </p>
             </div>
-            <h3 className="text-xl font-semibold mb-2">No items found</h3>
-            <p className="text-muted-foreground">Try adjusting your search or browse other categories</p>
+            <div className="space-y-4">
+              {filteredItems.map((item, index) => (
+                <MenuItemCard key={item.id} item={item} index={index} />
+              ))}
+            </div>
+            {filteredItems.length === 0 && (
+              <div className="text-center py-16">
+                <div className="w-20 h-20 bg-gray-100 rounded-full mx-auto mb-4 flex items-center justify-center">
+                  <Search className="w-8 h-8 text-gray-400" />
+                </div>
+                <h3 className="text-xl font-semibold mb-2">No items found</h3>
+                <p className="text-gray-500">Try adjusting your search or browse other categories</p>
+              </div>
+            )}
+          </div>
+        ) : (
+          // All Categories View
+          <div className="space-y-8 py-4">
+            {categories.map((category) => {
+              const categoryItems = groupedItems[category];
+              if (!categoryItems || categoryItems.length === 0) return null;
+              
+              return (
+                <div key={category} id={category} className="scroll-mt-32">
+                  <h2 className="text-2xl font-bold mb-4 text-gray-900">
+                    {categoryNames[category]}
+                  </h2>
+                  <div className="space-y-4">
+                    {categoryItems.map((item, index) => (
+                      <MenuItemCard key={item.id} item={item} index={index} />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </main>
+
+      {/* Floating Basket Button */}
+      <FloatingBasketButton />
 
       {/* Cart Drawer */}
       <Cart />
