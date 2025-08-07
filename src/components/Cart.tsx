@@ -1,6 +1,6 @@
 'use client';
 
-import { Minus, Plus, ShoppingBag, X, Trash2 } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useCartStore } from '@/stores/cart';

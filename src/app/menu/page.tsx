@@ -116,7 +116,7 @@ export default function MenuPage() {
           <div className="py-4">
             <div className="mb-4">
               <p className="text-sm text-gray-500">
-                {filteredItems.length} results for "{searchQuery}"
+                {filteredItems.length} results for &quot;{searchQuery}&quot;
               </p>
             </div>
             <div className="space-y-4">
