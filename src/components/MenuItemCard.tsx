@@ -36,7 +36,7 @@ export default function MenuItemCard({ item, index = 0 }: MenuItemCardProps) {
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: index * 0.02 }}
-        className="bg-white border-b border-gray-100 last:border-b-0"
+        className="bg-white border-b border-gray-100 last:border-b-0 shadow-sm hover:shadow-md transition-shadow duration-200"
       >
         <div 
           className="flex items-center gap-4 p-4 cursor-pointer hover:bg-gray-50 transition-colors"
@@ -54,12 +54,12 @@ export default function MenuItemCard({ item, index = 0 }: MenuItemCardProps) {
                 {(item.popular || item.vegetarian || item.spicy) && (
                   <div className="flex gap-1 mt-1">
                     {item.popular && (
-                      <Badge className="bg-green-600 text-white text-xs px-2 py-0.5">
+                      <Badge className="bg-aori-green text-white text-xs px-2 py-0.5">
                         Popular
                       </Badge>
                     )}
                     {item.vegetarian && (
-                      <Badge className="bg-green-100 text-green-800 text-xs px-2 py-0.5">
+                      <Badge className="bg-aori-green text-white text-xs px-2 py-0.5">
                         <Leaf className="w-3 h-3 mr-1" />
                         Vegetarian
                       </Badge>

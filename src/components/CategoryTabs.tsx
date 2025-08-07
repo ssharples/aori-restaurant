@@ -3,6 +3,7 @@
 import { MenuCategory } from '@/types/menu';
 import { categoryNames } from '@/data/menu';
 import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 
 interface CategoryTabsProps {
   selectedCategory: MenuCategory;
@@ -21,6 +22,33 @@ const categories: MenuCategory[] = [
 ];
 
 export default function CategoryTabs({ selectedCategory, onCategoryChange }: CategoryTabsProps) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({});
+
+  // Auto-scroll the selected tab into view
+  useEffect(() => {
+    const selectedButton = buttonRefs.current[selectedCategory];
+    const container = scrollContainerRef.current;
+    
+    if (selectedButton && container) {
+      const buttonRect = selectedButton.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      
+      // Calculate if the button is out of view
+      const isOutOfView = 
+        buttonRect.left < containerRect.left || 
+        buttonRect.right > containerRect.right;
+      
+      if (isOutOfView) {
+        selectedButton.scrollIntoView({
+          behavior: 'smooth',
+          inline: 'center',
+          block: 'nearest'
+        });
+      }
+    }
+  }, [selectedCategory]);
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: -20 }}
@@ -29,7 +57,7 @@ export default function CategoryTabs({ selectedCategory, onCategoryChange }: Cat
       className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm"
     >
       <div className="w-full relative">
-        <div className="flex overflow-x-auto scrollbar-hide px-4 scroll-smooth">
+        <div ref={scrollContainerRef} className="flex overflow-x-auto scrollbar-hide px-4 scroll-smooth">
           {/* Fade indicators for scroll */}
           <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent pointer-events-none z-10 md:hidden" />
           <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none z-10 md:hidden" />
@@ -44,6 +72,7 @@ export default function CategoryTabs({ selectedCategory, onCategoryChange }: Cat
                 className="relative flex-shrink-0"
               >
                 <button
+                  ref={(el) => { buttonRefs.current[category] = el; }}
                   onClick={() => {
                     onCategoryChange(category);
                     // Scroll to category section
@@ -58,8 +87,8 @@ export default function CategoryTabs({ selectedCategory, onCategoryChange }: Cat
                   className={`
                     whitespace-nowrap font-medium transition-all px-4 py-4 text-sm
                     ${isSelected 
-                      ? 'text-black border-b-2 border-black' 
-                      : 'text-gray-600 hover:text-black'
+                      ? 'text-aori-green border-b-2 border-aori-green' 
+                      : 'text-gray-600 hover:text-aori-green'
                     }
                     touch-manipulation focus:outline-none focus:ring-0 focus:border-0
                   `}

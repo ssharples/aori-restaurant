@@ -31,18 +31,22 @@ export default function MenuPage() {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-            const categoryId = entry.target.id as MenuCategory;
-            if (categoryId && categories.includes(categoryId)) {
-              setSelectedCategory(categoryId);
-            }
-          }
+        // Find the entry with the highest intersection ratio
+        let maxEntry = entries.reduce((prev, current) => {
+          return (current.intersectionRatio > prev.intersectionRatio) ? current : prev;
         });
+        
+        // Update category if the max intersecting element meets the threshold
+        if (maxEntry.isIntersecting && maxEntry.intersectionRatio > 0.1) {
+          const categoryId = maxEntry.target.id as MenuCategory;
+          if (categoryId && categories.includes(categoryId)) {
+            setSelectedCategory(categoryId);
+          }
+        }
       },
       { 
-        threshold: 0.5,
-        rootMargin: '-100px 0px -50% 0px'
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+        rootMargin: '-80px 0px -60% 0px'
       }
     );
 
