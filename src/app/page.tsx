@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { MapPin, Clock, Phone, Star, Quote, ChefHat, Flame, Leaf, Facebook, Instagram, Twitter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { restaurantInfo } from '@/data/menu';
-import CartButton from '@/components/CartButton';
 import WaveBackground from '@/components/WaveBackground';
 import Logo from '@/components/Logo';
 import RestaurantCarousel from '@/components/RestaurantCarousel';
@@ -49,30 +48,30 @@ export default function Home() {
         transition={{ type: "spring", stiffness: 100 }}
         className="relative z-10 bg-aori-green text-aori-white shadow-lg"
       >
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <div className="container mx-auto px-4 py-4 flex justify-center items-center">
           <Logo variant="dark-bg" width={100} height={50} />
-          <CartButton />
         </div>
       </motion.header>
 
       {/* Hero Section */}
       <section className="relative z-10 bg-aori-green text-aori-white py-20 px-4 min-h-[80vh] flex items-center">
         <div className="container mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left side - Text content */}
+          <div className="max-w-4xl mx-auto">
+            {/* Main content */}
             <motion.div 
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-center lg:text-left"
+              className="text-center"
             >
+              {/* Restaurant carousel moved from right side */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="mb-6"
               >
-                <Logo variant="dark-bg" width={200} height={100} className="mx-auto lg:mx-0" />
+                <RestaurantCarousel />
               </motion.div>
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
@@ -116,7 +115,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.2 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+                className="flex flex-col sm:flex-row gap-4 justify-center"
               >
                 <Button 
                   asChild
@@ -135,9 +134,6 @@ export default function Home() {
                 </Button>
               </motion.div>
             </motion.div>
-            
-            {/* Right side - Restaurant carousel */}
-            <RestaurantCarousel />
           </div>
         </div>
       </section>

@@ -24,7 +24,6 @@ const categories: MenuCategory[] = [
 export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState<MenuCategory>('gyros');
   const [searchQuery, setSearchQuery] = useState('');
-  const [showFloatingSearch, setShowFloatingSearch] = useState(false);
 
   // Intersection Observer to update active category on scroll
   useEffect(() => {
@@ -56,19 +55,6 @@ export default function MenuPage() {
     return () => observer.disconnect();
   }, [searchQuery]);
 
-  // Scroll detection for floating search icon
-  useEffect(() => {
-    const handleScroll = () => {
-      const searchBar = document.getElementById('search-bar');
-      if (searchBar) {
-        const searchBarRect = searchBar.getBoundingClientRect();
-        setShowFloatingSearch(searchBarRect.bottom < 0);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // Group items by category for all-items view
   const groupedItems = categories.reduce((acc, category) => {
@@ -85,8 +71,8 @@ export default function MenuPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Back Button */}
-      <div className="absolute top-4 left-4 z-50">
+      {/* Floating Back Button */}
+      <div className="fixed bottom-4 left-4 z-50">
         <Link 
           href="/"
           className="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
@@ -96,29 +82,29 @@ export default function MenuPage() {
         </Link>
       </div>
 
-
       {/* Floating Search Icon */}
-      {showFloatingSearch && (
-        <div className="fixed bottom-4 left-4 z-50">
-          <button
-            onClick={() => {
-              const searchBar = document.getElementById('search-bar');
-              if (searchBar) {
-                searchBar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      <div className="fixed bottom-4 right-4 z-50">
+        <button
+          onClick={() => {
+            const searchBar = document.getElementById('search-bar');
+            if (searchBar) {
+              searchBar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              // Add a small delay to ensure scrolling completes before focusing
+              setTimeout(() => {
                 const input = searchBar.querySelector('input');
                 if (input) input.focus();
-              }
-            }}
-            className="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow border border-gray-200"
-            aria-label="Search menu"
-          >
-            <Search className="w-5 h-5 text-gray-700" />
-          </button>
-        </div>
-      )}
+              }, 300);
+            }
+          }}
+          className="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
+          aria-label="Search menu"
+        >
+          <Search className="w-5 h-5 text-gray-700" />
+        </button>
+      </div>
 
       {/* Search Bar */}
-      <div id="search-bar" className="bg-white border-b border-gray-200 px-4 py-3 pt-20">
+      <div id="search-bar" className="bg-white border-b border-gray-200 px-4 py-6">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input

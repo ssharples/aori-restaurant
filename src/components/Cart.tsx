@@ -1,6 +1,6 @@
 'use client';
 
-import { Minus, Plus, ShoppingBag, X } from 'lucide-react';
+import { Minus, Plus, ShoppingBag } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useCartStore } from '@/stores/cart';
@@ -28,20 +28,12 @@ export default function Cart() {
   return (
     <Sheet open={isOpen} onOpenChange={closeCart}>
       <SheetContent side="bottom" className="h-[90vh] flex flex-col bg-white">
-        <SheetHeader className="px-4 pt-6 pb-4 border-b border-gray-100 bg-black">
+        <SheetHeader className="px-4 pt-6 pb-4 border-b border-gray-100 bg-white">
           <div className="flex items-center justify-between">
-            <SheetTitle className="flex items-center gap-3 text-white">
-              <ShoppingBag className="w-6 h-6 text-white" />
+            <SheetTitle className="flex items-center gap-3 text-black">
+              <ShoppingBag className="w-6 h-6 text-black" />
               Your Order ({getItemCount()})
             </SheetTitle>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={closeCart}
-              className="h-8 w-8 hover:bg-gray-800 text-white"
-            >
-              <X className="w-5 h-5 text-white" />
-            </Button>
           </div>
         </SheetHeader>
 
