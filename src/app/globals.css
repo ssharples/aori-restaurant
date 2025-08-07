@@ -6,7 +6,9 @@
 /* Custom Font - Segoe Print Bold for headings */
 @font-face {
   font-family: 'Segoe Print';
-  src: url('/fonts/segoeprint-bold.ttf') format('truetype');
+  src: url('/fonts/segoeprint-bold.woff2') format('woff2'),
+       url('/fonts/segoeprint-bold.woff') format('woff'),
+       url('/fonts/segoeprint-bold.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
