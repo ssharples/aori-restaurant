@@ -38,9 +38,9 @@ export default function Cart() {
               variant="ghost"
               size="icon"
               onClick={closeCart}
-              className="h-8 w-8"
+              className="h-8 w-8 hover:bg-gray-100"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5 text-black" />
             </Button>
           </div>
         </SheetHeader>
@@ -112,7 +112,7 @@ export default function Cart() {
                               >
                                 <Minus className="w-3 h-3" />
                               </Button>
-                              <span className="w-8 text-center font-medium text-sm">
+                              <span className="w-8 text-center font-medium text-sm text-black">
                                 {item.quantity}
                               </span>
                               <Button
@@ -171,19 +171,6 @@ export default function Cart() {
 
             {/* Pricing Breakdown */}
             <div className="space-y-3 mb-6">
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Subtotal</span>
-                <span className="font-medium">{formatPrice(getTotal())}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Delivery fee</span>
-                <span className="font-medium">FREE</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-gray-600">Service fee</span>
-                <span className="font-medium">£0.00</span>
-              </div>
-              <hr className="border-gray-200" />
               <div className="flex justify-between items-center">
                 <span className="text-lg font-semibold">Total</span>
                 <span className="text-lg font-bold">{formatPrice(getTotal())}</span>

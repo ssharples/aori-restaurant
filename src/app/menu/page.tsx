@@ -26,6 +26,7 @@ const categories: MenuCategory[] = [
 export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState<MenuCategory>('gyros');
   const [searchQuery, setSearchQuery] = useState('');
+  const [showFloatingSearch, setShowFloatingSearch] = useState(false);
 
   // Intersection Observer to update active category on scroll
   useEffect(() => {
@@ -57,6 +58,20 @@ export default function MenuPage() {
     return () => observer.disconnect();
   }, [searchQuery]);
 
+  // Scroll detection for floating search icon
+  useEffect(() => {
+    const handleScroll = () => {
+      const searchBar = document.getElementById('search-bar');
+      if (searchBar) {
+        const searchBarRect = searchBar.getBoundingClientRect();
+        setShowFloatingSearch(searchBarRect.bottom < 0);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   // Group items by category for all-items view
   const groupedItems = categories.reduce((acc, category) => {
     acc[category] = menuItems.filter(item => item.category === category);
@@ -72,25 +87,44 @@ export default function MenuPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-        <div className="px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <Link 
-              href="/"
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-              aria-label="Back to home"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </Link>
-            <Logo variant="light-bg" width={80} height={40} />
-          </div>
-          <CartButton />
+      {/* Back Button */}
+      <div className="absolute top-4 left-4 z-50">
+        <Link 
+          href="/"
+          className="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow border border-gray-200"
+          aria-label="Back to home"
+        >
+          <ArrowLeft className="w-5 h-5 text-gray-700" />
+        </Link>
+      </div>
+
+      {/* Cart Button */}
+      <div className="absolute top-4 right-4 z-50">
+        <CartButton />
+      </div>
+
+      {/* Floating Search Icon */}
+      {showFloatingSearch && (
+        <div className="fixed top-4 left-16 z-50">
+          <button
+            onClick={() => {
+              const searchBar = document.getElementById('search-bar');
+              if (searchBar) {
+                searchBar.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const input = searchBar.querySelector('input');
+                if (input) input.focus();
+              }
+            }}
+            className="p-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow border border-gray-200"
+            aria-label="Search menu"
+          >
+            <Search className="w-5 h-5 text-gray-700" />
+          </button>
         </div>
-      </header>
+      )}
 
       {/* Search Bar */}
-      <div className="bg-white border-b border-gray-200 px-4 py-3">
+      <div id="search-bar" className="bg-white border-b border-gray-200 px-4 py-3 pt-20">
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
           <input

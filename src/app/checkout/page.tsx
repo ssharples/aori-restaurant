@@ -218,18 +218,18 @@ export default function CheckoutPage() {
             transition={{ duration: 0.4, delay: 0.1 }}
             className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
           >
-            <h2 className="text-lg font-semibold mb-4 text-primary-dark">Order Summary</h2>
+            <h2 className="text-lg font-semibold mb-4 text-gray-900">Order Summary</h2>
             <div className="space-y-3">
               {items.map((item) => {
                 const price = item.variant?.price || item.menuItem.price;
                 return (
                   <div key={item.id} className="flex justify-between items-center">
                     <div>
-                      <span className="font-medium">{item.menuItem.name}</span>
+                      <span className="font-medium text-gray-900">{item.menuItem.name}</span>
                       {item.variant && <span className="text-sm text-gray-600"> - {item.variant.name}</span>}
                       <span className="text-sm text-gray-600"> x{item.quantity}</span>
                     </div>
-                    <span className="font-semibold">{formatPrice(price * item.quantity)}</span>
+                    <span className="font-semibold text-gray-900">{formatPrice(price * item.quantity)}</span>
                   </div>
                 );
               })}
@@ -240,16 +240,16 @@ export default function CheckoutPage() {
                     if (!extra) return null;
                     return (
                       <div key={extraId} className="flex justify-between items-center text-sm">
-                        <span>{extra.name}</span>
-                        <span>{formatPrice(extra.price)}</span>
+                        <span className="text-gray-900">{extra.name}</span>
+                        <span className="text-gray-900">{formatPrice(extra.price)}</span>
                       </div>
                     );
                   })}
                 </div>
               )}
               <div className="border-t pt-3 flex justify-between items-center">
-                <span className="text-lg font-semibold">Total:</span>
-                <span className="text-xl font-bold text-primary-green">{formatPrice(getTotal() + getExtrasTotal())}</span>
+                <span className="text-lg font-semibold text-gray-900">Total:</span>
+                <span className="text-xl font-bold text-gray-900">{formatPrice(getTotal() + getExtrasTotal())}</span>
               </div>
             </div>
           </motion.div>
@@ -262,8 +262,8 @@ export default function CheckoutPage() {
             className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
           >
             <div className="flex items-center gap-2 mb-4">
-              <MapPin className="w-5 h-5 text-primary-green" />
-              <h2 className="text-lg font-semibold text-primary-dark">Collection Details</h2>
+              <MapPin className="w-5 h-5 text-gray-600" />
+              <h2 className="text-lg font-semibold text-gray-900">Collection Details</h2>
             </div>
             <p className="text-gray-600 mb-4">{restaurantInfo.address}</p>
             
@@ -420,7 +420,7 @@ export default function CheckoutPage() {
             transition={{ duration: 0.4, delay: 0.4 }}
             className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
           >
-            <h2 className="text-lg font-semibold mb-4 text-primary-dark">Your Details</h2>
+            <h2 className="text-lg font-semibold mb-4 text-gray-900">Your Details</h2>
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -470,8 +470,8 @@ export default function CheckoutPage() {
             className="bg-white rounded-xl p-6 shadow-sm border border-gray-100"
           >
             <div className="flex items-center gap-2 mb-4">
-              <CreditCard className="w-5 h-5 text-primary-green" />
-              <h2 className="text-lg font-semibold text-primary-dark">Payment</h2>
+              <CreditCard className="w-5 h-5 text-gray-600" />
+              <h2 className="text-lg font-semibold text-gray-900">Payment</h2>
             </div>
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="flex items-center">
@@ -498,7 +498,7 @@ export default function CheckoutPage() {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isSubmitting}
-            className="w-full bg-primary-green text-accent-white py-4 rounded-full font-semibold hover:bg-primary-green/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-black text-white py-4 rounded-lg font-semibold hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <motion.span
               key={isSubmitting ? 'submitting' : 'ready'}

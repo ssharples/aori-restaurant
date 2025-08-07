@@ -26,7 +26,7 @@ export default function CategoryTabs({ selectedCategory, onCategoryChange }: Cat
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white border-b border-gray-200 sticky top-[60px] md:top-[72px] z-30 shadow-sm"
+      className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm"
     >
       <div className="w-full relative">
         <div className="flex overflow-x-auto scrollbar-hide px-4 scroll-smooth">
@@ -61,7 +61,7 @@ export default function CategoryTabs({ selectedCategory, onCategoryChange }: Cat
                       ? 'text-black border-b-2 border-black' 
                       : 'text-gray-600 hover:text-black'
                     }
-                    touch-manipulation
+                    touch-manipulation focus:outline-none
                   `}
                 >
                   {categoryNames[category]}
