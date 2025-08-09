@@ -5,10 +5,6 @@ export default defineConfig({
     environment: 'node',
     include: ['src/**/*.test.ts'],
   },
-  css: {
-    // Prevent Vitest/Vite from loading project PostCSS/Tailwind config during tests
-    postcss: null,
-  },
 });
 
 
