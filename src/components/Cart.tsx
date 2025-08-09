@@ -1,6 +1,6 @@
 'use client';
 
-import { Minus, Plus, ShoppingBag } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, Users, UserPlus, User, Split } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useCartStore } from '@/stores/cart';
@@ -20,7 +20,15 @@ export default function Cart() {
     updateQuantity, 
     removeItem, 
     getTotal, 
-    getItemCount 
+    getItemCount,
+    groupMode,
+    enableGroupMode,
+    disableGroupMode,
+    participants,
+    addParticipant,
+    activeParticipantId,
+    setActiveParticipant,
+    getSplitSummary
   } = useCartStore();
 
   const formatPrice = (price: number) => `£${price.toFixed(2)}`;
@@ -28,14 +36,49 @@ export default function Cart() {
   return (
     <Sheet open={isOpen} onOpenChange={closeCart}>
       <SheetContent side="bottom" className="h-[75vh] md:h-[90vh] flex flex-col bg-white">
-        <SheetHeader className="px-4 pt-6 pb-4 border-b border-gray-100 bg-white">
+        <SheetHeader className="px-4 pt-6 pb-2 border-b border-gray-100 bg-white">
           <div className="flex items-center justify-between">
             <SheetTitle className="flex items-center gap-3 text-black">
               <ShoppingBag className="w-6 h-6 text-black" />
               Your Order ({getItemCount()})
             </SheetTitle>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => (groupMode ? disableGroupMode() : enableGroupMode())}
+                className={`text-sm px-3 py-1.5 rounded-full border transition-colors ${groupMode ? 'border-black text-black' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
+              >
+                <span className="inline-flex items-center gap-1">
+                  <Users className="w-4 h-4" /> {groupMode ? 'Group On' : 'Group Off'}
+                </span>
+              </button>
+            </div>
           </div>
         </SheetHeader>
+
+        {groupMode && (
+          <div className="px-4 pt-3 pb-3 border-b border-gray-100 bg-white">
+            <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+              {participants.map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => setActiveParticipant(p.id)}
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm whitespace-nowrap ${activeParticipantId === p.id ? 'border-black text-black bg-gray-50' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
+                >
+                  <User className="w-4 h-4" /> {p.name}
+                </button>
+              ))}
+              <button
+                onClick={() => {
+                  const name = prompt('Participant name');
+                  if (name) addParticipant(name);
+                }}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm border-dashed border-gray-300 text-gray-700 hover:bg-gray-50"
+              >
+                <UserPlus className="w-4 h-4" /> Add person
+              </button>
+            </div>
+          </div>
+        )}
 
         {/* Cart Items */}
         <div className="flex-1 overflow-y-auto px-4">
@@ -52,7 +95,7 @@ export default function Cart() {
               </Button>
             </div>
           ) : (
-            <div className="space-y-0">
+              <div className="space-y-0">
               {items.map((item, index) => {
                 const price = item.variant?.price || item.menuItem.price;
                 const itemTotal = price * item.quantity;
@@ -86,6 +129,9 @@ export default function Cart() {
                             <h3 className="font-medium text-gray-900 truncate">
                               {item.menuItem.name}
                             </h3>
+                            {groupMode && (item.participantName || item.participantId) && (
+                              <p className="text-xs text-gray-500 mt-0.5">For: {item.participantName || item.participantId}</p>
+                            )}
                             {item.variant && (
                               <p className="text-sm text-gray-500 mt-1">
                                 {item.variant.name}
@@ -160,6 +206,23 @@ export default function Cart() {
               <Plus className="w-4 h-4 mr-2" />
               Add items
             </Button>
+
+            {groupMode && participants.length > 0 && (
+              <div className="mb-4 rounded-lg border border-gray-100 bg-gray-50 p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <Split className="w-4 h-4 text-gray-700" />
+                  <span className="text-sm font-semibold text-gray-800">Per person totals</span>
+                </div>
+                <div className="space-y-1">
+                  {getSplitSummary().map((s) => (
+                    <div key={s.participantId} className="flex justify-between text-sm">
+                      <span className="text-gray-700">{s.participantName}</span>
+                      <span className="text-gray-900 font-medium">{formatPrice(s.subtotal)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Pricing Breakdown */}
             <div className="space-y-3 mb-6">

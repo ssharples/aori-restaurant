@@ -26,10 +26,10 @@ export default function ItemDetailModal({ item, open, onClose }: ItemDetailModal
     item.variants?.[0]
   );
   const [quantity, setQuantity] = useState(1);
-  const { addItem } = useCartStore();
+  const { addItem, groupMode, activeParticipantId } = useCartStore();
 
   const handleAddToCart = () => {
-    addItem(item, selectedVariant, quantity);
+    addItem(item, selectedVariant, quantity, groupMode ? activeParticipantId : undefined);
     onClose();
   };
 

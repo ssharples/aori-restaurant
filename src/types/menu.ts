@@ -39,6 +39,9 @@ export interface CartItem {
   variant?: MenuItemVariant;
   quantity: number;
   notes?: string;
+  // Optional participant assignment for group orders
+  participantId?: string;
+  participantName?: string;
 }
 
 export interface Cart {
@@ -80,4 +83,17 @@ export interface RestaurantInfo {
   hours: {
     [key: string]: { open: string; close: string; closed?: boolean };
   };
+}
+
+// Group ordering types
+export interface GroupParticipant {
+  id: string;
+  name: string;
+}
+
+export interface GroupSplitSummary {
+  participantId: string;
+  participantName: string;
+  subtotal: number;
+  itemCount: number;
 }
