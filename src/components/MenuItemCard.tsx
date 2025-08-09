@@ -17,14 +17,14 @@ interface MenuItemCardProps {
 
 export default function MenuItemCard({ item, index = 0 }: MenuItemCardProps) {
   const [showModal, setShowModal] = useState(false);
-  const { addItem } = useCartStore();
+  const { addItem, groupMode, activeParticipantId } = useCartStore();
 
   const handleQuickAdd = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (item.variants && item.variants.length > 0) {
       setShowModal(true);
     } else {
-      addItem(item);
+      addItem(item, undefined, 1, groupMode ? activeParticipantId : undefined);
     }
   };
 

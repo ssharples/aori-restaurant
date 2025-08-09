@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest",
+    "images:upload": "tsx scripts/generate_and_upload_menu_images.ts"
   },
   "dependencies": {
     "@jpisnice/shadcn-ui-mcp-server": "^1.0.3",
@@ -41,6 +43,9 @@
     "eslint-config-next": "15.4.5",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.6",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^2.0.5",
+    "jsdom": "^24.1.0",
+    "tsx": "^4.19.2"
   }
 }

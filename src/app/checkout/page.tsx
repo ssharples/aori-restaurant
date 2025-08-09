@@ -12,7 +12,7 @@ import Logo from '@/components/Logo';
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, getTotal, clearCart } = useCartStore();
+  const { items, getTotal, clearCart, groupMode, getSplitSummary } = useCartStore();
   const [customerDetails, setCustomerDetails] = useState<CustomerDetails>({
     name: '',
     phone: '',
@@ -24,6 +24,10 @@ export default function CheckoutPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [estimatedTime, setEstimatedTime] = useState<Date | null>(null);
   const [selectedExtras, setSelectedExtras] = useState<string[]>([]);
+  const [orderNote, setOrderNote] = useState('');
+  const [allergyConfirmed, setAllergyConfirmed] = useState(false);
+  const [tipChoice, setTipChoice] = useState<'0' | '1' | '2' | '3' | 'custom'>('0');
+  const [customTip, setCustomTip] = useState('');
 
   useEffect(() => {
     if (items.length === 0) {
@@ -66,6 +70,14 @@ export default function CheckoutPage() {
       const extra = suggestedExtras.find(e => e.id === extraId);
       return total + (extra?.price || 0);
     }, 0);
+  };
+
+  const getTipTotal = () => {
+    if (tipChoice === 'custom') {
+      const val = parseFloat(customTip || '0');
+      return isNaN(val) ? 0 : Math.max(0, Math.min(100, val));
+    }
+    return parseFloat(tipChoice);
   };
 
   const toggleExtra = (extraId: string) => {
@@ -117,6 +129,11 @@ export default function CheckoutPage() {
       return;
     }
 
+    if (!allergyConfirmed) {
+      alert('Please confirm you have reviewed the allergen notice.');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -145,11 +162,29 @@ export default function CheckoutPage() {
         };
       }).filter(Boolean);
 
+      // Add tip as a pseudo item if any
+      const tipAmount = getTipTotal();
+      const tipItem = tipAmount > 0 ? [{
+        id: `tip-${tipAmount}`,
+        menuItem: {
+          id: `tip`,
+          name: 'Tip',
+          price: tipAmount,
+          category: 'sides' as const,
+          description: 'Thank you for supporting the team',
+          image: '',
+          allergens: [],
+          variants: []
+        },
+        quantity: 1,
+        variant: null
+      }] : [];
+
       const orderData = {
-        items: [...items, ...extrasAsItems],
+        items: [...items, ...extrasAsItems, ...tipItem],
         customerDetails,
         collectionTime: collectionDateTime.toISOString(),
-        notes: `Collection type: ${collectionType}. Payment: Pay on collection.`,
+        notes: `Collection type: ${collectionType}. Payment: Pay on collection.${groupMode ? ' Group order split: ' + getSplitSummary().map(s => `${s.participantName} £${s.subtotal.toFixed(2)}`).join(', ') : ''}${orderNote ? ' Note: ' + orderNote : ''}`,
       };
 
       const response = await fetch('/api/orders', {
@@ -171,7 +206,7 @@ export default function CheckoutPage() {
       localStorage.setItem('lastOrder', JSON.stringify({
         orderId: result.orderId,
         estimatedReadyTime: result.estimatedReadyTime,
-        totalAmount: getTotal() + getExtrasTotal(),
+        totalAmount: getTotal() + getExtrasTotal() + getTipTotal(),
         customerDetails,
         items,
       }));
@@ -480,6 +515,29 @@ export default function CheckoutPage() {
                 />
               </div>
             </div>
+
+            {/* Order note and allergen acknowledgement */}
+            <div className="mt-4 space-y-3">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Order note (optional)</label>
+                <textarea
+                  value={orderNote}
+                  onChange={(e)=>setOrderNote(e.target.value)}
+                  rows={2}
+                  className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green focus:border-transparent"
+                  placeholder="e.g., no onions, extra napkins"
+                />
+              </div>
+              <label className="flex items-start gap-3 text-sm text-gray-700">
+                <input
+                  type="checkbox"
+                  checked={allergyConfirmed}
+                  onChange={(e)=>setAllergyConfirmed(e.target.checked)}
+                  className="mt-1 text-primary-green focus:ring-primary-green"
+                />
+                <span>I have reviewed the allergen notice and will inform staff of any allergies on collection.</span>
+              </label>
+            </div>
           </motion.div>
 
           {/* Payment Information */}
@@ -506,6 +564,41 @@ export default function CheckoutPage() {
                 </div>
               </div>
             </div>
+
+        {/* Tip selector */}
+        <div className="mt-4">
+          <label className="block text-sm font-medium text-gray-900 mb-2">Add a tip (optional)</label>
+          <div className="flex gap-2">
+            {['0','1','2','3'].map(v => (
+              <button
+                key={v}
+                type="button"
+                onClick={() => setTipChoice(v as '0'|'1'|'2'|'3')}
+                className={`px-3 py-2 rounded-lg border text-sm ${tipChoice===v?'border-black text-black bg-gray-50':'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
+              >
+                £{v}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => setTipChoice('custom')}
+              className={`px-3 py-2 rounded-lg border text-sm ${tipChoice==='custom'?'border-black text-black bg-gray-50':'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
+            >
+              Custom
+            </button>
+          </div>
+          {tipChoice==='custom' && (
+            <input
+              type="number"
+              min="0"
+              step="0.5"
+              placeholder="Enter amount"
+              value={customTip}
+              onChange={(e)=>setCustomTip(e.target.value)}
+              className="mt-2 w-32 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-green"
+            />
+          )}
+        </div>
           </motion.div>
 
           {/* Submit Button */}
