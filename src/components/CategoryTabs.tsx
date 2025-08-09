@@ -54,13 +54,13 @@ export default function CategoryTabs({ selectedCategory, onCategoryChange }: Cat
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white border-b border-gray-200 sticky top-0 z-30 shadow-sm"
+      className="bg-white border-b border-aori-green/20 sticky top-0 z-30 shadow-sm"
     >
       <div className="w-full relative">
         <div ref={scrollContainerRef} className="flex overflow-x-auto scrollbar-hide px-4 scroll-smooth">
           {/* Fade indicators for scroll */}
-          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-aori-green/10 to-transparent pointer-events-none z-10 md:hidden" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-aori-green/10 to-transparent pointer-events-none z-10 md:hidden" />
+          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-aori-green/30 to-transparent pointer-events-none z-10 md:hidden" />
+          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-aori-green/30 to-transparent pointer-events-none z-10 md:hidden" />
           {categories.map((category, index) => {
             const isSelected = selectedCategory === category;
             return (

@@ -2,6 +2,7 @@
 
 import { Minus, Plus, ShoppingBag, Users, UserPlus, User, Split } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useCartStore } from '@/stores/cart';
 import {
@@ -115,12 +116,24 @@ export default function Cart() {
                     className="py-4 border-b border-gray-100 last:border-b-0"
                   >
                     <div className="flex items-center gap-3">
-                      {/* Item Image/Icon Placeholder */}
-                      <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <div className="w-8 h-8 bg-[#6B7C5F] rounded text-white text-xs font-bold flex items-center justify-center">
-                          {item.menuItem.name.charAt(0)}
+                      {/* Item Image or Placeholder */}
+                      {item.menuItem.image ? (
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                          <Image
+                            src={item.menuItem.image}
+                            alt={item.menuItem.name}
+                            fill
+                            className="object-cover"
+                            sizes="48px"
+                          />
                         </div>
-                      </div>
+                      ) : (
+                        <div className="w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <div className="w-8 h-8 bg-[#6B7C5F] rounded text-white text-xs font-bold flex items-center justify-center">
+                            {item.menuItem.name.charAt(0)}
+                          </div>
+                        </div>
+                      )}
 
                       {/* Item Details */}
                       <div className="flex-1 min-w-0">
