@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Download, Printer, QrCode, Table } from 'lucide-react';
+import { Download, Printer, Table } from 'lucide-react';
 import QRCode from 'qrcode';
 import { Button } from '@/components/ui/button';
 import Logo from '@/components/Logo';
@@ -145,6 +145,7 @@ export default function TableQRCodesPage() {
 
                   <div className="flex justify-center mb-4">
                     <div className="p-4 bg-white border border-gray-200 rounded-lg">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img 
                         src={qr.qrCodeDataUrl} 
                         alt={`QR Code for Table ${qr.tableNumber}`}
@@ -188,6 +189,7 @@ export default function TableQRCodesPage() {
 
                 {/* QR Code */}
                 <div className="mb-6">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img 
                     src={qr.qrCodeDataUrl} 
                     alt={`QR Code for Table ${qr.tableNumber}`}
@@ -201,7 +203,7 @@ export default function TableQRCodesPage() {
                   <p>1. Scan this QR code with your phone camera</p>
                   <p>2. Browse our authentic Greek menu</p>
                   <p>3. Add items to your cart and checkout</p>
-                  <p>4. We'll serve your order to this table</p>
+                  <p>4. We&apos;ll serve your order to this table</p>
                   <p className="text-xs text-gray-500 mt-4">Pay when your food arrives</p>
                 </div>
 

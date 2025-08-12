@@ -1,6 +1,6 @@
 'use client';
 
-import { Minus, Plus, ShoppingBag, Users, UserPlus, User, Split, Share2, Settings, Crown } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, Users, UserPlus, User, Split, Crown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -38,10 +38,7 @@ export default function Cart() {
 
   const { 
     currentSession, 
-    currentParticipant, 
-    isHost,
-    leaveSession,
-    updateSessionStatus
+    isHost
   } = useGroupSessionStore();
 
   const formatPrice = (price: number) => `£${price.toFixed(2)}`;
@@ -57,7 +54,7 @@ export default function Cart() {
                 <div className="flex flex-col">
                   <span>Group Order ({getItemCount()})</span>
                   <span className="text-sm font-normal text-gray-500">
-                    {currentSession.hostName}'s session
+                    {currentSession.hostName}&apos;s session
                   </span>
                 </div>
               ) : (
@@ -78,7 +75,7 @@ export default function Cart() {
               ) : (
                 <div className="flex items-center gap-2">
                   <GroupSessionCreator 
-                    onSessionCreated={(sessionId, shareLink) => {
+                    onSessionCreated={() => {
                       // Session created, already handled by the store
                     }}
                   />

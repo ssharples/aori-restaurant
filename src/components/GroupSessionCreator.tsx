@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Users, Plus, Settings, Copy, QrCode, Share2, Clock, UserPlus } from 'lucide-react';
+import { Users, Plus, Settings, Clock, UserPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Switch } from '@/components/ui/switch';
 import { useGroupSessionStore } from '@/stores/groupSession';
@@ -32,7 +32,7 @@ export default function GroupSessionCreator({ onSessionCreated }: GroupSessionCr
   });
 
   const { createSession, currentSession } = useGroupSessionStore();
-  const { enableGroupMode, clearCart } = useCartStore();
+  const { enableGroupMode } = useCartStore();
 
   const handleCreateSession = async () => {
     if (!hostName.trim()) return;
@@ -174,7 +174,7 @@ export default function GroupSessionCreator({ onSessionCreated }: GroupSessionCr
                 <div className="space-y-0.5">
                   <label className="text-sm font-medium">Require host approval</label>
                   <p className="text-xs text-muted-foreground">
-                    You approve each item before it's added
+                    You approve each item before it&apos;s added
                   </p>
                 </div>
                 <Switch
@@ -265,7 +265,7 @@ export default function GroupSessionCreator({ onSessionCreated }: GroupSessionCr
                 <div className="space-y-1">
                   <p className="text-sm font-medium text-aori-dark">How it works</p>
                   <ul className="text-xs text-muted-foreground space-y-1">
-                    <li>• You'll get a shareable link to send to friends</li>
+                    <li>• You&apos;ll get a shareable link to send to friends</li>
                     <li>• Everyone can add items under their name</li>
                     <li>• See the group total and individual contributions</li>
                     <li>• Place one order for the entire group</li>

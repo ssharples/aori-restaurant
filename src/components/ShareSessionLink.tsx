@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Copy, Share2, QrCode, Check, ExternalLink, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import QRCode from 'qrcode';
@@ -71,7 +71,7 @@ export default function ShareSessionLink({
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `Join ${hostName}'s Group Order - Aori Restaurant`,
+          title: `Join ${hostName}&apos;s Group Order - Aori Restaurant`,
           text: `${hostName} invited you to join their group order at Aori Restaurant. Click the link to add your items!`,
           url: shareableLink,
         });
@@ -262,7 +262,7 @@ export default function ShareSessionLink({
 
             <div className="text-center space-y-2">
               <p className="text-sm font-medium">
-                {hostName}'s Group Order
+                {hostName}&apos;s Group Order
               </p>
               <p className="text-xs text-muted-foreground">
                 Aori Restaurant • {participantCount} participant{participantCount !== 1 ? 's' : ''}

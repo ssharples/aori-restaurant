@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GroupSession, GroupSessionSettings } from '@/types/menu';
+import { GroupSession } from '@/types/menu';
 
 // In-memory storage for demo purposes
 // In production, this should use a database like PostgreSQL or Redis

@@ -54,7 +54,7 @@ export default function GuestNameModal({
       await joinSession(sessionId, participantName.trim());
       onJoinSuccess?.(participantName.trim());
       onClose();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Failed to join session:', error);
       setError(error.message || 'Failed to join group order. Please try again.');
     } finally {
@@ -97,7 +97,7 @@ export default function GuestNameModal({
           >
             <div className="flex items-center gap-2 text-sm text-aori-dark">
               <User className="w-4 h-4 text-aori-green" />
-              <span>You're joining a group order session</span>
+              <span>You&apos;re joining a group order session</span>
             </div>
           </motion.div>
 
@@ -176,7 +176,7 @@ export default function GuestNameModal({
               <div className="text-xs text-blue-700 space-y-1">
                 <p className="font-medium">What happens next:</p>
                 <ul className="list-disc list-inside space-y-0.5 ml-2">
-                  <li>You'll be added to the group order</li>
+                  <li>You&apos;ll be added to the group order</li>
                   <li>Browse the menu and add items under your name</li>
                   <li>See what others have ordered</li>
                   <li>The host will place the final order</li>

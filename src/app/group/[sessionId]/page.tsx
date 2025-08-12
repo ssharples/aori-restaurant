@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Users, Clock, User, AlertCircle, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -71,7 +71,7 @@ export default function JoinGroupSessionPage() {
     fetchSession();
   }, [sessionId, currentSession, currentParticipant, router]);
 
-  const handleJoinSuccess = (participantName: string) => {
+  const handleJoinSuccess = () => {
     setJoinSuccess(true);
     setShowNameModal(false);
     

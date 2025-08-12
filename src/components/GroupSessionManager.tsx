@@ -1,19 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
 import { 
   Users, 
   Crown, 
   Settings, 
   Clock, 
   UserMinus, 
-  Share2, 
   ShoppingBag,
   AlertCircle,
   CheckCircle,
-  XCircle,
-  MoreVertical
+  XCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -28,12 +26,11 @@ export default function GroupSessionManager() {
   const [showSettings, setShowSettings] = useState(false);
   const [confirmAction, setConfirmAction] = useState<{
     type: 'end' | 'remove_participant' | 'clear_cart';
-    data?: any;
+    data?: unknown;
   } | null>(null);
 
   const { 
     currentSession, 
-    currentParticipant, 
     isHost,
     updateSessionStatus,
     removeParticipant,

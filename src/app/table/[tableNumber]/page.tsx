@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight, ChefHat, Clock, MapPin, AlertCircle, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,9 +10,6 @@ import { Badge } from '@/components/ui/badge';
 import Logo from '@/components/Logo';
 import { useCartStore } from '@/stores/cart';
 
-interface TablePageProps {
-  params: { tableNumber: string };
-}
 
 export default function TableOrderPage() {
   const params = useParams();
@@ -76,7 +73,7 @@ export default function TableOrderPage() {
             </div>
             <h2 className="text-lg font-semibold mb-2">Invalid Table</h2>
             <p className="text-muted-foreground mb-6">
-              Table {tableNumber} doesn't exist. Please check your QR code and try again.
+              Table {tableNumber} doesn&apos;t exist. Please check your QR code and try again.
             </p>
             <Button asChild>
               <a href="/menu">Browse Menu Instead</a>

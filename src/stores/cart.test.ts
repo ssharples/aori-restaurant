@@ -11,7 +11,7 @@ describe('Cart Store - Group Orders', () => {
   });
 
   it('enables group mode and adds participants', () => {
-    const { enableGroupMode, addParticipant, participants, groupMode } = useCartStore.getState();
+    const { enableGroupMode, addParticipant } = useCartStore.getState();
     enableGroupMode();
     const p = addParticipant('Alice');
     expect(useCartStore.getState().groupMode).toBe(true);

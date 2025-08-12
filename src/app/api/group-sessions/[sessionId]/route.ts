@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { GroupSession, GroupSessionStatus } from '@/types/menu';
+import { GroupSession } from '@/types/menu';
 
 // Import the sessions map from the main route
 // In production, this would be a database connection
