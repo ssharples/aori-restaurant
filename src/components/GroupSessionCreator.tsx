@@ -106,7 +106,7 @@ export default function GroupSessionCreator({ onSessionCreated }: GroupSessionCr
               placeholder="Enter your name"
               value={hostName}
               onChange={(e) => setHostName(e.target.value)}
-              className="w-full"
+              className="w-full !bg-white !text-gray-900 border-gray-300 focus:border-aori-green focus:ring-aori-green/20"
             />
           </div>
 
@@ -120,7 +120,7 @@ export default function GroupSessionCreator({ onSessionCreated }: GroupSessionCr
               placeholder="e.g., Office Lunch, Friend's Dinner"
               value={sessionTitle}
               onChange={(e) => setSessionTitle(e.target.value)}
-              className="w-full"
+              className="w-full !bg-white !text-gray-900 border-gray-300 focus:border-aori-green focus:ring-aori-green/20"
             />
           </div>
 
@@ -202,6 +202,7 @@ export default function GroupSessionCreator({ onSessionCreated }: GroupSessionCr
                       maxOrdersPerPerson: e.target.value ? parseInt(e.target.value) : undefined 
                     }))
                   }
+                  className="!bg-white !text-gray-900 border-gray-300 focus:border-aori-green focus:ring-aori-green/20"
                 />
               </div>
 
@@ -221,6 +222,7 @@ export default function GroupSessionCreator({ onSessionCreated }: GroupSessionCr
                       autoExpireAfterHours: parseInt(e.target.value) || 24 
                     }))
                   }
+                  className="!bg-white !text-gray-900 border-gray-300 focus:border-aori-green focus:ring-aori-green/20"
                 />
               </div>
             </motion.div>

@@ -59,7 +59,7 @@ export default function Cart() {
                 <span>Your Order ({getItemCount()})</span>
               )}
             </SheetTitle>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 pr-8">
               {currentSession ? (
                 <div className="flex items-center gap-2">
                   <GroupSessionManager />
@@ -336,7 +336,7 @@ export default function Cart() {
             >
               <Button 
                 asChild 
-                className="w-full h-12 text-white font-semibold text-base rounded-lg bg-aori-green hover:bg-aori-green/90"
+                className="w-full h-12 text-white font-semibold text-base rounded-lg bg-black hover:bg-gray-800"
                 size="lg"
               >
                 <Link href="/checkout" onClick={closeCart}>
