@@ -114,7 +114,7 @@ export default function GroupSessionManager() {
     <>
       <Dialog open={showSettings} onOpenChange={setShowSettings}>
         <DialogTrigger asChild>
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button size="sm" className="gap-2 bg-aori-green text-white hover:bg-aori-green/90">
             <Settings className="w-4 h-4" />
             Manage Session
           </Button>

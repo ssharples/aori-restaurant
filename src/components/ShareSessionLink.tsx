@@ -163,9 +163,8 @@ export default function ShareSessionLink({
               {/* Native Web Share / Copy */}
               <Button
                 onClick={shareViaWebShare}
-                variant="outline"
                 size="sm"
-                className="justify-start"
+                className="justify-start bg-aori-green text-white hover:bg-aori-green/90"
               >
                 <Share2 className="w-4 h-4 mr-2" />
                 Share
@@ -174,9 +173,8 @@ export default function ShareSessionLink({
               {/* QR Code */}
               <Button
                 onClick={generateQrCode}
-                variant="outline"
                 size="sm"
-                className="justify-start"
+                className="justify-start bg-aori-green text-white hover:bg-aori-green/90"
               >
                 <QrCode className="w-4 h-4 mr-2" />
                 QR Code
@@ -185,9 +183,8 @@ export default function ShareSessionLink({
               {/* WhatsApp */}
               <Button
                 onClick={shareViaWhatsApp}
-                variant="outline"
                 size="sm"
-                className="justify-start"
+                className="justify-start bg-aori-green text-white hover:bg-aori-green/90"
               >
                 <MessageCircle className="w-4 h-4 mr-2" />
                 WhatsApp
@@ -196,9 +193,8 @@ export default function ShareSessionLink({
               {/* SMS */}
               <Button
                 onClick={shareViaSMS}
-                variant="outline"
                 size="sm"
-                className="justify-start"
+                className="justify-start bg-aori-green text-white hover:bg-aori-green/90"
               >
                 <MessageCircle className="w-4 h-4 mr-2" />
                 Text
