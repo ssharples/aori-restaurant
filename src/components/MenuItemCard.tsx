@@ -128,10 +128,10 @@ export default function MenuItemCard({ item, index = 0 }: MenuItemCardProps) {
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
                   onClick={handleQuickAdd}
-                  className="absolute bottom-2 right-2 w-8 h-8 bg-white rounded-full shadow-lg flex items-center justify-center border border-gray-200 hover:bg-gray-50 transition-colors"
+                  className="absolute bottom-2 right-2 w-8 h-8 bg-aori-green rounded-full shadow-lg flex items-center justify-center border border-aori-green hover:bg-aori-green-dark transition-colors"
                   aria-label={`Add ${item.name} to cart`}
                 >
-                  <Plus className="w-4 h-4 text-gray-600" />
+                  <Plus className="w-4 h-4 text-white" />
                 </motion.button>
               </div>
             ) : (
@@ -140,10 +140,10 @@ export default function MenuItemCard({ item, index = 0 }: MenuItemCardProps) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleQuickAdd}
-                className="w-10 h-10 bg-white border-2 border-gray-300 rounded-full flex items-center justify-center hover:border-gray-400 transition-colors"
+                className="w-10 h-10 bg-aori-green border-2 border-aori-green rounded-full flex items-center justify-center hover:bg-aori-green-dark hover:border-aori-green-dark transition-colors"
                 aria-label={`Add ${item.name} to cart`}
               >
-                <Plus className="w-5 h-5 text-gray-600" />
+                <Plus className="w-5 h-5 text-white" />
               </motion.button>
             )}
           </div>

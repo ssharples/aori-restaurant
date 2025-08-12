@@ -132,7 +132,7 @@ export default function Home() {
                 <Button 
                   asChild
                   size="lg"
-                  className="w-full bg-white text-aori-green hover:bg-aori-cream hover:text-aori-dark px-8 py-4 text-lg font-semibold rounded-full shadow-lg transition-all transform hover:scale-105 border-0"
+                  className="w-full bg-aori-green text-white hover:bg-aori-green-dark hover:text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg transition-all transform hover:scale-105 border-0"
                 >
                   <Link href="/menu">Order Now</Link>
                 </Button>
@@ -140,7 +140,7 @@ export default function Home() {
                   asChild
                   variant="secondary"
                   size="lg"
-                  className="w-full bg-white text-aori-green hover:bg-aori-cream hover:text-aori-dark px-8 py-4 text-lg font-semibold rounded-full shadow-md transition-all transform hover:scale-105 border-0"
+                  className="w-full bg-aori-white text-aori-green hover:bg-aori-cream hover:text-aori-dark px-8 py-4 text-lg font-semibold rounded-full shadow-md transition-all transform hover:scale-105 border-2 border-aori-green"
                 >
                   <Link href="/menu">View Menu</Link>
                 </Button>
