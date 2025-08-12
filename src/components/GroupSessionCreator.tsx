@@ -90,7 +90,7 @@ export default function GroupSessionCreator({ onSessionCreated }: GroupSessionCr
             <Users className="w-5 h-5 text-aori-green" />
             Start a Group Order
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-white">
             Create a shared ordering session where friends can add their items together
           </DialogDescription>
         </DialogHeader>
