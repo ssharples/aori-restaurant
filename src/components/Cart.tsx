@@ -59,7 +59,7 @@ export default function Cart() {
                 <span>Your Order ({getItemCount()})</span>
               )}
             </SheetTitle>
-            <div className="flex items-center gap-2 pr-8">
+            <div className="flex items-center gap-2 pr-12">
               {currentSession ? (
                 <div className="flex items-center gap-2">
                   <GroupSessionManager />
