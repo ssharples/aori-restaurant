@@ -138,6 +138,7 @@ export default function GroupSessionCreator({ onSessionCreated }: GroupSessionCr
                 onCheckedChange={(checked) => 
                   setSettings(prev => ({ ...prev, allowGuestEdits: checked }))
                 }
+                className="data-[state=checked]:bg-aori-green data-[state=unchecked]:bg-gray-300"
               />
             </div>
 
@@ -157,7 +158,7 @@ export default function GroupSessionCreator({ onSessionCreated }: GroupSessionCr
             variant="ghost"
             size="sm"
             onClick={() => setShowAdvanced(!showAdvanced)}
-            className="w-full text-muted-foreground"
+            className="w-full text-white hover:bg-white/10"
           >
             <Settings className="w-4 h-4 mr-2" />
             {showAdvanced ? 'Hide' : 'Show'} Advanced Settings
@@ -182,6 +183,7 @@ export default function GroupSessionCreator({ onSessionCreated }: GroupSessionCr
                   onCheckedChange={(checked) => 
                     setSettings(prev => ({ ...prev, requireHostApproval: checked }))
                   }
+                  className="data-[state=checked]:bg-aori-green data-[state=unchecked]:bg-gray-300"
                 />
               </div>
 
@@ -265,8 +267,8 @@ export default function GroupSessionCreator({ onSessionCreated }: GroupSessionCr
                   <UserPlus className="w-4 h-4 text-aori-green" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-sm font-medium text-aori-dark">How it works</p>
-                  <ul className="text-xs text-muted-foreground space-y-1">
+                  <p className="text-sm font-medium text-white">How it works</p>
+                  <ul className="text-xs text-white/80 space-y-1">
                     <li>• You&apos;ll get a shareable link to send to friends</li>
                     <li>• Everyone can add items under their name</li>
                     <li>• See the group total and individual contributions</li>
