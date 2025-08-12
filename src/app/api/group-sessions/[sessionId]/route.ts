@@ -7,8 +7,9 @@ const sessions: Map<string, GroupSession> = new Map();
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { sessionId: string } }
+  context: { params: { sessionId: string } }
 ) {
+  const { params } = context;
   try {
     const { sessionId } = params;
     const session = sessions.get(sessionId);

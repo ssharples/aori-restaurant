@@ -7,8 +7,9 @@ const sessions: Map<string, GroupSession> = new Map();
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { sessionId: string } }
+  context: { params: { sessionId: string } }
 ) {
+  const { params } = context;
   try {
     const { sessionId } = params;
     const { participantId } = await request.json();

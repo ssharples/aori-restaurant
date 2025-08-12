@@ -5,15 +5,10 @@ import type { EposWebhookEvent } from '@/lib/epos-api-enhanced';
 
 // Extend global type for webhook data storage
 declare global {
-  // eslint-disable-next-line no-var
   var lastMenuUpdate: { reason: string; timestamp: string } | undefined;
-  // eslint-disable-next-line no-var
   var kitchenUpdates: Array<Record<string, unknown>> | undefined;
-  // eslint-disable-next-line no-var
   var orderUpdates: Array<Record<string, unknown>> | undefined;
-  // eslint-disable-next-line no-var
   var stockAlerts: Array<Record<string, unknown>> | undefined;
-  // eslint-disable-next-line no-var
   var discountUpdates: Array<Record<string, unknown>> | undefined;
 }
 
