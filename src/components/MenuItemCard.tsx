@@ -54,12 +54,12 @@ export default function MenuItemCard({ item, index = 0 }: MenuItemCardProps) {
                 {(item.popular || item.vegetarian || item.spicy) && (
                   <div className="flex gap-1 mt-1">
                     {item.popular && (
-                      <Badge className="bg-aori-green text-white text-xs px-2 py-0.5">
+                      <Badge className="!bg-aori-green hover:!bg-aori-green !text-white !text-xs !px-2 !py-0.5 !border-aori-green">
                         Popular
                       </Badge>
                     )}
                     {item.vegetarian && (
-                      <Badge className="bg-aori-green text-white text-xs px-2 py-0.5">
+                      <Badge className="!bg-aori-green hover:!bg-aori-green !text-white !text-xs !px-2 !py-0.5 !border-aori-green">
                         <Leaf className="w-3 h-3 mr-1" />
                         Vegetarian
                       </Badge>

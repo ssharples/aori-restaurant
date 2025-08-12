@@ -8,6 +8,9 @@ interface CreateOrderRequestBody {
   customerDetails: CustomerDetails;
   collectionTime: string;
   notes?: string;
+  // Table service fields
+  tableNumber?: number;
+  orderType?: 'collection' | 'table-service';
 }
 
 // Helper function to extract EPOS product ID from menu item
@@ -51,7 +54,7 @@ export async function POST(request: NextRequest) {
       notes: item.notes,
     }));
 
-    // Create order with enhanced EPOS integration
+    // Create order with enhanced EPOS integration including table service
     const orderResult = await enhancedEposAPI.createOrder({
       customerName: body.customerDetails.name,
       customerPhone: body.customerDetails.phone,
@@ -66,6 +69,10 @@ export async function POST(request: NextRequest) {
       totalAmount,
       collectionTime: new Date(body.collectionTime),
       notes: body.notes,
+      // Table service fields
+      tableId: body.tableNumber, // Map tableNumber to EPOS TableID
+      orderType: body.orderType || 'collection',
+      eatOut: body.orderType === 'table-service' ? 0 : 1, // 0=Dine-in, 1=Takeaway
     });
 
     // Record stock movements for sold items
@@ -92,7 +99,9 @@ export async function POST(request: NextRequest) {
       orderId: orderResult.transactionId,
       estimatedReadyTime: orderResult.estimatedReadyTime.toISOString(),
       totalAmount: orderResult.finalTotal,
-      paymentRequired: 'Pay on collection',
+      paymentRequired: body.orderType === 'table-service' ? 'Pay at table' : 'Pay on collection',
+      orderType: body.orderType || 'collection',
+      tableNumber: body.tableNumber,
       customer: orderResult.customer ? {
         id: orderResult.customer.Id,
         name: `${orderResult.customer.FirstName} ${orderResult.customer.LastName}`,

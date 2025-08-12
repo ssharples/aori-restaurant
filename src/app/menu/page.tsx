@@ -24,6 +24,26 @@ const categories: MenuCategory[] = [
 export default function MenuPage() {
   const [selectedCategory, setSelectedCategory] = useState<MenuCategory>('gyros');
   const [searchQuery, setSearchQuery] = useState('');
+  const [tableContext, setTableContext] = useState<{
+    tableNumber: number;
+    orderType: 'table-service';
+    sessionStart: string;
+  } | null>(null);
+
+  // Detect table service context
+  useEffect(() => {
+    const storedTableContext = localStorage.getItem('aori-table-context');
+    if (storedTableContext) {
+      try {
+        const parsed = JSON.parse(storedTableContext);
+        if (parsed.orderType === 'table-service' && parsed.tableNumber) {
+          setTableContext(parsed);
+        }
+      } catch (error) {
+        console.error('Failed to parse table context:', error);
+      }
+    }
+  }, []);
 
   // Intersection Observer to update active category on scroll
   useEffect(() => {
@@ -75,12 +95,24 @@ export default function MenuPage() {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* Table Service Indicator */}
+      {tableContext && (
+        <div className="bg-aori-green text-aori-white px-4 py-3 text-center">
+          <div className="flex items-center justify-center gap-2">
+            <div className="w-6 h-6 bg-aori-white text-aori-green rounded-full flex items-center justify-center font-bold text-sm">
+              {tableContext.tableNumber}
+            </div>
+            <span className="font-medium">Table {tableContext.tableNumber} • Dine-in Service</span>
+          </div>
+        </div>
+      )}
+
       {/* Floating Back Button */}
       <div className="fixed bottom-24 left-4 z-40 md:bottom-6">
         <Link 
-          href="/"
+          href={tableContext ? `/table/${tableContext.tableNumber}` : "/"}
           className="flex items-center justify-center w-12 h-12 bg-white rounded-full shadow-lg hover:shadow-xl transition-shadow"
-          aria-label="Back to home"
+          aria-label="Back"
         >
           <ArrowLeft className="w-5 h-5 text-gray-700" />
         </Link>

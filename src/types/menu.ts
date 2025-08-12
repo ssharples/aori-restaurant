@@ -60,6 +60,10 @@ export interface Order {
   paymentMethod: 'online' | 'at-restaurant';
   createdAt: Date;
   estimatedReadyTime: Date;
+  // Table service fields
+  orderType: 'collection' | 'table-service';
+  tableNumber?: number;
+  tableId?: number; // EPOS Now TableID
 }
 
 export interface CustomerDetails {
@@ -89,6 +93,10 @@ export interface RestaurantInfo {
 export interface GroupParticipant {
   id: string;
   name: string;
+  isHost?: boolean;
+  joinedAt?: Date;
+  lastActive?: Date;
+  color?: string; // For UI distinction
 }
 
 export interface GroupSplitSummary {
@@ -96,4 +104,74 @@ export interface GroupSplitSummary {
   participantName: string;
   subtotal: number;
   itemCount: number;
+}
+
+// Group session types
+export interface GroupSession {
+  id: string;
+  hostId: string;
+  hostName: string;
+  title?: string;
+  createdAt: Date;
+  expiresAt: Date;
+  status: GroupSessionStatus;
+  participants: GroupParticipant[];
+  items: CartItem[];
+  shareableLink: string;
+  qrCodeUrl?: string;
+  maxParticipants?: number;
+  settings: GroupSessionSettings;
+}
+
+export type GroupSessionStatus = 
+  | 'active'
+  | 'ordering'
+  | 'checkout'
+  | 'completed'
+  | 'cancelled'
+  | 'expired';
+
+export interface GroupSessionSettings {
+  allowGuestEdits: boolean;
+  requireHostApproval: boolean;
+  autoExpireAfterHours: number;
+  maxOrdersPerPerson?: number;
+}
+
+export interface JoinSessionRequest {
+  sessionId: string;
+  participantName: string;
+}
+
+export interface SessionParticipantUpdate {
+  sessionId: string;
+  participantId: string;
+  action: 'join' | 'leave' | 'update';
+  data?: Partial<GroupParticipant>;
+}
+
+// Table service types
+export interface TableInfo {
+  number: number;
+  id?: number; // EPOS Now TableID
+  name?: string;
+  seats?: number;
+  status: 'available' | 'occupied' | 'needs-cleaning';
+  area?: string;
+}
+
+export interface TableSession {
+  tableNumber: number;
+  startTime: Date;
+  customerCount?: number;
+  orders: string[]; // Order IDs
+  status: 'active' | 'completed';
+}
+
+export interface CreateTableOrderRequest {
+  items: CartItem[];
+  customerDetails: CustomerDetails;
+  tableNumber: number;
+  collectionTime: string;
+  notes?: string;
 }

@@ -1,4 +1,4 @@
-# Aori Restaurant Web App
+can # Aori Restaurant Web App
 
 A mobile-first Progressive Web App (PWA) for Aori Greek street food restaurant, built with Next.js 14, TypeScript, and Tailwind CSS. Features Uber Eats-style ordering experience with EPOS Now POS integration.
 

@@ -9,6 +9,7 @@ import { restaurantInfo } from '@/data/menu';
 import GreekPatternBackground from '@/components/GreekPatternBackground';
 import Logo from '@/components/Logo';
 import RestaurantCarousel from '@/components/RestaurantCarousel';
+import OpeningStatus from '@/components/OpeningStatus';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -73,6 +74,17 @@ export default function Home() {
               >
                 <RestaurantCarousel />
               </motion.div>
+              
+              {/* Opening Status */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="mb-6"
+              >
+                <OpeningStatus />
+              </motion.div>
+              
               <motion.p 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -115,20 +127,20 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 1.2 }}
-                className="flex flex-col sm:flex-row gap-4 justify-center"
+                className="flex flex-col gap-3 items-center max-w-sm mx-auto"
               >
                 <Button 
                   asChild
                   size="lg"
-                  className="bg-aori-white text-aori-green hover:bg-aori-cream px-8 py-6 text-lg font-semibold rounded-full shadow-lg transition-all transform hover:scale-105"
+                  className="w-full bg-aori-white text-aori-green hover:bg-aori-cream hover:text-aori-dark px-8 py-4 text-lg font-semibold rounded-full shadow-lg transition-all transform hover:scale-105 border-0"
                 >
                   <Link href="/menu">Order Now</Link>
                 </Button>
                 <Button 
                   asChild
-                  variant="outline"
+                  variant="secondary"
                   size="lg"
-                  className="border-2 border-aori-white text-aori-white hover:bg-aori-white hover:text-aori-green px-8 py-6 text-lg font-semibold rounded-full bg-transparent transition-all"
+                  className="w-full bg-aori-white/90 text-aori-green hover:bg-aori-white hover:text-aori-dark px-8 py-4 text-lg font-semibold rounded-full shadow-md transition-all transform hover:scale-105 border-0"
                 >
                   <Link href="/menu">View Menu</Link>
                 </Button>
@@ -298,9 +310,8 @@ export default function Home() {
               </motion.div>
               <h3 className="text-xl font-semibold mb-2 text-aori-dark font-heading">Hours</h3>
               <div className="text-aori-dark/70 space-y-1">
-                <p>Mon-Thu: 11:00-22:00</p>
-                <p>Fri-Sat: 11:00-23:00</p>
-                <p>Sun: 12:00-21:00</p>
+                <p>Monday: Closed</p>
+                <p>Tue-Sun: 11:00-20:00</p>
               </div>
             </motion.div>
             

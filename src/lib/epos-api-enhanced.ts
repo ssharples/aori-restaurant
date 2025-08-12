@@ -115,6 +115,9 @@ interface EposTransaction {
   DiscountAmount?: number;
   TaxAmount?: number;
   SubTotal?: number;
+  // Table service fields
+  TableID?: number; // The Id of the table
+  EatOut?: 0 | 1 | 2; // 0=Dine-in, 1=Takeaway, 2=Delivery
 }
 
 interface EposTransactionItem {
@@ -173,6 +176,10 @@ interface CreateOrderRequest {
   collectionTime: Date;
   discountId?: number;
   notes?: string;
+  // Table service fields
+  tableId?: number; // EPOS Now TableID
+  eatOut?: 0 | 1 | 2; // 0=Dine-in, 1=Takeaway, 2=Delivery
+  orderType?: 'collection' | 'table-service';
 }
 
 interface MenuSyncResult {
@@ -461,13 +468,16 @@ class EnhancedEposNowAPI {
         LocationId: this.config.locationId,
         TotalAmount: finalTotal,
         Status: 'Ordered',
-        Note: `Collection: ${orderData.collectionTime.toISOString()}. Payment: Pay on Collection. ${orderData.notes || ''}`,
+        Note: `${orderData.orderType === 'table-service' ? 'Table Service' : 'Collection'}: ${orderData.collectionTime.toISOString()}. Payment: Pay on Collection. ${orderData.notes || ''}`,
         CustomerId: customer?.Id,
         CustomerName: orderData.customerName,
         CustomerPhone: orderData.customerPhone,
         CustomerEmail: orderData.customerEmail,
         DiscountAmount: discountAmount,
-        SubTotal: orderData.totalAmount
+        SubTotal: orderData.totalAmount,
+        // Table service fields
+        TableID: orderData.tableId,
+        EatOut: orderData.eatOut ?? (orderData.orderType === 'table-service' ? 0 : 1)
       };
 
       const transaction = await this.makeRequest<EposTransaction>('/api/v4/Transaction', {

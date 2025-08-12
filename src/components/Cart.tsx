@@ -1,10 +1,14 @@
 'use client';
 
-import { Minus, Plus, ShoppingBag, Users, UserPlus, User, Split } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, Users, UserPlus, User, Split, Share2, Settings, Crown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCartStore } from '@/stores/cart';
+import { useGroupSessionStore } from '@/stores/groupSession';
+import GroupSessionCreator from '@/components/GroupSessionCreator';
+import ShareSessionLink from '@/components/ShareSessionLink';
+import GroupSessionManager from '@/components/GroupSessionManager';
 import {
   Sheet,
   SheetContent,
@@ -32,6 +36,14 @@ export default function Cart() {
     getSplitSummary
   } = useCartStore();
 
+  const { 
+    currentSession, 
+    currentParticipant, 
+    isHost,
+    leaveSession,
+    updateSessionStatus
+  } = useGroupSessionStore();
+
   const formatPrice = (price: number) => `£${price.toFixed(2)}`;
 
   return (
@@ -41,42 +53,93 @@ export default function Cart() {
           <div className="flex items-center justify-between">
             <SheetTitle className="flex items-center gap-3 text-black">
               <ShoppingBag className="w-6 h-6 text-black" />
-              Your Order ({getItemCount()})
+              {currentSession ? (
+                <div className="flex flex-col">
+                  <span>Group Order ({getItemCount()})</span>
+                  <span className="text-sm font-normal text-gray-500">
+                    {currentSession.hostName}'s session
+                  </span>
+                </div>
+              ) : (
+                <span>Your Order ({getItemCount()})</span>
+              )}
             </SheetTitle>
             <div className="flex items-center gap-2">
-              <button
-                onClick={() => (groupMode ? disableGroupMode() : enableGroupMode())}
-                className={`text-sm px-3 py-1.5 rounded-full border transition-colors ${groupMode ? 'border-black text-black' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
-              >
-                <span className="inline-flex items-center gap-1">
-                  <Users className="w-4 h-4" /> {groupMode ? 'Group On' : 'Group Off'}
-                </span>
-              </button>
+              {currentSession ? (
+                <div className="flex items-center gap-2">
+                  <GroupSessionManager />
+                  {isHost && (
+                    <button className="text-sm px-3 py-1.5 rounded-full border border-aori-green text-aori-green flex items-center gap-1">
+                      <Crown className="w-4 h-4" />
+                      Host
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <GroupSessionCreator 
+                    onSessionCreated={(sessionId, shareLink) => {
+                      // Session created, already handled by the store
+                    }}
+                  />
+                  <button
+                    onClick={() => (groupMode ? disableGroupMode() : enableGroupMode())}
+                    className={`text-sm px-3 py-1.5 rounded-full border transition-colors ${groupMode ? 'border-black text-black' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
+                  >
+                    <span className="inline-flex items-center gap-1">
+                      <Users className="w-4 h-4" /> {groupMode ? 'Group On' : 'Group Off'}
+                    </span>
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </SheetHeader>
 
-        {groupMode && (
+        {(groupMode || currentSession) && (
           <div className="px-4 pt-3 pb-3 border-b border-gray-100 bg-white">
             <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
-              {participants.map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => setActiveParticipant(p.id)}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm whitespace-nowrap ${activeParticipantId === p.id ? 'border-black text-black bg-gray-50' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
-                >
-                  <User className="w-4 h-4" /> {p.name}
-                </button>
-              ))}
-              <button
-                onClick={() => {
-                  const name = prompt('Participant name');
-                  if (name) addParticipant(name);
-                }}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm border-dashed border-gray-300 text-gray-700 hover:bg-gray-50"
-              >
-                <UserPlus className="w-4 h-4" /> Add person
-              </button>
+              {currentSession ? (
+                // Group session participants
+                <>
+                  {currentSession.participants.map((p) => (
+                    <button
+                      key={p.id}
+                      onClick={() => setActiveParticipant(p.id)}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm whitespace-nowrap ${activeParticipantId === p.id ? 'border-aori-green text-aori-green bg-aori-green/5' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
+                    >
+                      <div 
+                        className="w-2 h-2 rounded-full"
+                        style={{ backgroundColor: p.color || '#6B7C5F' }}
+                      />
+                      {p.name}
+                      {p.isHost && <Crown className="w-3 h-3" />}
+                    </button>
+                  ))}
+                </>
+              ) : (
+                // Local group mode participants
+                <>
+                  {participants.map((p) => (
+                    <button
+                      key={p.id}
+                      onClick={() => setActiveParticipant(p.id)}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm whitespace-nowrap ${activeParticipantId === p.id ? 'border-black text-black bg-gray-50' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
+                    >
+                      <User className="w-4 h-4" /> {p.name}
+                    </button>
+                  ))}
+                  <button
+                    onClick={() => {
+                      const name = prompt('Participant name');
+                      if (name) addParticipant(name);
+                    }}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm border-dashed border-gray-300 text-gray-700 hover:bg-gray-50"
+                  >
+                    <UserPlus className="w-4 h-4" /> Add person
+                  </button>
+                </>
+              )}
             </div>
           </div>
         )}
@@ -209,36 +272,70 @@ export default function Cart() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="border-t border-gray-200 bg-white px-4 pb-6 pt-4">
+          <div className="border-t border-gray-200 bg-white px-4 pb-6 pt-4 space-y-4">
+            {/* Group Session Share */}
+            {currentSession && isHost && (
+              <ShareSessionLink
+                sessionId={currentSession.id}
+                shareableLink={currentSession.shareableLink}
+                hostName={currentSession.hostName}
+                participantCount={currentSession.participants.length}
+              />
+            )}
+
             {/* Add items button */}
             <Button
               variant="ghost"
               onClick={closeCart}
-              className="w-full mb-4 text-[#6B7C5F] font-medium hover:bg-gray-50 rounded-lg border border-gray-200"
+              className="w-full text-[#6B7C5F] font-medium hover:bg-gray-50 rounded-lg border border-gray-200"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add items
             </Button>
 
-            {groupMode && participants.length > 0 && (
-              <div className="mb-4 rounded-lg border border-gray-100 bg-gray-50 p-3">
+            {(groupMode || currentSession) && (
+              <div className="rounded-lg border border-gray-100 bg-gray-50 p-3">
                 <div className="flex items-center gap-2 mb-2">
                   <Split className="w-4 h-4 text-gray-700" />
                   <span className="text-sm font-semibold text-gray-800">Per person totals</span>
                 </div>
                 <div className="space-y-1">
-                  {getSplitSummary().map((s) => (
-                    <div key={s.participantId} className="flex justify-between text-sm">
-                      <span className="text-gray-700">{s.participantName}</span>
-                      <span className="text-gray-900 font-medium">{formatPrice(s.subtotal)}</span>
-                    </div>
-                  ))}
+                  {currentSession ? (
+                    // Group session summary
+                    currentSession.participants.map((participant) => {
+                      const participantItems = items.filter(item => item.participantId === participant.id);
+                      const subtotal = participantItems.reduce((sum, item) => {
+                        const price = item.variant?.price || item.menuItem.price;
+                        return sum + (price * item.quantity);
+                      }, 0);
+                      return (
+                        <div key={participant.id} className="flex justify-between text-sm">
+                          <div className="flex items-center gap-2">
+                            <div 
+                              className="w-2 h-2 rounded-full"
+                              style={{ backgroundColor: participant.color || '#6B7C5F' }}
+                            />
+                            <span className="text-gray-700">{participant.name}</span>
+                          </div>
+                          <span className="text-gray-900 font-medium">{formatPrice(subtotal)}</span>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    // Local group mode summary
+                    getSplitSummary().map((s) => (
+                      <div key={s.participantId} className="flex justify-between text-sm">
+                        <span className="text-gray-700">{s.participantName}</span>
+                        <span className="text-gray-900 font-medium">{formatPrice(s.subtotal)}</span>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             )}
 
             {/* Pricing Breakdown */}
-            <div className="space-y-3 mb-6">
+            <div className="space-y-3">
               <div className="flex justify-between items-center">
                 <span className="text-lg font-semibold">Total</span>
                 <span className="text-lg font-bold">{formatPrice(getTotal())}</span>

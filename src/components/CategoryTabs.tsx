@@ -87,8 +87,8 @@ export default function CategoryTabs({ selectedCategory, onCategoryChange }: Cat
                   className={`
                     whitespace-nowrap font-medium transition-all px-4 py-4 text-sm
                     ${isSelected 
-                      ? 'text-aori-green border-b-2 border-aori-green' 
-                      : 'text-gray-600 hover:text-aori-green'
+                      ? 'text-aori-green border-b-2 border-aori-green bg-aori-green/5' 
+                      : 'text-gray-600 hover:text-aori-green hover:bg-aori-green/5'
                     }
                     touch-manipulation focus:outline-none focus:ring-0 focus:border-0
                   `}

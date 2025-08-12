@@ -28,12 +28,34 @@ export default function CheckoutPage() {
   const [allergyConfirmed, setAllergyConfirmed] = useState(false);
   const [tipChoice, setTipChoice] = useState<'0' | '1' | '2' | '3' | 'custom'>('0');
   const [customTip, setCustomTip] = useState('');
+  
+  // Table service detection
+  const [tableContext, setTableContext] = useState<{
+    tableNumber: number;
+    orderType: 'table-service';
+    sessionStart: string;
+  } | null>(null);
 
   useEffect(() => {
     if (items.length === 0) {
       router.push('/menu');
     }
   }, [items.length, router]);
+
+  // Detect table service context
+  useEffect(() => {
+    const storedTableContext = localStorage.getItem('aori-table-context');
+    if (storedTableContext) {
+      try {
+        const parsed = JSON.parse(storedTableContext);
+        if (parsed.orderType === 'table-service' && parsed.tableNumber) {
+          setTableContext(parsed);
+        }
+      } catch (error) {
+        console.error('Failed to parse table context:', error);
+      }
+    }
+  }, []);
 
   useEffect(() => {
     // Calculate estimated collection time
@@ -184,7 +206,10 @@ export default function CheckoutPage() {
         items: [...items, ...extrasAsItems, ...tipItem],
         customerDetails,
         collectionTime: collectionDateTime.toISOString(),
-        notes: `Collection type: ${collectionType}. Payment: Pay on collection.${groupMode ? ' Group order split: ' + getSplitSummary().map(s => `${s.participantName} £${s.subtotal.toFixed(2)}`).join(', ') : ''}${orderNote ? ' Note: ' + orderNote : ''}`,
+        notes: `${tableContext ? 'Table service' : 'Collection'} type: ${collectionType}. Payment: Pay ${tableContext ? 'at table' : 'on collection'}.${groupMode ? ' Group order split: ' + getSplitSummary().map(s => `${s.participantName} £${s.subtotal.toFixed(2)}`).join(', ') : ''}${orderNote ? ' Note: ' + orderNote : ''}`,
+        // Table service fields
+        tableNumber: tableContext?.tableNumber,
+        orderType: tableContext ? 'table-service' : 'collection',
       };
 
       const response = await fetch('/api/orders', {
@@ -289,7 +314,7 @@ export default function CheckoutPage() {
             </div>
           </motion.div>
 
-          {/* Collection Info */}
+          {/* Collection/Service Info */}
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -298,8 +323,24 @@ export default function CheckoutPage() {
           >
             <div className="flex items-center gap-2 mb-4">
               <MapPin className="w-5 h-5 text-gray-600" />
-              <h2 className="text-lg font-semibold text-gray-900 font-heading">Collection Details</h2>
+              <h2 className="text-lg font-semibold text-gray-900 font-heading">
+                {tableContext ? 'Table Service Details' : 'Collection Details'}
+              </h2>
             </div>
+            
+            {tableContext && (
+              <div className="bg-aori-green/10 border border-aori-green/20 rounded-lg p-4 mb-4">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-aori-green text-white rounded-full flex items-center justify-center font-semibold">
+                    {tableContext.tableNumber}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-aori-dark">Table {tableContext.tableNumber} Service</p>
+                    <p className="text-sm text-aori-dark/70">Your order will be served directly to your table</p>
+                  </div>
+                </div>
+              </div>
+            )}
             
             {/* Interactive Map */}
             <div className="mb-4">
@@ -325,7 +366,7 @@ export default function CheckoutPage() {
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-900 mb-2">
-                  Collection Time
+                  {tableContext ? 'Service Time' : 'Collection Time'}
                 </label>
                 <div className="space-y-3">
                   <label className="flex items-center">
@@ -342,7 +383,7 @@ export default function CheckoutPage() {
                       {estimatedTime && (
                         <div className="text-sm text-gray-600 flex items-center gap-1">
                           <Clock className="w-4 h-4" />
-                          Ready by {formatTime(estimatedTime)}
+                          {tableContext ? 'Served by' : 'Ready by'} {formatTime(estimatedTime)}
                         </div>
                       )}
                     </div>
@@ -554,8 +595,15 @@ export default function CheckoutPage() {
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="flex items-center">
                 <div className="flex-1">
-                  <span className="font-medium text-green-800">Pay on Collection</span>
-                  <p className="text-sm text-green-600 mt-1">Pay with cash or card when you collect your order</p>
+                  <span className="font-medium text-green-800">
+                    {tableContext ? 'Pay at Table' : 'Pay on Collection'}
+                  </span>
+                  <p className="text-sm text-green-600 mt-1">
+                    {tableContext 
+                      ? 'Pay with cash or card when your food is served'
+                      : 'Pay with cash or card when you collect your order'
+                    }
+                  </p>
                 </div>
                 <div className="text-green-600">
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
