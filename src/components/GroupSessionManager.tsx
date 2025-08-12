@@ -26,7 +26,7 @@ export default function GroupSessionManager() {
   const [showSettings, setShowSettings] = useState(false);
   const [confirmAction, setConfirmAction] = useState<{
     type: 'end' | 'remove_participant' | 'clear_cart';
-    data?: unknown;
+    data?: { id: string; name: string };
   } | null>(null);
 
   const { 
@@ -339,7 +339,7 @@ export default function GroupSessionManager() {
               variant="destructive"
               onClick={() => {
                 if (confirmAction?.type === 'end') handleEndSession();
-                if (confirmAction?.type === 'remove_participant') {
+                if (confirmAction?.type === 'remove_participant' && confirmAction.data) {
                   handleRemoveParticipant(confirmAction.data.id);
                 }
                 if (confirmAction?.type === 'clear_cart') {

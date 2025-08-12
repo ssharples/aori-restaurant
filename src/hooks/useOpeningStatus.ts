@@ -13,18 +13,6 @@ interface OpeningStatus {
 }
 
 // Opening hours: 11am-8pm Tuesday-Sunday, closed Monday
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const OPENING_HOURS: OpeningHours = {
-  0: null, // Sunday -> closed on Monday, so Sunday is day 0, but we want Monday closed
-  1: null, // Monday - closed
-  2: { start: 11, end: 20 }, // Tuesday
-  3: { start: 11, end: 20 }, // Wednesday  
-  4: { start: 11, end: 20 }, // Thursday
-  5: { start: 11, end: 20 }, // Friday
-  6: { start: 11, end: 20 }, // Saturday
-  0: { start: 11, end: 20 }, // Sunday
-};
-
 // Correct mapping - Monday is day 1 in getDay()
 const CORRECT_OPENING_HOURS: OpeningHours = {
   1: null, // Monday - closed

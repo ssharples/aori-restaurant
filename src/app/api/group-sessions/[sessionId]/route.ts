@@ -41,10 +41,10 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: RouteParams
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
-    const { sessionId } = params;
+    const { sessionId } = await params;
     const updates = await request.json();
     
     const session = sessions.get(sessionId);
@@ -82,10 +82,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: RouteParams
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
   try {
-    const { sessionId } = params;
+    const { sessionId } = await params;
     
     if (!sessions.has(sessionId)) {
       return NextResponse.json(

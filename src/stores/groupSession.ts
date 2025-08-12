@@ -353,11 +353,11 @@ export const useGroupSessionStore = create<GroupSessionStore>()(
         }, 5000);
 
         // Store interval ID for cleanup
-        (get() as GroupSessionStore & { _pollInterval?: number })._pollInterval = pollInterval;
+        (get() as GroupSessionStore & { _pollInterval?: NodeJS.Timeout })._pollInterval = pollInterval;
       },
 
       stopRealTimeSync: () => {
-        const pollInterval = (get() as GroupSessionStore & { _pollInterval?: number })._pollInterval;
+        const pollInterval = (get() as GroupSessionStore & { _pollInterval?: NodeJS.Timeout })._pollInterval;
         if (pollInterval) {
           clearInterval(pollInterval);
         }

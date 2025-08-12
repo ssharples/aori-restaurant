@@ -56,7 +56,7 @@ export default function GuestNameModal({
       onClose();
     } catch (error: unknown) {
       console.error('Failed to join session:', error);
-      setError(error.message || 'Failed to join group order. Please try again.');
+      setError(error instanceof Error ? error.message : 'Failed to join group order. Please try again.');
     } finally {
       setIsJoining(false);
     }
@@ -75,7 +75,7 @@ export default function GuestNameModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md" hideCloseButton>
+      <DialogContent className="sm:max-w-md" showCloseButton={false}>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <div className="w-8 h-8 bg-aori-green/10 rounded-full flex items-center justify-center">

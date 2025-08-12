@@ -121,7 +121,7 @@ export default function ShareSessionLink({
                 value={shareableLink}
                 readOnly
                 className="font-mono text-sm"
-                onClick={(e) => e.target.select()}
+                onClick={(e) => (e.target as HTMLInputElement).select()}
               />
               <Button
                 onClick={copyToClipboard}
