@@ -7,11 +7,10 @@ const sessions: Map<string, GroupSession> = new Map();
 
 export async function GET(
   request: NextRequest,
-  context: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
-  const { params } = context;
   try {
-    const { sessionId } = params;
+    const { sessionId } = await params;
     const session = sessions.get(sessionId);
     
     if (!session) {

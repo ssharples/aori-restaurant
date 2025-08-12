@@ -19,11 +19,10 @@ const PARTICIPANT_COLORS = [
 
 export async function POST(
   request: NextRequest,
-  context: { params: { sessionId: string } }
+  { params }: { params: Promise<{ sessionId: string }> }
 ) {
-  const { params } = context;
   try {
-    const { sessionId } = params;
+    const { sessionId } = await params;
     const joinRequest: JoinSessionRequest = await request.json();
     
     // Validate request
