@@ -1,6 +1,6 @@
 'use client';
 
-import { Minus, Plus, ShoppingBag, Users, UserPlus, User, Split, Crown } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, UserPlus, User, Split, Crown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,8 +27,6 @@ export default function Cart() {
     getTotal, 
     getItemCount,
     groupMode,
-    enableGroupMode,
-    disableGroupMode,
     participants,
     addParticipant,
     activeParticipantId,
@@ -66,7 +64,7 @@ export default function Cart() {
                 <div className="flex items-center gap-2">
                   <GroupSessionManager />
                   {isHost && (
-                    <button className="text-sm px-3 py-1.5 rounded-full border border-aori-green text-aori-green flex items-center gap-1">
+                    <button className="text-sm px-3 py-1.5 rounded-full border border-aori-green bg-aori-green text-white flex items-center gap-1">
                       <Crown className="w-4 h-4" />
                       Host
                     </button>
@@ -79,14 +77,6 @@ export default function Cart() {
                       // Session created, already handled by the store
                     }}
                   />
-                  <button
-                    onClick={() => (groupMode ? disableGroupMode() : enableGroupMode())}
-                    className={`text-sm px-3 py-1.5 rounded-full border transition-colors ${groupMode ? 'border-black text-black' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
-                  >
-                    <span className="inline-flex items-center gap-1">
-                      <Users className="w-4 h-4" /> {groupMode ? 'Group On' : 'Group Off'}
-                    </span>
-                  </button>
                 </div>
               )}
             </div>
@@ -103,7 +93,7 @@ export default function Cart() {
                     <button
                       key={p.id}
                       onClick={() => setActiveParticipant(p.id)}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm whitespace-nowrap ${activeParticipantId === p.id ? 'border-aori-green text-aori-green bg-aori-green/5' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm whitespace-nowrap ${activeParticipantId === p.id ? 'border-aori-green bg-aori-green text-white' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
                     >
                       <div 
                         className="w-2 h-2 rounded-full"
@@ -121,7 +111,7 @@ export default function Cart() {
                     <button
                       key={p.id}
                       onClick={() => setActiveParticipant(p.id)}
-                      className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm whitespace-nowrap ${activeParticipantId === p.id ? 'border-black text-black bg-gray-50' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm whitespace-nowrap ${activeParticipantId === p.id ? 'border-aori-green bg-aori-green text-white' : 'border-gray-300 text-gray-700 hover:bg-gray-50'}`}
                     >
                       <User className="w-4 h-4" /> {p.name}
                     </button>
@@ -284,7 +274,7 @@ export default function Cart() {
             <Button
               variant="ghost"
               onClick={closeCart}
-              className="w-full text-[#6B7C5F] font-medium hover:bg-gray-50 rounded-lg border border-gray-200"
+              className="w-full text-aori-green font-medium hover:bg-aori-green/5 rounded-lg border border-aori-green/20"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add items
@@ -346,7 +336,7 @@ export default function Cart() {
             >
               <Button 
                 asChild 
-                className="w-full h-12 text-white font-semibold text-base rounded-lg bg-black hover:bg-gray-800"
+                className="w-full h-12 text-white font-semibold text-base rounded-lg bg-aori-green hover:bg-aori-green/90"
                 size="lg"
               >
                 <Link href="/checkout" onClick={closeCart}>

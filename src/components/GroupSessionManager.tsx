@@ -261,10 +261,9 @@ export default function GroupSessionManager() {
                 <CardContent className="space-y-3">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <Button
-                      variant="outline"
                       onClick={() => handleStatusChange('checkout')}
                       disabled={currentSession.status === 'checkout' || currentSession.status === 'completed'}
-                      className="justify-start"
+                      className="justify-start bg-aori-green text-white hover:bg-aori-green/90 disabled:bg-gray-300 disabled:text-gray-500"
                     >
                       <ShoppingBag className="w-4 h-4 mr-2" />
                       Move to Checkout
@@ -273,7 +272,7 @@ export default function GroupSessionManager() {
                       variant="outline"
                       onClick={() => setConfirmAction({ type: 'end' })}
                       disabled={currentSession.status === 'completed'}
-                      className="justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                      className="justify-start text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
                     >
                       <XCircle className="w-4 h-4 mr-2" />
                       End Session
