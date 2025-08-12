@@ -115,7 +115,7 @@ export default function ShareSessionLink({
         <CardContent className="space-y-4">
           {/* Link Display and Copy */}
           <div className="space-y-2">
-            <label className="text-sm font-medium">Shareable Link</label>
+            <label className="text-sm font-medium text-gray-900">Shareable Link</label>
             <div className="flex gap-2">
               <Input
                 value={shareableLink}
@@ -158,7 +158,7 @@ export default function ShareSessionLink({
 
           {/* Quick Share Options */}
           <div className="space-y-2">
-            <label className="text-sm font-medium">Quick Share</label>
+            <label className="text-sm font-medium text-gray-900">Quick Share</label>
             <div className="grid grid-cols-2 gap-2">
               {/* Native Web Share / Copy */}
               <Button
