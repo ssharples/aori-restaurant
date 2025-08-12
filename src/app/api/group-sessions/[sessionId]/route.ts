@@ -5,15 +5,9 @@ import { GroupSession } from '@/types/menu';
 // In production, this would be a database connection
 const sessions: Map<string, GroupSession> = new Map();
 
-interface RouteParams {
-  params: {
-    sessionId: string;
-  };
-}
-
 export async function GET(
   request: NextRequest,
-  { params }: RouteParams
+  { params }: { params: { sessionId: string } }
 ) {
   try {
     const { sessionId } = params;

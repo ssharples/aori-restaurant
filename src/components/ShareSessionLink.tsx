@@ -252,6 +252,7 @@ export default function ShareSessionLink({
                 animate={{ opacity: 1, scale: 1 }}
                 className="p-4 bg-white rounded-lg border shadow-sm"
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={qrCodeUrl}
                   alt="QR Code for group order"

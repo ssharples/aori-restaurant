@@ -17,15 +17,9 @@ const PARTICIPANT_COLORS = [
   '#5F7C6B', // Teal
 ];
 
-interface RouteParams {
-  params: {
-    sessionId: string;
-  };
-}
-
 export async function POST(
   request: NextRequest,
-  { params }: RouteParams
+  { params }: { params: { sessionId: string } }
 ) {
   try {
     const { sessionId } = params;
