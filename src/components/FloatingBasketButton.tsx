@@ -26,11 +26,13 @@ export default function FloatingBasketButton() {
         <motion.div
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
-          className="!bg-aori-green !opacity-100 text-white rounded-full shadow-lg px-4 py-2 md:px-6 md:py-3 flex items-center gap-3 min-w-[200px] max-w-[90vw]"
+          style={{ backgroundColor: '#6B7C5F', opacity: 1 }}
+          className="text-white rounded-full shadow-lg px-4 py-2 md:px-6 md:py-3 flex items-center gap-3 min-w-[200px] max-w-[90vw]"
         >
           <Button
             onClick={openCart}
-            className="bg-transparent hover:bg-transparent p-0 h-auto text-white flex items-center gap-3 w-full justify-between"
+            style={{ backgroundColor: 'transparent', color: 'white' }}
+            className="hover:bg-transparent p-0 h-auto flex items-center gap-3 w-full justify-between border-0"
           >
             <div className="flex items-center gap-3">
               <div className="relative">
