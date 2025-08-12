@@ -1,14 +1,12 @@
 'use client';
 
-import { Minus, Plus, ShoppingBag, UserPlus, User, Split, Crown } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, UserPlus, User, Split, Crown, Share2, Copy, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCartStore } from '@/stores/cart';
 import { useGroupSessionStore } from '@/stores/groupSession';
 import GroupSessionCreator from '@/components/GroupSessionCreator';
-import ShareSessionLink from '@/components/ShareSessionLink';
-import GroupSessionManager from '@/components/GroupSessionManager';
 import {
   Sheet,
   SheetContent,
@@ -62,13 +60,15 @@ export default function Cart() {
             <div className="flex items-center gap-2 pr-12">
               {currentSession ? (
                 <div className="flex items-center gap-2">
-                  <GroupSessionManager />
                   {isHost && (
                     <button className="text-sm px-3 py-1.5 rounded-full border border-aori-green bg-aori-green text-white flex items-center gap-1">
                       <Crown className="w-4 h-4" />
                       Host
                     </button>
                   )}
+                  <div className="text-xs text-gray-500">
+                    {currentSession.participants.length} member{currentSession.participants.length !== 1 ? 's' : ''}
+                  </div>
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
@@ -260,14 +260,50 @@ export default function Cart() {
         {/* Footer */}
         {items.length > 0 && (
           <div className="border-t border-gray-200 bg-white px-4 pb-6 pt-4 space-y-4">
-            {/* Group Session Share */}
+            {/* Group Session Share - Compact Version */}
             {currentSession && isHost && (
-              <ShareSessionLink
-                sessionId={currentSession.id}
-                shareableLink={currentSession.shareableLink}
-                hostName={currentSession.hostName}
-                participantCount={currentSession.participants.length}
-              />
+              <div className="bg-gray-50 rounded-lg p-3 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Share2 className="w-4 h-4 text-aori-green" />
+                    <span className="text-sm font-medium">Share with friends</span>
+                  </div>
+                  <span className="text-xs text-gray-500">
+                    {currentSession.participants.length} joined
+                  </span>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(currentSession.shareableLink);
+                        // Could add a toast notification here
+                      } catch (err) {
+                        console.error('Failed to copy:', err);
+                      }
+                    }}
+                    size="sm"
+                    variant="outline"
+                    className="flex-1 text-xs"
+                  >
+                    <Copy className="w-3 h-3 mr-1" />
+                    Copy Link
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      const message = encodeURIComponent(
+                        `🍽️ Join ${currentSession.hostName}'s group order at Aori Restaurant!\n\n${currentSession.shareableLink}`
+                      );
+                      window.open(`https://wa.me/?text=${message}`, '_blank');
+                    }}
+                    size="sm"
+                    className="flex-1 text-xs bg-aori-green hover:bg-aori-green/90 text-white"
+                  >
+                    <MessageCircle className="w-3 h-3 mr-1" />
+                    WhatsApp
+                  </Button>
+                </div>
+              </div>
             )}
 
             {/* Add items button */}
@@ -329,6 +365,42 @@ export default function Cart() {
               </div>
             </div>
 
+            {/* Group Session Quick Actions */}
+            {currentSession && isHost && (
+              <div className="bg-aori-green/5 border border-aori-green/20 rounded-lg p-3 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-aori-green">Session Controls</span>
+                  <span className="text-xs text-gray-500">
+                    Expires: {new Date(currentSession.expiresAt).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                  </span>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => {
+                      // Move session to checkout phase
+                      // This would trigger the checkout flow for the entire group
+                    }}
+                    size="sm"
+                    className="flex-1 text-xs bg-aori-green hover:bg-aori-green/90 text-white"
+                  >
+                    Complete Group Order
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      if (confirm('End this group session? All participants will be notified.')) {
+                        // End the session
+                      }
+                    }}
+                    size="sm"
+                    variant="outline"
+                    className="text-xs text-red-600 border-red-200 hover:bg-red-50"
+                  >
+                    End Session
+                  </Button>
+                </div>
+              </div>
+            )}
+
             {/* Checkout Button */}
             <motion.div
               whileHover={{ scale: 1.02 }}
@@ -340,7 +412,7 @@ export default function Cart() {
                 size="lg"
               >
                 <Link href="/checkout" onClick={closeCart}>
-                  Go to checkout
+                  {currentSession ? 'Individual Checkout' : 'Go to checkout'}
                 </Link>
               </Button>
             </motion.div>
