@@ -54,7 +54,7 @@ export default function CategoryTabs({ selectedCategory, onCategoryChange }: Cat
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-white border-b border-aori-green/20 sticky top-0 z-30 shadow-sm"
+      className="bg-white border-b border-aori-green/20 sticky top-0 z-30 shadow-sm text-gray-900"
     >
       <div className="w-full relative">
         <div ref={scrollContainerRef} className="flex overflow-x-auto scrollbar-hide px-4 scroll-smooth">
