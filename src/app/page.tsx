@@ -65,24 +65,24 @@ export default function Home() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="text-center"
             >
-              {/* Restaurant carousel moved from right side */}
+              {/* Opening Status - moved above carousel */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="mb-6"
               >
-                <RestaurantCarousel />
+                <OpeningStatus />
               </motion.div>
               
-              {/* Opening Status */}
+              {/* Restaurant carousel */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="mb-6"
               >
-                <OpeningStatus />
+                <RestaurantCarousel />
               </motion.div>
               
               <motion.p 
@@ -132,7 +132,7 @@ export default function Home() {
                 <Button 
                   asChild
                   size="lg"
-                  className="w-full bg-aori-white text-aori-green hover:bg-aori-cream hover:text-aori-dark px-8 py-4 text-lg font-semibold rounded-full shadow-lg transition-all transform hover:scale-105 border-0"
+                  className="w-full bg-white text-aori-green hover:bg-aori-cream hover:text-aori-dark px-8 py-4 text-lg font-semibold rounded-full shadow-lg transition-all transform hover:scale-105 border-0"
                 >
                   <Link href="/menu">Order Now</Link>
                 </Button>
@@ -140,7 +140,7 @@ export default function Home() {
                   asChild
                   variant="secondary"
                   size="lg"
-                  className="w-full bg-aori-white/90 text-aori-green hover:bg-aori-white hover:text-aori-dark px-8 py-4 text-lg font-semibold rounded-full shadow-md transition-all transform hover:scale-105 border-0"
+                  className="w-full bg-white text-aori-green hover:bg-aori-cream hover:text-aori-dark px-8 py-4 text-lg font-semibold rounded-full shadow-md transition-all transform hover:scale-105 border-0"
                 >
                   <Link href="/menu">View Menu</Link>
                 </Button>
