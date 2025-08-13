@@ -55,7 +55,7 @@ export default function Home() {
       </motion.header>
 
       {/* Hero Section */}
-      <section className="relative z-10 bg-aori-green text-aori-white py-20 px-4 min-h-[80vh] flex items-center">
+      <section className="relative z-10 bg-aori-green text-aori-white py-8 px-4 min-h-[80vh] flex items-center">
         <div className="container mx-auto">
           <div className="max-w-4xl mx-auto">
             {/* Main content */}

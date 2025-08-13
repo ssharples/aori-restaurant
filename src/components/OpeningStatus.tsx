@@ -53,7 +53,7 @@ export default function OpeningStatus({ className = '' }: OpeningStatusProps) {
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="text-sm text-gray-600"
+                className="text-sm font-medium text-gray-600"
               >
                 {message}
               </motion.div>

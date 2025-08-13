@@ -57,7 +57,7 @@ export default function Cart() {
                 <span>Your Order ({getItemCount()})</span>
               )}
             </SheetTitle>
-            <div className="flex items-center gap-2 pr-12">
+            <div className="flex items-center gap-2 pr-4 md:pr-12">
               {currentSession ? (
                 <div className="flex items-center gap-2">
                   {isHost && (
@@ -71,7 +71,7 @@ export default function Cart() {
                   </div>
                 </div>
               ) : (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 justify-end">
                   <GroupSessionCreator 
                     onSessionCreated={() => {
                       // Session created, already handled by the store
