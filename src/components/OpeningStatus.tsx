@@ -41,7 +41,8 @@ export default function OpeningStatus({ className = '' }: OpeningStatusProps) {
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="text-sm font-medium text-aori-green flex items-center gap-1"
+                className="text-sm font-medium flex items-center gap-1"
+                style={{ color: '#6B7C5F' }}
               >
                 {message}
               </motion.div>
@@ -53,7 +54,8 @@ export default function OpeningStatus({ className = '' }: OpeningStatusProps) {
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                className="text-sm font-medium text-gray-600"
+                className="text-sm font-medium"
+                style={{ color: '#374151' }}
               >
                 {message}
               </motion.div>
