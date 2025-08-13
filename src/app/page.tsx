@@ -384,13 +384,13 @@ export default function Home() {
                 )}
                 <motion.div 
                   whileHover={{ scale: 1.05 }}
-                  className="relative w-full h-48 mb-6 -mx-8 -mt-8 overflow-hidden"
+                  className="relative w-full h-48 mb-6 -mx-8 -mt-8 overflow-hidden rounded-t-2xl"
                 >
                   <Image
                     src={item.image}
                     alt={item.name}
                     fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
                     sizes="(max-width: 768px) 100vw, 33vw"
                   />
                 </motion.div>

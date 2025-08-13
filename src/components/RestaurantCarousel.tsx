@@ -47,7 +47,7 @@ export default function RestaurantCarousel() {
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.8, delay: 0.4 }}
-      className="relative flex justify-center lg:justify-end"
+      className="relative flex justify-center"
     >
       <div className="relative w-80 h-80 md:w-96 md:h-96">
         <Carousel className="w-full h-full">
