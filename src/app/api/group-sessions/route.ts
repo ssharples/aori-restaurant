@@ -1,20 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GroupSession } from '@/types/menu';
-
-// In-memory storage for demo purposes
-// In production, this should use a database like PostgreSQL or Redis
-const sessions: Map<string, GroupSession> = new Map();
-
-// Cleanup expired sessions every hour
-setInterval(() => {
-  const now = new Date();
-  for (const [id, session] of sessions.entries()) {
-    if (session.expiresAt < now) {
-      sessions.delete(id);
-      console.log(`Cleaned up expired session: ${id}`);
-    }
-  }
-}, 60 * 60 * 1000);
+import { sessions, setSession, getSession, isSessionExpired, deleteSession } from '@/lib/sessionStorage';
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,7 +15,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Store session
-    sessions.set(sessionData.id, sessionData);
+    setSession(sessionData.id, sessionData);
     
     console.log(`Created group session: ${sessionData.id} by ${sessionData.hostName}`);
     
@@ -50,7 +36,7 @@ export async function GET(request: NextRequest) {
     
     if (sessionId) {
       // Get specific session
-      const session = sessions.get(sessionId);
+      const session = getSession(sessionId);
       if (!session) {
         return NextResponse.json(
           { error: 'Session not found' },
@@ -59,8 +45,8 @@ export async function GET(request: NextRequest) {
       }
       
       // Check if session is expired
-      if (session.expiresAt < new Date()) {
-        sessions.delete(sessionId);
+      if (isSessionExpired(session)) {
+        deleteSession(sessionId);
         return NextResponse.json(
           { error: 'Session has expired' },
           { status: 410 }
@@ -71,7 +57,7 @@ export async function GET(request: NextRequest) {
     } else {
       // List all active sessions (for admin/debugging)
       const activeSessions = Array.from(sessions.values())
-        .filter(session => session.expiresAt > new Date());
+        .filter(session => !isSessionExpired(session));
       
       return NextResponse.json({
         sessions: activeSessions.map(session => ({

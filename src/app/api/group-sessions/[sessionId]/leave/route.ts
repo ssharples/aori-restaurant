@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GroupSession } from '@/types/menu';
-
-// Import the sessions map from the main route
-// In production, this would be a database connection
-const sessions: Map<string, GroupSession> = new Map();
+import { getSession, setSession, deleteSession, cleanupExpiredSession } from '@/lib/sessionStorage';
 
 export async function POST(
   request: NextRequest,
@@ -20,7 +17,7 @@ export async function POST(
       );
     }
     
-    const session = sessions.get(sessionId);
+    const session = getSession(sessionId);
     if (!session) {
       return NextResponse.json(
         { error: 'Session not found' },
@@ -60,7 +57,7 @@ export async function POST(
       }
     }
     
-    sessions.set(sessionId, updatedSession);
+    setSession(sessionId, updatedSession);
     
     console.log(`Participant ${participant.name} left session ${sessionId}`);
     

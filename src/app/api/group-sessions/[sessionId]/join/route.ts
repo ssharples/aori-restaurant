@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GroupSession, GroupParticipant, JoinSessionRequest } from '@/types/menu';
-
-// Import the sessions map from the main route
-// In production, this would be a database connection
-const sessions: Map<string, GroupSession> = new Map();
+import { getSession, setSession, cleanupExpiredSession } from '@/lib/sessionStorage';
 
 // Color palette for participants
 const PARTICIPANT_COLORS = [
@@ -33,7 +30,7 @@ export async function POST(
       );
     }
     
-    const session = sessions.get(sessionId);
+    const session = getSession(sessionId);
     if (!session) {
       return NextResponse.json(
         { error: 'Session not found' },
@@ -42,8 +39,7 @@ export async function POST(
     }
     
     // Check if session is expired
-    if (session.expiresAt < new Date()) {
-      sessions.delete(sessionId);
+    if (cleanupExpiredSession(sessionId, session)) {
       return NextResponse.json(
         { error: 'Session has expired' },
         { status: 410 }
@@ -97,7 +93,7 @@ export async function POST(
       participants: [...session.participants, newParticipant]
     };
     
-    sessions.set(sessionId, updatedSession);
+    setSession(sessionId, updatedSession);
     
     console.log(`Participant ${joinRequest.participantName} joined session ${sessionId}`);
     

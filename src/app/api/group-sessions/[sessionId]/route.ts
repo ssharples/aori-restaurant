@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { GroupSession } from '@/types/menu';
-
-// Import the sessions map from the main route
-// In production, this would be a database connection
-const sessions: Map<string, GroupSession> = new Map();
+import { getSession, setSession, deleteSession, hasSession, isSessionExpired, cleanupExpiredSession } from '@/lib/sessionStorage';
 
 export async function GET(
   request: NextRequest,
@@ -11,7 +8,7 @@ export async function GET(
 ) {
   try {
     const { sessionId } = await params;
-    const session = sessions.get(sessionId);
+    const session = getSession(sessionId);
     
     if (!session) {
       return NextResponse.json(
@@ -21,8 +18,7 @@ export async function GET(
     }
     
     // Check if session is expired
-    if (session.expiresAt < new Date()) {
-      sessions.delete(sessionId);
+    if (cleanupExpiredSession(sessionId, session)) {
       return NextResponse.json(
         { error: 'Session has expired' },
         { status: 410 }
@@ -47,7 +43,7 @@ export async function PATCH(
     const { sessionId } = await params;
     const updates = await request.json();
     
-    const session = sessions.get(sessionId);
+    const session = getSession(sessionId);
     if (!session) {
       return NextResponse.json(
         { error: 'Session not found' },
@@ -56,8 +52,7 @@ export async function PATCH(
     }
     
     // Check if session is expired
-    if (session.expiresAt < new Date()) {
-      sessions.delete(sessionId);
+    if (cleanupExpiredSession(sessionId, session)) {
       return NextResponse.json(
         { error: 'Session has expired' },
         { status: 410 }
@@ -66,7 +61,7 @@ export async function PATCH(
     
     // Update session
     const updatedSession = { ...session, ...updates };
-    sessions.set(sessionId, updatedSession);
+    setSession(sessionId, updatedSession);
     
     console.log(`Updated session ${sessionId}:`, updates);
     
@@ -87,14 +82,14 @@ export async function DELETE(
   try {
     const { sessionId } = await params;
     
-    if (!sessions.has(sessionId)) {
+    if (!hasSession(sessionId)) {
       return NextResponse.json(
         { error: 'Session not found' },
         { status: 404 }
       );
     }
     
-    sessions.delete(sessionId);
+    deleteSession(sessionId);
     console.log(`Deleted session: ${sessionId}`);
     
     return NextResponse.json({ message: 'Session deleted' });
